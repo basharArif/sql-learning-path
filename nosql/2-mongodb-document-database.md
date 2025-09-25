@@ -1,103 +1,196 @@
 # MongoDB: Document Database Fundamentals
 
-## Introduction to MongoDB
+**Level:** Beginner to Intermediate  
+**Time Estimate:** 45 minutes  
+**Prerequisites:** Basic programming concepts, JSON familiarity.
 
-MongoDB is a popular document database that stores data in flexible, JSON-like documents. Unlike relational databases, MongoDB doesn't require a fixed schema, making it ideal for applications with evolving data structures.
+## TL;DR
+MongoDB is a popular document database that stores data in flexible, JSON-like documents. Unlike relational databases, MongoDB doesn't require fixed schemas, making it ideal for applications with evolving data structures.
 
-## Key Concepts
+## Learning Objectives
+By the end of this lesson, you'll be able to:
+- Understand MongoDB's document model and key concepts
+- Perform basic CRUD operations using MongoDB shell
+- Use query operators and aggregation framework
+- Design indexes for query optimization
+- Apply schema design patterns for document databases
+
+## Motivation & Real-World Scenario
+Building a content management system where articles have varying structures (some with images, others with videos, different metadata fields). MongoDB's flexible schema allows you to store all article types in one collection without complex table alterations.
+
+## Theory: MongoDB Document Model
 
 ### Documents
-- Basic unit of data in MongoDB
-- Similar to JSON objects
-- Can contain nested objects and arrays
-- No fixed schema required
+**Basic unit of data in MongoDB - similar to JSON objects**
 
 ```javascript
-// Example document
+// Example user document
 {
   "_id": ObjectId("507f1f77bcf86cd799439011"),
   "name": "John Doe",
   "email": "john@example.com",
+  "age": 30,
   "address": {
     "street": "123 Main St",
     "city": "New York",
     "zip": "10001"
   },
   "tags": ["developer", "mongodb"],
-  "created_at": ISODate("2023-01-01T00:00:00Z")
+  "created_at": ISODate("2023-01-01T00:00:00Z"),
+  "is_active": true
 }
 ```
 
+**Key Characteristics:**
+- **Flexible Schema**: Fields can vary between documents
+- **Nested Objects**: Store complex data hierarchies
+- **Arrays**: Support for lists and embedded documents
+- **Rich Data Types**: Strings, numbers, dates, booleans, binary data
+
 ### Collections
-- Groups of documents (similar to tables)
+**Groups of documents (similar to tables in relational databases)**
+
+```javascript
+// Users collection with varied document structures
+db.users.insertMany([
+  {
+    name: "Alice",
+    email: "alice@example.com",
+    profile: { bio: "Software engineer", skills: ["JavaScript", "Python"] }
+  },
+  {
+    name: "Bob",
+    email: "bob@example.com",
+    company: "Tech Corp",
+    projects: [
+      { name: "Project A", status: "completed" },
+      { name: "Project B", status: "in-progress" }
+    ]
+  }
+])
+```
+
+**Characteristics:**
 - Documents in same collection can have different structures
-- No foreign key constraints
+- No foreign key constraints (relationships via embedding or references)
+- Automatic creation when first document is inserted
 
 ### Databases
-- Container for collections
-- Similar to relational database concept
+**Container for collections - similar to relational database concept**
 
-## Basic Operations
+```javascript
+// Switch to or create database
+use myapp
+
+// Show current database
+db
+
+// List all databases
+show dbs
+```
+
+## CRUD Operations
 
 ### Create (Insert)
+
+**Insert Single Document:**
 ```javascript
-// Insert one document
 db.users.insertOne({
   name: "Jane Smith",
   email: "jane@example.com",
-  age: 28
+  age: 28,
+  department: "Engineering"
 })
+```
 
-// Insert multiple documents
+**Insert Multiple Documents:**
+```javascript
 db.users.insertMany([
-  { name: "Bob", age: 25 },
-  { name: "Alice", age: 30 }
+  { name: "Alice", age: 25, department: "HR" },
+  { name: "Bob", age: 30, department: "Engineering" },
+  { name: "Charlie", age: 35, department: "Sales" }
 ])
 ```
 
 ### Read (Find)
+
+**Find All Documents:**
 ```javascript
-// Find all documents
 db.users.find()
-
-// Find with conditions
-db.users.find({ age: { $gte: 25 } })
-
-// Find one document
-db.users.findOne({ name: "Jane Smith" })
-
-// Projection (select specific fields)
-db.users.find({}, { name: 1, email: 1, _id: 0 })
 ```
 
-### Update
+**Find with Conditions:**
 ```javascript
-// Update one document
+// Exact match
+db.users.find({ department: "Engineering" })
+
+// Age greater than 25
+db.users.find({ age: { $gt: 25 } })
+
+// Multiple conditions (AND)
+db.users.find({ department: "Engineering", age: { $gte: 30 } })
+```
+
+**Projection (Select Specific Fields):**
+```javascript
+// Include only name and email
+db.users.find({}, { name: 1, email: 1 })
+
+// Exclude age field
+db.users.find({}, { age: 0 })
+
+// Include name, exclude _id
+db.users.find({}, { name: 1, _id: 0 })
+```
+
+### Update Operations
+
+**Update Single Document:**
+```javascript
+// Update specific field
 db.users.updateOne(
   { name: "Jane Smith" },
-  { $set: { age: 29 } }
-)
-
-// Update multiple documents
-db.users.updateMany(
-  { age: { $lt: 30 } },
-  { $set: { status: "young" } }
+  { $set: { age: 29, title: "Senior Engineer" } }
 )
 
 // Replace entire document
 db.users.replaceOne(
   { name: "Jane Smith" },
-  { name: "Jane Doe", email: "jane.doe@example.com" }
+  {
+    name: "Jane Doe",
+    email: "jane.doe@example.com",
+    age: 29,
+    department: "Engineering"
+  }
 )
 ```
 
-### Delete
+**Update Multiple Documents:**
 ```javascript
-// Delete one document
-db.users.deleteOne({ name: "Bob" })
+// Increment age for all Engineering department
+db.users.updateMany(
+  { department: "Engineering" },
+  { $inc: { age: 1 } }
+)
 
-// Delete multiple documents
-db.users.deleteMany({ age: { $lt: 20 } })
+// Add new field to all documents
+db.users.updateMany(
+  {},
+  { $set: { last_updated: new Date() } }
+)
+```
+
+### Delete Operations
+
+**Delete Single Document:**
+```javascript
+db.users.deleteOne({ name: "Bob" })
+```
+
+**Delete Multiple Documents:**
+```javascript
+// Delete all users in Sales department
+db.users.deleteMany({ department: "Sales" })
 
 // Delete all documents
 db.users.deleteMany({})
@@ -106,109 +199,257 @@ db.users.deleteMany({})
 ## Query Operators
 
 ### Comparison Operators
-- `$eq`: Equal to
-- `$ne`: Not equal to
-- `$gt`: Greater than
-- `$gte`: Greater than or equal
-- `$lt`: Less than
-- `$lte`: Less than or equal
-- `$in`: In array
-- `$nin`: Not in array
-
-### Logical Operators
-- `$and`: Logical AND
-- `$or`: Logical OR
-- `$not`: Logical NOT
-- `$nor`: Logical NOR
-
-### Element Operators
-- `$exists`: Check if field exists
-- `$type`: Check field type
-
-### Array Operators
-- `$all`: Match all elements in array
-- `$elemMatch`: Match elements in array
-- `$size`: Match array size
-
-## Indexing
-
-### Create Index
 ```javascript
-// Single field index
-db.users.createIndex({ email: 1 })
+// Greater than
+db.users.find({ age: { $gt: 25 } })
 
-// Compound index
-db.users.createIndex({ name: 1, age: -1 })
+// Less than or equal
+db.users.find({ age: { $lte: 30 } })
 
-// Text index
-db.users.createIndex({ description: "text" })
+// In array
+db.users.find({ department: { $in: ["Engineering", "HR"] } })
 
-// Unique index
-db.users.createIndex({ email: 1 }, { unique: true })
+// Not equal
+db.users.find({ department: { $ne: "Sales" } })
 ```
 
-### Index Types
-- **Single Field**: Index on one field
-- **Compound**: Index on multiple fields
-- **Multikey**: Index on array fields
-- **Text**: Full-text search
-- **Geospatial**: Location-based queries
-- **Hashed**: Hash-based sharding
+### Logical Operators
+```javascript
+// AND (implicit)
+db.users.find({ department: "Engineering", age: { $gte: 25 } })
+
+// OR
+db.users.find({
+  $or: [
+    { department: "Engineering" },
+    { age: { $gte: 35 } }
+  ]
+})
+
+// NOR (neither condition)
+db.users.find({
+  $nor: [
+    { department: "Engineering" },
+    { age: { $lt: 25 } }
+  ]
+})
+```
+
+### Element Operators
+```javascript
+// Check if field exists
+db.users.find({ title: { $exists: true } })
+
+// Check field type
+db.users.find({ age: { $type: "number" } })
+```
+
+### Array Operators
+```javascript
+// Documents with specific array element
+db.users.find({ tags: "developer" })
+
+// All elements match
+db.users.find({ tags: { $all: ["javascript", "mongodb"] } })
+
+// Array size
+db.users.find({ tags: { $size: 3 } })
+```
 
 ## Aggregation Framework
 
-MongoDB's aggregation pipeline processes data through multiple stages:
+**MongoDB's powerful data processing pipeline**
 
 ```javascript
 db.orders.aggregate([
   // Stage 1: Filter documents
-  { $match: { status: "completed" } },
+  {
+    $match: {
+      status: "completed",
+      total: { $gte: 100 }
+    }
+  },
 
   // Stage 2: Group by customer
   {
     $group: {
       _id: "$customer_id",
-      total_amount: { $sum: "$amount" },
-      order_count: { $sum: 1 }
+      total_orders: { $sum: 1 },
+      total_revenue: { $sum: "$total" },
+      avg_order: { $avg: "$total" }
     }
   },
 
-  // Stage 3: Sort results
-  { $sort: { total_amount: -1 } },
+  // Stage 3: Sort by revenue
+  {
+    $sort: { total_revenue: -1 }
+  },
 
   // Stage 4: Limit results
-  { $limit: 10 }
+  {
+    $limit: 10
+  },
+
+  // Stage 5: Format output
+  {
+    $project: {
+      customer_id: "$_id",
+      total_orders: 1,
+      total_revenue: 1,
+      avg_order: 1,
+      _id: 0
+    }
+  }
 ])
+```
+
+**Common Aggregation Stages:**
+- `$match`: Filter documents
+- `$group`: Group documents by key
+- `$sort`: Sort documents
+- `$limit`: Limit number of documents
+- `$project`: Reshape documents
+- `$unwind`: Deconstruct arrays
+
+## Indexing for Performance
+
+### Create Indexes
+```javascript
+// Single field index
+db.users.createIndex({ email: 1 })
+
+// Compound index
+db.users.createIndex({ department: 1, age: -1 })
+
+// Text index for full-text search
+db.users.createIndex({ bio: "text" })
+
+// Unique index
+db.users.createIndex({ email: 1 }, { unique: true })
+
+// Geospatial index
+db.places.createIndex({ location: "2dsphere" })
+```
+
+### Index Types
+- **Single Field**: Index on one field
+- **Compound**: Multiple fields for complex queries
+- **Multikey**: Arrays and embedded documents
+- **Text**: Full-text search capabilities
+- **Geospatial**: Location-based queries
+- **Hashed**: Sharding support
+
+### Index Best Practices
+```javascript
+// Check index usage
+db.users.find({ department: "Engineering" }).explain("executionStats")
+
+// View existing indexes
+db.users.getIndexes()
+
+// Drop unused index
+db.users.dropIndex({ age: 1 })
 ```
 
 ## Schema Design Patterns
 
-### Embedded Documents
-- Store related data together
-- Good for one-to-one or one-to-few relationships
-- Avoids joins but can lead to data duplication
+### Embedded Documents (One-to-One/Few)
+**Store related data together - good for atomic operations**
 
-### References
-- Store related data in separate collections
-- Use ObjectId references
-- Similar to foreign keys in relational databases
+```javascript
+// User with embedded profile
+{
+  name: "John Doe",
+  email: "john@example.com",
+  profile: {
+    bio: "Software engineer",
+    avatar: "john.jpg",
+    social_links: {
+      twitter: "@johndoe",
+      github: "johndoe"
+    }
+  }
+}
+```
 
-### Bucket Pattern
-- Group related data into "buckets"
-- Useful for time-series or sequential data
+**Advantages:**
+- Atomic updates
+- Single document retrieval
+- No joins needed
 
-## Best Practices
+### References (One-to-Many/Many-to-Many)
+**Store relationships via ObjectIds**
 
-1. **Design for Query Patterns**: Structure data based on how you'll query it
-2. **Use Appropriate Indexes**: Index fields used in queries and sorts
-3. **Consider Document Size**: Keep documents under 16MB limit
-4. **Plan for Growth**: Design for horizontal scaling
-5. **Monitor Performance**: Use explain() to analyze queries
+```javascript
+// User document
+{
+  _id: ObjectId("..."),
+  name: "John Doe",
+  posts: [
+    ObjectId("post1"),
+    ObjectId("post2")
+  ]
+}
 
-## Getting Started
+// Post document
+{
+  _id: ObjectId("post1"),
+  title: "MongoDB Guide",
+  content: "...",
+  author_id: ObjectId("...")
+}
+```
 
-1. Install MongoDB locally or use MongoDB Atlas
-2. Connect using MongoDB Compass (GUI) or mongosh (CLI)
-3. Create your first database and collection
-4. Practice CRUD operations
-5. Experiment with aggregation pipelines
+**Advantages:**
+- Flexible relationships
+- Avoids data duplication
+- Smaller document sizes
+
+### Bucket Pattern (Time-Series Data)
+**Group related sequential data**
+
+```javascript
+// Sensor readings bucketed by hour
+{
+  sensor_id: "sensor001",
+  timestamp_hour: ISODate("2023-01-01T10:00:00Z"),
+  readings: [
+    { timestamp: ISODate("2023-01-01T10:15:00Z"), value: 23.5 },
+    { timestamp: ISODate("2023-01-01T10:30:00Z"), value: 24.1 },
+    { timestamp: ISODate("2023-01-01T10:45:00Z"), value: 23.8 }
+  ]
+}
+```
+
+## Quick Checklist / Cheatsheet
+
+**Basic Operations:**
+- `db.collection.insertOne()` - Insert single document
+- `db.collection.find()` - Query documents
+- `db.collection.updateOne()` - Update single document
+- `db.collection.deleteOne()` - Delete single document
+
+**Query Operators:**
+- `$gt`, `$lt`, `$gte`, `$lte` - Comparison
+- `$in`, `$nin` - Array membership
+- `$and`, `$or`, `$nor` - Logical
+- `$exists`, `$type` - Element checks
+
+**Aggregation Stages:**
+- `$match` - Filter
+- `$group` - Group by key
+- `$sort` - Sort results
+- `$project` - Reshape
+
+**Indexing:**
+- Single field: `{ field: 1 }`
+- Compound: `{ field1: 1, field2: -1 }`
+- Unique: `{ field: 1 }, { unique: true }`
+
+## Exercises
+
+1. **Easy**: Insert a document into a `products` collection with fields for name, price, and category. Then query for all products in the "Electronics" category.
+
+2. **Medium**: Create an aggregation pipeline that groups users by department and calculates the average age for each department. Sort the results by average age descending.
+
+3. **Hard**: Design a schema for a blog application with users, posts, and comments. Decide whether to embed or reference relationships, and explain your reasoning. Include appropriate indexes for common queries.
