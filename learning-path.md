@@ -50,8 +50,8 @@ graph TD
     end
     
     subgraph "🎓 Mastery"
-        Y[Exercises<br/>Practice Problems<br/>Real Scenarios]
-        Z[Solutions<br/>Code Reviews<br/>Best Practices]
+        Y[Exercises\nPractice Problems\nReal Scenarios]
+        Z[Solutions\nCode Reviews\nBest Practices]
     end
     
     A --> B

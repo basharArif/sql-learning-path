@@ -60,15 +60,15 @@ CROSS JOIN LATERAL (
 graph TD
     A[posts Table] --> B[For each post row]
     B --> C[Execute LATERAL subquery]
-    C --> D[jsonb_array_elements_text<br/>extracts tags array]
-    D --> E[LIMIT 1<br/>gets first tag]
-    E --> F[Return top_tag<br/>per post]
+    C --> D[jsonb_array_elements_text\nextracts tags array]
+    D --> E[LIMIT 1\ngets first tag]
+    E --> F[Return top_tag\nper post]
     
     G[Post 1: tags array] -.-> H[top_tag: sql]
     I[Post 2: tags array] -.-> J[top_tag: web]
     
     F --> K[Cross join result]
-    K --> L[Final output with<br/>post + top_tag]
+    K --> L[Final output with\npost + top_tag]
 ```
 
 ### JSON Querying

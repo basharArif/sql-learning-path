@@ -37,7 +37,7 @@ Key input to the planner: table/column statistics (from `ANALYZE`), available in
 graph LR
     A[SQL Query] --> B[Parse & Rewrite]
     B --> C[Generate Alternative Plans]
-    C --> D[Estimate Costs<br/>Statistics + Heuristics]
+    C --> D[Estimate Costs\nStatistics + Heuristics]
     D --> E[Choose Lowest Cost Plan]
     E --> F[Execute Plan]
     

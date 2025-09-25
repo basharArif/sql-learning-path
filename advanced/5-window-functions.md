@@ -22,9 +22,9 @@ Window functions are distinguished by the `OVER()` clause. This clause determine
 ```mermaid
 graph TD
     A[Window Function] --> B[OVER()]
-    B --> C[PARTITION BY<br/>column1, column2]
-    B --> D[ORDER BY<br/>column3]
-    B --> E[Frame Specification<br/>ROWS/RANGE BETWEEN...]
+    B --> C[PARTITION BY\ncolumn1, column2]
+    B --> D[ORDER BY\ncolumn3]
+    B --> E[Frame Specification\nROWS/RANGE BETWEEN...]
     
     C --> F[Divides data into groups]
     D --> G[Orders rows within groups]

@@ -14,15 +14,15 @@ graph TD
     A --> H[Semi-structured]
     A --> I[Arrays/Composite]
     
-    B --> B1[SMALLINT<br/>2 bytes]
-    B --> B2[INTEGER<br/>4 bytes]
-    B --> B3[BIGINT<br/>8 bytes]
-    B --> B4[NUMERIC<br/>variable]
-    B --> B5[REAL/DOUBLE<br/>4/8 bytes]
+    B --> B1[SMALLINT\n2 bytes]
+    B --> B2[INTEGER\n4 bytes]
+    B --> B3[BIGINT\n8 bytes]
+    B --> B4[NUMERIC\nvariable]
+    B --> B5[REAL/DOUBLE\n4/8 bytes]
     
-    C --> C1[CHAR<br/>fixed]
-    C --> C2[VARCHAR<br/>variable]
-    C --> C3[TEXT<br/>unlimited]
+    C --> C1[CHAR\nfixed]
+    C --> C2[VARCHAR\nvariable]
+    C --> C3[TEXT\nunlimited]
     
     D --> D1[DATE]
     D --> D2[TIME]

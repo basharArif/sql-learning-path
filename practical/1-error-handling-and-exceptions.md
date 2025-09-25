@@ -37,8 +37,8 @@ graph TD
     B -->|Yes| D[Exception Thrown]
     D --> E[Exception Handler]
     E --> F{Handler Type}
-    F -->|Specific| G[Handle Specific Error<br/>e.g., unique_violation]
-    F -->|Generic| H[Handle General Errors<br/>e.g., OTHERS]
+    F -->|Specific| G[Handle Specific Error\ne.g., unique_violation]
+    F -->|Generic| H[Handle General Errors\ne.g., OTHERS]
     G --> I[Recovery Action]
     H --> I
     I --> J{Recovery Success?}

@@ -75,15 +75,15 @@ REFRESH MATERIALIZED VIEW top_products;
 **Materialized View Refresh Cycle:**
 ```mermaid
 graph TD
-    A[Base Tables Updated] --> B[Trigger Refresh<br/>Schedule/Cron]
+    A[Base Tables Updated] --> B[Trigger Refresh\nSchedule/Cron]
     B --> C[REFRESH MATERIALIZED VIEW]
     C --> D[Re-execute Query]
     D --> E[Update Cached Results]
     E --> F[New Data Available]
     
-    G[Refresh Strategies] -.-> H[Complete Refresh<br/>REFRESH MATERIALIZED VIEW]
-    G -.-> I[Incremental Refresh<br/>Custom Logic]
-    G -.-> J[Concurrent Refresh<br/>REFRESH CONCURRENTLY]
+    G[Refresh Strategies] -.-> H[Complete Refresh\nREFRESH MATERIALIZED VIEW]
+    G -.-> I[Incremental Refresh\nCustom Logic]
+    G -.-> J[Concurrent Refresh\nREFRESH CONCURRENTLY]
     
     K[Performance Impact] -.-> L[Blocking during refresh]
     K -.-> M[Stale data between refreshes]

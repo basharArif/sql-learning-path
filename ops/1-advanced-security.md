@@ -80,19 +80,19 @@ GRANT analyst TO alice;
 **RBAC Hierarchy Example:**
 ```mermaid
 graph TD
-    A[Database Admin] --> B[admin Role<br/>SUPERUSER]
-    A --> C[analyst Role<br/>SELECT only]
-    A --> D[readonly Role<br/>SELECT only]
+    A[Database Admin] --> B[admin Role\nSUPERUSER]
+    A --> C[analyst Role\nSELECT only]
+    A --> D[readonly Role\nSELECT only]
     
-    B --> E[User: bob<br/>admin privileges]
-    C --> F[User: alice<br/>analyst privileges]
-    D --> G[User: charlie<br/>readonly privileges]
+    B --> E[User: bob\nadmin privileges]
+    C --> F[User: alice\nanalyst privileges]
+    D --> G[User: charlie\nreadonly privileges]
     
     H[sales Table] -.-> I[admin: ALL]
     H -.-> J[analyst: SELECT]
     H -.-> K[readonly: SELECT]
     
-    L[Permissions Flow] -.-> M[Users inherit<br/>role privileges]
+    L[Permissions Flow] -.-> M[Users inherit\nrole privileges]
 ```
 
 ### Row Level Security (Postgres)
@@ -119,8 +119,8 @@ graph TD
     H[Policy: patient_data] -.-> I[patient_id = current_user_id]
     H -.-> J[FOR ALL operations]
     
-    K[Example] -.-> L[User 123 sees only<br/>patient_id = 123 rows]
-    K -.-> M[User 456 sees only<br/>patient_id = 456 rows]
+    K[Example] -.-> L[User 123 sees only\npatient_id = 123 rows]
+    K -.-> M[User 456 sees only\npatient_id = 456 rows]
 ```
 
 ### Encryption at Rest (Postgres with pgcrypto)

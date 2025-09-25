@@ -33,12 +33,12 @@ graph TD
         G --> H[Continue to next\nouter row]
     end
     
-    I[Performance] -.-> J[Non-correlated: Usually faster<br/>Inner executes once]
-    I -.-> K[Correlated: Can be slower<br/>Inner executes per row]
+    I[Performance] -.-> J[Non-correlated: Usually faster\nInner executes once]
+    I -.-> K[Correlated: Can be slower\nInner executes per row]
     
     L[Common Uses] -.-> M[IN/NOT IN clauses]
     L -.-> N[EXISTS/NOT EXISTS]
-    L -.-> O[Scalar subqueries<br/>in SELECT]
+    L -.-> O[Scalar subqueries\nin SELECT]
 ```
 
 ### a. Subqueries

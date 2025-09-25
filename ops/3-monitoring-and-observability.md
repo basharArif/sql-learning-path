@@ -125,15 +125,15 @@ graph TD
     B -->|Yes| C[Generate Alert]
     
     C --> D{Alert Severity}
-    D -->|Critical| E[Immediate Page<br/>On-call Engineer]
-    D -->|High| F[Email + Slack<br/>15min timeout]
-    D -->|Medium| G[Slack Notification<br/>1hr timeout]
-    D -->|Low| H[Dashboard Warning<br/>No immediate action]
+    D -->|Critical| E[Immediate Page\nOn-call Engineer]
+    D -->|High| F[Email + Slack\n15min timeout]
+    D -->|Medium| G[Slack Notification\n1hr timeout]
+    D -->|Low| H[Dashboard Warning\nNo immediate action]
     
     E --> I[Engineer Acknowledges]
     F --> I
     G --> I
-    H --> J[Auto-resolve<br/>if metric normalizes]
+    H --> J[Auto-resolve\nif metric normalizes]
     
     I --> K{Resolved?}
     K -->|Yes| L[Close Alert]
@@ -148,37 +148,37 @@ graph TD
     S --> T[Update Runbooks]
     
     L --> U[Log for Analysis]
-    U --> V[Update Thresholds<br/>if needed]
+    U --> V[Update Thresholds\nif needed]
 ```
 
 **Observability Dashboard Layout:**
 ```mermaid
 graph TB
     subgraph "Top Row - System Overview"
-        A[Database Status<br/>● Up/Down]
-        B[Uptime<br/>99.9%]
-        C[Active Connections<br/>45/100]
-        D[Replication Lag<br/>2.3s]
+        A[Database Status\n● Up/Down]
+        B[Uptime\n99.9%]
+        C[Active Connections\n45/100]
+        D[Replication Lag\n2.3s]
     end
     
     subgraph "Middle Row - Performance"
-        E[Query Latency<br/>Chart over time]
-        F[Throughput TPS<br/>Chart over time]
-        G[Slow Query Count<br/>Top 10 list]
-        H[Lock Waits<br/>Current count]
+        E[Query Latency\nChart over time]
+        F[Throughput TPS\nChart over time]
+        G[Slow Query Count\nTop 10 list]
+        H[Lock Waits\nCurrent count]
     end
     
     subgraph "Bottom Row - Resources"
-        I[CPU Usage %<br/>Chart over time]
-        J[Memory Usage %<br/>Chart over time]
-        K[Disk I/O<br/>Read/Write MB/s]
-        L[Network I/O<br/>Packets/s]
+        I[CPU Usage %\nChart over time]
+        J[Memory Usage %\nChart over time]
+        K[Disk I/O\nRead/Write MB/s]
+        L[Network I/O\nPackets/s]
     end
     
     subgraph "Right Panel - Alerts & Logs"
-        M[Active Alerts<br/>Critical: 0<br/>Warning: 2]
-        N[Recent Logs<br/>Error log entries]
-        O[Top Queries<br/>By execution time]
+        M[Active Alerts\nCritical: 0\nWarning: 2]
+        N[Recent Logs\nError log entries]
+        O[Top Queries\nBy execution time]
     end
     
     P[Time Range Selector] -.-> E
@@ -188,7 +188,7 @@ graph TB
     P -.-> K
     P -.-> L
     
-    Q[Refresh Interval<br/>30s] -.-> A
+    Q[Refresh Interval\n30s] -.-> A
     Q -.-> B
     Q -.-> C
     Q -.-> D

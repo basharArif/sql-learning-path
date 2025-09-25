@@ -20,29 +20,29 @@ You need to categorize your customers into different tiers (`'Bronze'`, `'Silver
 **CASE Statement Logic Flow:**
 ```mermaid
 flowchart TD
-    A[Start CASE evaluation<br/>for each row] --> B{First WHEN<br/>condition true?}
+    A[Start CASE evaluation\nfor each row] --> B{First WHEN\ncondition true?}
     
     B -->|Yes| C[Return first WHEN value]
-    B -->|No| D{Second WHEN<br/>condition true?}
+    B -->|No| D{Second WHEN\ncondition true?}
     
     D -->|Yes| E[Return second WHEN value]
-    D -->|No| F{More WHEN<br/>conditions?}
+    D -->|No| F{More WHEN\nconditions?}
     
-    F -->|Yes| G[Check next WHEN<br/>condition]
-    F -->|No| H{ELSE clause<br/>exists?}
+    F -->|Yes| G[Check next WHEN\ncondition]
+    F -->|No| H{ELSE clause\nexists?}
     
     G --> B
     
     H -->|Yes| I[Return ELSE value]
     H -->|No| J[Return NULL]
     
-    C --> K[End CASE<br/>Continue query]
+    C --> K[End CASE\nContinue query]
     E --> K
     I --> K
     J --> K
     
-    L[Performance Tip] -.-> M[Order WHEN conditions<br/>by most likely first]
-    L -.-> N[Use indexed columns<br/>in conditions when possible]
+    L[Performance Tip] -.-> M[Order WHEN conditions\nby most likely first]
+    L -.-> N[Use indexed columns\nin conditions when possible]
 ```
 
 The `CASE` statement goes through conditions and returns a value when the first condition is met. If no condition is true, it returns the value in the `ELSE` clause. If there is no `ELSE` part and no conditions are true, it returns `NULL`.

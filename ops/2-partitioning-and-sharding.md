@@ -122,9 +122,9 @@ Use a shard key (e.g., user_id % num_shards) to route queries. Tools: Citus (Pos
 ```mermaid
 graph TD
     A[Application] --> B[Shard Router]
-    B --> C[Shard 1<br/>user_id % 3 = 0]
-    B --> D[Shard 2<br/>user_id % 3 = 1]  
-    B --> E[Shard 3<br/>user_id % 3 = 2]
+    B --> C[Shard 1\nuser_id % 3 = 0]
+    B --> D[Shard 2\nuser_id % 3 = 1]  
+    B --> E[Shard 3\nuser_id % 3 = 2]
     
     C --> F[(Database 1)]
     D --> G[(Database 2)]
@@ -133,7 +133,7 @@ graph TD
     I[User ID: 1005] -.-> J[1005 % 3 = 2]
     J -.-> E
     
-    K[Cross-shard query] -.-> L[Application handles<br/>multiple shards]
+    K[Cross-shard query] -.-> L[Application handles\nmultiple shards]
 ```
 
 ## Quick Checklist / Cheatsheet
