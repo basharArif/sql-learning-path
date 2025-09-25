@@ -4,22 +4,23 @@ This repository contains a structured, multi-part learning path for mastering SQ
 
 ## Structure
 
-The learning path is broken down into several documents, designed to be read sequentially:
+The content is organized into topic-based folders. The recommended starting point is the **Master Index**.
 
-- **[learning-path.md](learning-path.md)**: The main table of contents for the entire course.
-- **[1-Fundamentals.md](1-Fundamentals.md)**: Covers the absolute basics of databases and SQL.
-- **[2-Intermediate.md](2-Intermediate.md)**: Dives into `JOIN`s, aggregations, and other core concepts.
-- **[3-Advanced.md](3-Advanced.md)**: Explores advanced topics like window functions, triggers, and transactions.
-- **[4-Real-World-Queries.md](4-Real-World-Queries.md)**: Provides practical examples and use cases.
-- **[5-Pro-SQL-Skills.md](5-Pro-SQL-Skills.md)**: Focuses on professional skills like schema design and optimization.
-- **[6-Expert-Topics.md](6-Expert-Topics.md)**: Covers advanced topics like specialized indexes, JSON querying, and data warehousing concepts.
-- **[GLOSSARY.md](GLOSSARY.md)**: A glossary of key SQL terms.
+- **[learning-path.md](learning-path.md)**: The master index for the entire learning path. It provides a structured route through all the content.
+- **`fundamentals/`**: The starting point for beginners. Covers all core SQL concepts.
+- **`theory/`**: Contains documents on the fundamental concepts of SQL and databases.
+- **`practical/`**: Holds hands-on guides for common, practical database tasks.
+- **`advanced/`**: Covers powerful, advanced SQL features for complex problems.
+- **`ops/`**: Includes topics related to database operations, security, and maintenance.
+- **`exercises/`**: Contains practice problems and solutions.
+- **`GLOSSARY.md`**: A glossary of key SQL terms.
 
 ## How to Use
 
-1.  Start with the `learning-path.md` file to get an overview.
-2.  Proceed through the numbered files in order.
-3.  Refer to the `GLOSSARY.md` for definitions of key terms.
+1.  Start with the **[learning-path.md](learning-path.md)** file. It provides a structured path through all the topics.
+2.  If you are a beginner, start with the **`fundamentals/`** section.
+3.  Use the learning path to navigate to the different sections in the `theory`, `practical`, `advanced`, and `ops` folders.
+4.  Refer to the `GLOSSARY.md` for definitions of key terms.
 
 Quickstart (local)
 1. Install Docker and Docker Compose.

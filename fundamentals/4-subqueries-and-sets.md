@@ -1,0 +1,90 @@
+# Intermediate SQL: Subqueries and Set Operations
+
+**Level:** Intermediate  
+**Time Estimate:** 25 minutes  
+**Prerequisites:** SQL Fundamentals, Joins.
+
+## TL;DR
+Subqueries (queries nested inside another query) allow for more complex filtering and data retrieval. Set operations (`UNION`, `INTERSECT`, `EXCEPT`) combine the results of two or more `SELECT` statements.
+
+## Learning Objectives
+By the end of this lesson, you'll be able to:
+- Write subqueries in `WHERE` clauses.
+- Understand the difference between a standard and a correlated subquery.
+- Combine result sets with `UNION`, `UNION ALL`, `INTERSECT`, and `EXCEPT`.
+
+## Motivation & Real-World Scenario
+To find all employees who work in the 'HR' department, you could first look up the department ID for 'HR' and then run a second query to find employees with that ID. A subquery lets you do this in a single, dynamic step. Set operations are useful for comparing two sets of data, like finding customers who are in one mailing list but not another.
+
+## Theory & Worked Examples
+
+### a. Subqueries
+A subquery is a `SELECT` statement nested inside another statement.
+
+**Example: Using a subquery in a `WHERE` clause.**
+This is the most common use case. The subquery returns a list of values that are then used by the outer query.
+```sql
+-- Find all employees who work in the 'HR' department
+SELECT * FROM employees
+WHERE department_id IN (
+    SELECT id FROM departments WHERE name = 'HR'
+);
+```
+**Explanation**: The inner query runs first, returning the `id` for the 'HR' department. The outer query then uses this `id` to find all matching employees.
+
+**Example: Correlated Subquery**
+A correlated subquery is a subquery that depends on the outer query for its values. It is evaluated once for each row processed by the outer query, which can be inefficient.
+```sql
+-- Find all employees whose age is above the average for their own department
+SELECT name, age, department_id
+FROM employees e
+WHERE age > (
+    SELECT AVG(age) FROM employees WHERE department_id = e.department_id
+);
+```
+**Explanation**: For each employee (`e`) in the outer query, the inner query calculates the average age for that specific employee's department (`e.department_id`) and uses it for comparison.
+
+### b. Set Operations
+
+**`UNION` vs `UNION ALL`**
+- **`UNION`**: Combines the result sets of two queries and **removes duplicate records**.
+- **`UNION ALL`**: Combines the result sets and **includes all duplicate records**. It is much faster as it doesn't check for duplicates.
+
+```sql
+-- Get a single list of all employee and contractor names, with no duplicates
+SELECT name FROM employees
+UNION
+SELECT name FROM contractors;
+
+-- Get a combined list of all names, including duplicates
+SELECT name FROM employees
+UNION ALL
+SELECT name FROM contractors;
+```
+
+**`INTERSECT`**
+Returns only the rows that appear in **both** result sets.
+```sql
+-- Find names that exist in both the employees and contractors tables
+SELECT name FROM employees
+INTERSECT
+SELECT name FROM contractors;
+```
+
+**`EXCEPT`**
+Returns rows from the first result set that **do not** appear in the second result set.
+```sql
+-- Find all employees whose names are not also in the contractors list
+SELECT name FROM employees
+EXCEPT
+SELECT name FROM contractors;
+```
+
+## Quick Checklist / Cheatsheet
+- Subqueries in `WHERE IN (...)` are great for dynamic filters.
+- Correlated subqueries can be slow; often a `JOIN` is a better alternative.
+- `UNION` removes duplicates; `UNION ALL` is faster and keeps them.
+- `INTERSECT` finds common records; `EXCEPT` finds differences.
+
+## Notes: Vendor Differences
+- `INTERSECT` and `EXCEPT` are standard but were not supported in older versions of MySQL. They are available in MySQL 8+.

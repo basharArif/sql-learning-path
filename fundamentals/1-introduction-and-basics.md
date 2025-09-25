@@ -1,6 +1,3 @@
-[<- Back to Learning Path](learning-path.md)
-
----
 # Part 1: SQL Fundamentals
 
 **Level:** Beginner  
@@ -173,16 +170,7 @@ CREATE TABLE employees (
 2. **Medium:** Insert 3 products, then select those over $10.
 3. **Hard:** Add a UNIQUE constraint on name, try duplicate insert.
 
-## Solutions
-
-1. `CREATE TABLE products (id SERIAL PRIMARY KEY, name VARCHAR(100), price DECIMAL(10,2));`
-2. `INSERT INTO products (name, price) VALUES ('Book', 15.99), ('Pen', 2.50), ('Laptop', 999.00); SELECT * FROM products WHERE price > 10;`
-3. `ALTER TABLE products ADD CONSTRAINT unique_name UNIQUE (name);` Then `INSERT INTO products (name, price) VALUES ('Book', 20.00);` (should fail).
-
 ## Notes: Vendor Differences / Performance Tips
 - SERIAL: PostgreSQL/MySQL. SQL Server uses IDENTITY.
 - VARCHAR: Similar across vendors.
 - Use constraints for data quality.
-
-## Next Lessons
-Intermediate SQL (Joins and Aggregations).

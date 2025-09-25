@@ -1,124 +1,59 @@
-# SQL Learning Path - Table of Contents
+# SQL Learning Path - Master Index
 
-This document provides a complete, sequential overview of the SQL learning path.
-
----
-
-### **Part 1: Fundamentals**
-*File: [1-Fundamentals.md](1-Fundamentals.md)*
-
-1.  Introduction to Databases
-2.  Basic SQL Commands (`CREATE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE`)
-3.  Filtering with `WHERE`
-4.  Sorting & Limiting (`ORDER BY`, `LIMIT`)
-5.  Advanced Filtering (`DISTINCT`, `IN`, `BETWEEN`, `IS NULL`)
-6.  Constraints (Deep Dive)
+This document provides a structured path through the SQL learning content. The course is organized into several parts, from core fundamentals to expert-level operations.
 
 ---
 
-### **Part 2: Intermediate SQL**
-*File: [2-Intermediate.md](2-Intermediate.md)*
+## Part 1: Fundamentals
+*The essential building blocks of SQL. Start here if you are new to databases.*
 
-7.  JOINS (`INNER`, `LEFT`, `RIGHT`, `FULL OUTER`, `SELF`)
-8.  Aggregation Functions (`GROUP BY`)
-9.  Filtering Groups with `HAVING`
-10. Subqueries
-11. Set Operations (`UNION`, `INTERSECT`, `EXCEPT`)
-12. Conditional Logic with `CASE`
-13. Indexes and Performance Basics
-
----
-
-### **Part 3: Advanced SQL**
-*File: [3-Advanced.md](3-Advanced.md)*
-
-14. Views, Stored Procedures, Functions & Triggers
-15. Transactions & ACID Properties
-16. Window Functions
-17. Security & Best Practices
+1.  **[Introduction and Basics](fundamentals/1-introduction-and-basics.md)**: What is a database? Basic `CREATE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE`.
+2.  **[JOINs](fundamentals/2-joins.md)**: Combining data from multiple tables.
+3.  **[Aggregations and Grouping](fundamentals/3-aggregations-and-grouping.md)**: Summarizing data with `GROUP BY`, `COUNT`, `SUM`, etc.
+4.  **[Subqueries and Set Operations](fundamentals/4-subqueries-and-sets.md)**: Nested queries and combining results with `UNION`.
+5.  **[Conditional Logic](fundamentals/5-conditional-logic.md)**: Using the `CASE` statement.
+6.  **[Indexing Basics](fundamentals/6-indexing-basics.md)**: A brief introduction to performance.
 
 ---
 
-### **Part 4: Real-World Application**
-*File: [4-Real-World-Queries.md](4-Real-World-Queries.md)*
+## Part 2: Core Theory
+*A deeper dive into the concepts that power a relational database.*
 
-18. Real-World Query Examples
-19. Practice Project Ideas
-20. Recommended SQL Tools
-21. Final Milestone Introduction
-
----
-
-### **Part 5: Pro Skills**
-*File: [5-Pro-SQL-Skills.md](5-Pro-SQL-Skills.md)*
-
-22. Pro SQL Skills (Schema Design, Optimization, CTEs, etc.)
+1.  **[Relational Algebra](theory/1-relational-algebra.md)**: The mathematical foundation of SQL.
+2.  **[Data Types](theory/2-data-types.md)**: A detailed look at data types.
+3.  **[Query Plans & Cost Models](theory/3-query-plans-and-cost-models.md)**: How the database executes your queries.
+4.  **[Transactions, Isolation & Concurrency](theory/4-transactions-isolation-and-concurrency.md)**: The principles of ACID and safe data handling.
 
 ---
 
-### **Part 6: Expert Topics**
-*File: [6-Expert-Topics.md](6-Expert-Topics.md)*
+## Part 3: Advanced Techniques
+*Powerful SQL features for complex problems.*
 
-23. Advanced Performance & Indexing
-24. Working with Semi-Structured Data (JSON)
-25. Data Warehousing Concepts
-
----
-
-### **Deep Dive Theory**
-*Directory: [theory/](theory/)*
-
-26. Relational Algebra ([1-relational-algebra.md](theory/1-relational-algebra.md))
-27. Data Types & Casting ([2-data-types.md](theory/2-data-types.md))
-28. Query Plans & Cost Models ([3-query-plans.md](theory/3-query-plans.md))
-29. Transactions, Isolation & Concurrency ([4-transactions.md](theory/4-transactions.md))
+1.  **[Recursive CTEs & Hierarchies](advanced/1-recursive-ctes-and-hierarchies.md)**: Querying tree-like structures.
+2.  **[Lateral Joins & JSON Functions](advanced/2-lateral-joins-and-json-functions.md)**: Advanced joins and handling `JSON` data.
+3.  **[Temporal Tables & Change Data Capture](advanced/3-temporal-tables-and-change-data-capture.md)**: Tracking data history.
+4.  **[Window Functions](advanced/5-window-functions.md)**: Powerful analytical functions like `RANK()` and `LAG()`.
+5.  **[Views, Procedures, & Triggers](advanced/6-views-procedures-triggers.md)**: Reusing code and automating tasks.
+6.  **[Vendor Notes & Differences](advanced/4-vendor-notes.md)**: How syntax differs between PostgreSQL, MySQL, etc.
 
 ---
 
-### **Practical Guides**
-*Directory: [practical/](practical/)*
+## Part 4: Practical Guides & Operations
+*Hands-on guides for common, real-world database tasks.*
 
-30. Error Handling & Exceptions ([1-error-handling.md](practical/1-error-handling-and-exceptions.md))
-31. Data Migration, Backup & Restore ([2-backup-restore.md](practical/2-data-migration-backup-restore.md))
-32. Data Import & ETL ([3-etl.md](practical/3-data-import-and-etl.md))
-33. SQL Testing & Automation ([4-testing.md](practical/4-sql-testing-and-automation.md))
-34. Visualization & BI Integration ([5-visualization.md](practical/5-visualization-and-BI-integration.md))
-
----
-
-### **Advanced Techniques**
-*Directory: [advanced/](advanced/)*
-
-35. Recursive CTEs & Hierarchies ([1-recursive-ctes.md](advanced/1-recursive-ctes-and-hierarchies.md))
-36. Lateral Joins & JSON Functions ([2-lateral-joins.md](advanced/2-lateral-joins-and-json-functions.md))
-37. Temporal Tables & Change Data Capture ([3-temporal-tables.md](advanced/3-temporal-tables-and-change-data-capture.md))
-38. Vendor Notes & Differences ([4-vendor-notes.md](advanced/4-vendor-notes.md))
+- **Error Handling**: [Error Handling & Exceptions](practical/1-error-handling-and-exceptions.md)
+- **Data Management**: [Data Migration, Backup & Restore](practical/2-data-migration-backup-restore.md)
+- **ETL**: [Data Import & ETL](practical/3-data-import-and-etl.md)
+- **Testing**: [SQL Testing & Automation](practical/4-sql-testing-and-automation.md)
+- **BI**: [Visualization & BI Integration](practical/5-visualization-and-BI-integration.md)
+- **Security**: [Advanced Security](ops/1-advanced-security.md)
+- **Scaling**: [Partitioning & Sharding](ops/2-partitioning-and-sharding.md)
+- **Monitoring**: [Monitoring & Observability](ops/3-monitoring-and-observability.md)
 
 ---
 
-### **Operations & DevOps**
-*Directory: [ops/](ops/)*
+## Part 5: Exercises
+*Practice your skills.*
 
-39. Advanced Security ([1-security.md](ops/1-advanced-security.md))
-40. Partitioning & Sharding ([2-partitioning.md](ops/2-partitioning-and-sharding.md))
-41. Monitoring & Observability ([3-monitoring.md](ops/3-monitoring-and-observability.md))
-
----
-
-### **Exercises & Solutions**
-*Directory: [exercises/](exercises/)*
-
-- Fundamentals Exercises ([fundamentals-01-exercise.md](exercises/fundamentals-01-exercise.md))
-- Intermediate Joins ([intermediate-joins-01-exercise.md](exercises/intermediate-joins-01-exercise.md))
-- Query Plans ([query-plans-01-exercise.md](exercises/query-plans-01-exercise.md))
-- Recursive CTEs ([recursive-ctes-01-exercise.md](exercises/recursive-ctes-01-exercise.md))
-- Lateral Joins ([lateral-joins-01-exercise.md](exercises/lateral-joins-01-exercise.md))
-- Monitoring ([monitoring-01-exercise.md](exercises/monitoring-01-exercise.md))
-- Solutions ([solutions/](exercises/solutions/))
-
----
-
-### **Additional Resources**
-
-- **[GLOSSARY.md](GLOSSARY.md)**: A glossary of key SQL terms.
-- **[README.md](README.md)**: Project overview and file structure.
+- **[Exercises README](exercises/README.md)**: Introduction to the exercises.
+- **[Solutions](exercises/solutions/)**: Solutions to the exercises.

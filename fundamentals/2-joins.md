@@ -1,0 +1,84 @@
+# Intermediate SQL: JOINs
+
+**Level:** Beginner to Intermediate  
+**Time Estimate:** 25 minutes  
+**Prerequisites:** SQL Fundamentals.
+
+## TL;DR
+`JOIN` clauses are used to combine rows from two or more tables based on a related column between them. They are the most common way to query data from a relational database.
+
+## Learning Objectives
+By the end of this lesson, you'll be able to:
+- Understand and use `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, and `FULL OUTER JOIN`.
+- Join a table to itself using a `SELF JOIN`.
+
+## Motivation & Real-World Scenario
+An e-commerce database has an `orders` table and a `customers` table. To get a list of orders with the customer's name, you must `JOIN` them together. To find customers who have never placed an order, you would use an `OUTER JOIN`.
+
+## Theory & Worked Examples
+
+### a. INNER JOIN
+Returns only the rows where the join condition is met in **both** tables.
+
+```sql
+-- Select all employees and their corresponding department name
+SELECT employees.name, departments.name AS department
+FROM employees
+INNER JOIN departments ON employees.department_id = departments.id;
+```
+**Explanation**: If an employee has a `department_id` that doesn't exist in the `departments` table, they will not be included in the result.
+
+### b. LEFT JOIN (or LEFT OUTER JOIN)
+Returns **all** rows from the left table, and the matched rows from the right table. If there is no match, the columns from the right table will be `NULL`.
+
+```sql
+-- Select ALL employees, and show their department name if they have one
+SELECT employees.name, departments.name AS department
+FROM employees
+LEFT JOIN departments ON employees.department_id = departments.id;
+```
+**Explanation**: This is useful for finding employees who may not have an assigned department.
+
+### c. RIGHT JOIN (or RIGHT OUTER JOIN)
+Returns **all** rows from the right table, and the matched rows from the left table. If there is no match, the columns from the left table will be `NULL`.
+
+```sql
+-- Select ALL departments, and show the employees in them
+SELECT employees.name, departments.name AS department
+FROM employees
+RIGHT JOIN departments ON employees.department_id = departments.id;
+```
+**Explanation**: This is useful for finding departments that have no employees.
+
+### d. FULL OUTER JOIN
+Returns all rows when there is a match in either the left or the right table. It effectively combines a `LEFT JOIN` and a `RIGHT JOIN`.
+
+```sql
+-- Select all employees and all departments, matching them up where possible
+SELECT employees.name, departments.name AS department
+FROM employees
+FULL OUTER JOIN departments ON employees.department_id = departments.id;
+```
+**Explanation**: This shows you everyone and every department, regardless of whether they are related.
+
+### e. SELF JOIN
+This is not a different kind of join, but a regular join where a table is joined with itself. This is used for querying hierarchical data.
+
+```sql
+-- Find the manager for each employee
+SELECT e.name AS employee_name, m.name AS manager_name
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id;
+```
+**Explanation**: We treat the `employees` table as two separate tables, aliased as `e` (for the employee) and `m` (for the manager), and join them on the manager-employee relationship.
+
+## Quick Checklist / Cheatsheet
+- `INNER JOIN`: For matching data only.
+- `LEFT JOIN`: To include all records from the left table.
+- `RIGHT JOIN`: To include all records from the right table.
+- `SELF JOIN`: For hierarchical data by joining a table to itself.
+
+## Exercises
+1.  **Easy**: Join `employees` and `departments` to show the names of employees in the 'Sales' department.
+2.  **Medium**: Find the names of all departments that have no employees using a `LEFT JOIN` or `RIGHT JOIN`.
+3.  **Hard**: Using a `SELF JOIN` on the `employees` table, find all employees who are managed by 'Alice'.
