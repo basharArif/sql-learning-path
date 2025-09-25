@@ -18,10 +18,22 @@ Comprehensive guide to MongoDB, the most popular document database. Covers:
 
 **Best For:** Applications with flexible schemas, complex objects, and aggregation needs
 
+### Key-Value Stores
+#### [3-redis-key-value-store.md](3-redis-key-value-store.md)
+**Type:** Key-Value Store | **Level:** Beginner to Intermediate | **Time:** 45 minutes
+
+Complete introduction to Redis, the in-memory data structure store. Covers:
+- Five core data types: strings, lists, sets, hashes, sorted sets
+- Basic CRUD operations with redis-cli
+- Memory management and persistence options
+- Configuration for different use cases
+- Common patterns: caching, counters, sessions
+
+**Best For:** High-performance caching, real-time applications, and data structure operations
+
 ### Planned Databases
 
 #### Key-Value Stores
-- **Redis**: In-memory data structure store
 - **Riak**: Distributed key-value database
 - **etcd**: Configuration and service discovery
 
