@@ -36,6 +36,19 @@ FROM employees;
 ```
 **Explanation**: For each row, the database checks the `age`. If it's 60 or greater, it returns 'Senior'. If not, it checks if it's 30 or greater, returning 'Mid-Level'. Otherwise, it returns 'Junior'.
 
+**Visual Representation (Flowchart):**
+```
+Start (for each row)
+  ↓
+age >= 60?
+  ├── Yes → 'Senior'
+  └── No
+      ↓
+    age >= 30?
+      ├── Yes → 'Mid-Level'
+      └── No → 'Junior'
+```
+
 ### b. `CASE` inside an Aggregate Function
 
 This is a very powerful technique for creating pivot tables or conditional summaries.

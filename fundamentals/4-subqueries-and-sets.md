@@ -32,6 +32,17 @@ WHERE department_id IN (
 ```
 **Explanation**: The inner query runs first, returning the `id` for the 'HR' department. The outer query then uses this `id` to find all matching employees.
 
+**Visual Representation:**
+```
+Outer Query: SELECT * FROM employees WHERE department_id IN (...)
+                                                            |
+                                                            ↓
+Inner Query: SELECT id FROM departments WHERE name = 'HR' → [1]
+                                                            |
+                                                            ↓
+Result: Employees with department_id = 1
+```
+
 **Example: Correlated Subquery**
 A correlated subquery is a subquery that depends on the outer query for its values. It is evaluated once for each row processed by the outer query, which can be inefficient.
 ```sql
@@ -43,6 +54,21 @@ WHERE age > (
 );
 ```
 **Explanation**: For each employee (`e`) in the outer query, the inner query calculates the average age for that specific employee's department (`e.department_id`) and uses it for comparison.
+
+**Visual Representation:**
+```
+For each employee row (e):
+  Outer: Check if e.age > (Inner: AVG(age) for e.department_id)
+  
+Example:
+  Employee John (dept=1, age=30)
+    Inner: AVG(age) for dept=1 → 25
+    30 > 25 → Include John
+  
+  Employee Jane (dept=2, age=28)
+    Inner: AVG(age) for dept=2 → 32
+    28 > 32 → Exclude Jane
+```
 
 ### b. Set Operations
 
@@ -62,6 +88,19 @@ UNION ALL
 SELECT name FROM contractors;
 ```
 
+**Visual Representation:**
+```
+UNION (removes duplicates):
+Employees: [A, B, C]
+Contractors: [B, C, D]
+Result: [A, B, C, D]
+
+UNION ALL (keeps duplicates):
+Employees: [A, B, C]
+Contractors: [B, C, D]
+Result: [A, B, C, B, C, D]
+```
+
 **`INTERSECT`**
 Returns only the rows that appear in **both** result sets.
 ```sql
@@ -71,6 +110,13 @@ INTERSECT
 SELECT name FROM contractors;
 ```
 
+**Visual Representation:**
+```
+Employees: [A, B, C]
+Contractors: [B, C, D]
+INTERSECT: [B, C]  (common to both)
+```
+
 **`EXCEPT`**
 Returns rows from the first result set that **do not** appear in the second result set.
 ```sql
@@ -78,6 +124,13 @@ Returns rows from the first result set that **do not** appear in the second resu
 SELECT name FROM employees
 EXCEPT
 SELECT name FROM contractors;
+```
+
+**Visual Representation:**
+```
+Employees: [A, B, C]
+Contractors: [B, C, D]
+EXCEPT: [A]  (in employees but not in contractors)
 ```
 
 ## Quick Checklist / Cheatsheet

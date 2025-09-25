@@ -22,6 +22,18 @@ Databases store and manage data for apps like e-commerce sites. Mastering basics
 ### What is a Database?
 A database is a structured collection of data stored electronically. RDBMS (Relational Database Management System) organizes data in tables with relationships via keys.
 
+**Visual Representation:**
+```
+Database
+├── users Table
+│   ├── Row 1: id=1, name='Alice', email='a@email.com'
+│   └── Row 2: id=2, name='Bob', email='b@email.com'
+├── orders Table
+│   └── ...
+└── products Table
+    └── ...
+```
+
 ### Table Structure
 Tables have rows (records) and columns (fields). Example:
 

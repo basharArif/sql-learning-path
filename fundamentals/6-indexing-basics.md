@@ -30,6 +30,17 @@ CREATE INDEX idx_employees_name ON employees(name);
 ```
 **Explanation**: This creates a B-Tree index (the most common type) on the `name` column. The database will now use this index to speed up queries that filter by `name`.
 
+**Visual Representation of a B-Tree Index:**
+```mermaid
+graph TD
+    R[Root Node<br/>(contains pointers to child nodes)] --> A[A-M<br/>(subtree for names starting with A-M)]
+    R --> N[N-Z<br/>(subtree for names starting with N-Z)]
+    A --> AD[A-D<br/>(leaf nodes point to actual data rows)]
+    A --> EM[E-M]
+    N --> NS[N-S]
+    N --> TZ[T-Z]
+```
+
 ### c. Checking Index Usage with `EXPLAIN`
 The `EXPLAIN` command shows you the execution plan that the database will use for a query. It's the primary tool for checking if your indexes are being used.
 
@@ -48,6 +59,17 @@ EXPLAIN SELECT * FROM employees WHERE name = 'Alice';
     ```
     Index Scan using idx_employees_name on employees (cost=0.42..8.44 rows=1 width=50)
     ```
+
+**Visual Comparison:**
+```
+Sequential Scan (no index):
+Table: [Row1] [Row2] [Row3] ... [RowN]
+         ↓
+       Scan all → Find 'Alice'
+
+Index Scan (with index):
+Index Tree → Navigate to 'A' branch → Direct to RowX
+```
 
 ## Quick Checklist / Cheatsheet
 - Add indexes to columns frequently used in `WHERE` clauses and `JOIN` conditions.

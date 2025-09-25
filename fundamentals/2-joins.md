@@ -28,6 +28,16 @@ INNER JOIN departments ON employees.department_id = departments.id;
 ```
 **Explanation**: If an employee has a `department_id` that doesn't exist in the `departments` table, they will not be included in the result.
 
+**Visual Representation:**
+```
+Table A    Table B
+   |          |
+   +----------+
+        |
+     Result
+     (only matched rows)
+```
+
 ### b. LEFT JOIN (or LEFT OUTER JOIN)
 Returns **all** rows from the left table, and the matched rows from the right table. If there is no match, the columns from the right table will be `NULL`.
 
@@ -38,6 +48,18 @@ FROM employees
 LEFT JOIN departments ON employees.department_id = departments.id;
 ```
 **Explanation**: This is useful for finding employees who may not have an assigned department.
+
+**Visual Representation:**
+```
+Table A    Table B
+   |          |
+   +----------+
+   |          |
+   +----------+
+        |
+     Result
+     (all from A, matched from B)
+```
 
 ### c. RIGHT JOIN (or RIGHT OUTER JOIN)
 Returns **all** rows from the right table, and the matched rows from the left table. If there is no match, the columns from the left table will be `NULL`.
@@ -50,6 +72,18 @@ RIGHT JOIN departments ON employees.department_id = departments.id;
 ```
 **Explanation**: This is useful for finding departments that have no employees.
 
+**Visual Representation:**
+```
+Table A    Table B
+          |    |
+          +----+
+          |    |
+          +----+
+             |
+          Result
+          (all from B, matched from A)
+```
+
 ### d. FULL OUTER JOIN
 Returns all rows when there is a match in either the left or the right table. It effectively combines a `LEFT JOIN` and a `RIGHT JOIN`.
 
@@ -61,6 +95,20 @@ FULL OUTER JOIN departments ON employees.department_id = departments.id;
 ```
 **Explanation**: This shows you everyone and every department, regardless of whether they are related.
 
+**Visual Representation:**
+```
+Table A    Table B
+   |          |
+   +----------+
+   |          |
+   +----------+
+   |          |
+   +----------+
+        |
+     Result
+     (all from A and B)
+```
+
 ### e. SELF JOIN
 This is not a different kind of join, but a regular join where a table is joined with itself. This is used for querying hierarchical data.
 
@@ -71,6 +119,16 @@ FROM employees e
 LEFT JOIN employees m ON e.manager_id = m.id;
 ```
 **Explanation**: We treat the `employees` table as two separate tables, aliased as `e` (for the employee) and `m` (for the manager), and join them on the manager-employee relationship.
+
+**Visual Representation:**
+```
+Employees (e) ---- manager_id ----> Employees (m)
+     |                                    |
+     +------------------------------------+
+                   |
+                Result
+                (employee-manager pairs)
+```
 
 ## Quick Checklist / Cheatsheet
 - `INNER JOIN`: For matching data only.

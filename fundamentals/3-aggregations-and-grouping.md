@@ -48,6 +48,27 @@ GROUP BY department_id;
 ```
 **Explanation**: The `GROUP BY department_id` clause tells the database to create a separate group for each unique `department_id`. The `COUNT(*)` function then counts the number of rows within each of those groups.
 
+**Visual Representation:**
+```
+Raw Table Data:
++-------------+--------+
+| employee_id | dept   |
++-------------+--------+
+| 1           | Sales  |
+| 2           | Sales  |
+| 3           | HR     |
+| 4           | Sales  |
++-------------+--------+
+
+After GROUP BY dept:
++--------+----------------+
+| dept   | employees      |
++--------+----------------+
+| Sales  | [1,2,4] → 3    |
+| HR     | [3] → 1        |
++--------+----------------+
+```
+
 ### c. Filtering Groups with `HAVING`
 
 The `HAVING` clause was added to SQL because the `WHERE` keyword could not be used with aggregate functions. `HAVING` allows you to filter groups based on the results of an aggregate function.
@@ -66,6 +87,27 @@ GROUP BY department_id
 HAVING COUNT(*) > 2;
 ```
 **Explanation**: The query first groups all employees by their department and counts them. Then, the `HAVING` clause removes the groups that do not have a count greater than 2.
+
+**Visual Representation:**
+```
+After GROUP BY:
++--------+----------------+
+| dept   | count          |
++--------+----------------+
+| Sales  | 3              |
+| HR     | 1              |
+| IT     | 4              |
++--------+----------------+
+
+After HAVING COUNT(*) > 2:
++--------+----------------+
+| dept   | count          |
++--------+----------------+
+| Sales  | 3              |
+| IT     | 4              |
++--------+----------------+
+(HR group filtered out)
+```
 
 ## Quick Checklist / Cheatsheet
 - Use `COUNT`, `SUM`, `AVG`, etc., to summarize data.
