@@ -8,45 +8,45 @@ This document provides a structured path through the SQL learning content. The c
 ```mermaid
 graph TD
     subgraph "🎯 START HERE"
-        A[Introduction & Basics<br/>CREATE, INSERT, SELECT<br/>UPDATE, DELETE]
+        A[Introduction & Basics\nCREATE, INSERT, SELECT\nUPDATE, DELETE]
     end
     
     subgraph "📊 Fundamentals"
-        B[JOINS<br/>INNER, LEFT, RIGHT, FULL]
-        C[Aggregations<br/>GROUP BY, COUNT, SUM<br/>HAVING, DISTINCT]
-        D[Subqueries & Sets<br/>UNION, INTERSECT<br/>EXISTS, IN]
-        E[Conditional Logic<br/>CASE WHEN, COALESCE]
-        F[Indexing Basics<br/>B-Tree, Performance]
+        B[JOINS\nINNER, LEFT, RIGHT, FULL]
+        C[Aggregations\nGROUP BY, COUNT, SUM\nHAVING, DISTINCT]
+        D[Subqueries & Sets\nUNION, INTERSECT\nEXISTS, IN]
+        E[Conditional Logic\nCASE WHEN, COALESCE]
+        F[Indexing Basics\nB-Tree, Performance]
     end
     
     subgraph "🧠 Theory"
-        G[Relational Algebra<br/>Selection, Projection<br/>Join, Union]
-        H[Data Types<br/>Numeric, Text, Date<br/>JSON, Arrays]
-        I[Query Plans<br/>EXPLAIN, Cost Models<br/>Optimization]
-        J[Transactions<br/>ACID, Isolation Levels<br/>Concurrency Control]
+        G[Relational Algebra\nSelection, Projection\nJoin, Union]
+        H[Data Types\nNumeric, Text, Date\nJSON, Arrays]
+        I[Query Plans\nEXPLAIN, Cost Models\nOptimization]
+        J[Transactions\nACID, Isolation Levels\nConcurrency Control]
     end
     
     subgraph "⚡ Advanced"
-        K[Recursive CTEs<br/>Hierarchies, Trees<br/>Graphs]
-        L[Lateral Joins<br/>JSON Functions<br/>Advanced Queries]
-        M[Temporal Tables<br/>Change Data Capture<br/>Audit Trails]
-        N[Window Functions<br/>RANK, LAG, LEAD<br/>Running Totals]
-        O[Views & Procedures<br/>Triggers, Functions<br/>Stored Code]
-        P[Vendor Differences<br/>PostgreSQL vs MySQL<br/>SQL Server]
+        K[Recursive CTEs\nHierarchies, Trees\nGraphs]
+        L[Lateral Joins\nJSON Functions\nAdvanced Queries]
+        M[Temporal Tables\nChange Data Capture\nAudit Trails]
+        N[Window Functions\nRANK, LAG, LEAD\nRunning Totals]
+        O[Views & Procedures\nTriggers, Functions\nStored Code]
+        P[Vendor Differences\nPostgreSQL vs MySQL\nSQL Server]
     end
     
     subgraph "🔧 Practical"
-        Q[Error Handling<br/>Exceptions, Rollback<br/>Recovery Patterns]
-        R[Data Migration<br/>Backup/Restore<br/>PITR, WAL]
-        S[ETL Processes<br/>Data Import<br/>Transformation]
-        T[Testing & Automation<br/>Unit Tests, CI/CD<br/>pgTAP, SQLTest]
-        U[BI Integration<br/>Materialized Views<br/>Dashboards]
+        Q[Error Handling\nExceptions, Rollback\nRecovery Patterns]
+        R[Data Migration\nBackup/Restore\nPITR, WAL]
+        S[ETL Processes\nData Import\nTransformation]
+        T[Testing & Automation\nUnit Tests, CI/CD\npgTAP, SQLTest]
+        U[BI Integration\nMaterialized Views\nDashboards]
     end
     
     subgraph "🏗️ Operations"
-        V[Security<br/>RBAC, Encryption<br/>Audit Logging]
-        W[Partitioning<br/>Sharding, Scaling<br/>Performance]
-        X[Monitoring<br/>Metrics, Alerts<br/>Observability]
+        V[Security\nRBAC, Encryption\nAudit Logging]
+        W[Partitioning\nSharding, Scaling\nPerformance]
+        X[Monitoring\nMetrics, Alerts\nObservability]
     end
     
     subgraph "🎓 Mastery"
@@ -87,48 +87,48 @@ graph TD
     X --> Y
     Y --> Z
     
-    AA[Prerequisites<br/>None] -.-> A
-    BB[Time: 2-3 weeks<br/>Practice Required] -.-> F
-    CC[Time: 1-2 weeks<br/>Deep Understanding] -.-> J
-    DD[Time: 2-4 weeks<br/>Complex Problems] -.-> P
-    EE[Time: 1-2 weeks<br/>Real Projects] -.-> U
-    FF[Time: 1 week<br/>Production Ready] -.-> X
-    GG[Time: Ongoing<br/>Mastery] -.-> Z
+    AA[Prerequisites\nNone] -.-> A
+    BB[Time: 2-3 weeks\nPractice Required] -.-> F
+    CC[Time: 1-2 weeks\nDeep Understanding] -.-> J
+    DD[Time: 2-4 weeks\nComplex Problems] -.-> P
+    EE[Time: 1-2 weeks\nReal Projects] -.-> U
+    FF[Time: 1 week\nProduction Ready] -.-> X
+    GG[Time: Ongoing\nMastery] -.-> Z
 ```
 
 **Skill Development Matrix:**
 ```mermaid
 graph LR
     subgraph "Beginner Skills"
-        A1[Basic CRUD<br/>Operations]
-        A2[Simple Queries<br/>WHERE, ORDER BY]
-        A3[Table Design<br/>CREATE TABLE]
-        A4[Data Types<br/>Basic Types]
+        A1[Basic CRUD\nOperations]
+        A2[Simple Queries\nWHERE, ORDER BY]
+        A3[Table Design\nCREATE TABLE]
+        A4[Data Types\nBasic Types]
     end
     
     subgraph "Intermediate Skills"
-        B1[Complex JOINs<br/>Multiple Tables]
-        B2[Aggregations<br/>GROUP BY, HAVING]
-        B3[Subqueries<br/>Nested Queries]
-        B4[Performance<br/>Basic Indexing]
-        B5[Transactions<br/>ACID Properties]
+        B1[Complex JOINs\nMultiple Tables]
+        B2[Aggregations\nGROUP BY, HAVING]
+        B3[Subqueries\nNested Queries]
+        B4[Performance\nBasic Indexing]
+        B5[Transactions\nACID Properties]
     end
     
     subgraph "Advanced Skills"
-        C1[Recursive Queries<br/>Hierarchical Data]
-        C2[Window Functions<br/>Analytical Queries]
-        C3[JSON Handling<br/>Semi-structured Data]
-        C4[Stored Procedures<br/>Business Logic]
-        C5[Query Optimization<br/>EXPLAIN Plans]
+        C1[Recursive Queries\nHierarchical Data]
+        C2[Window Functions\nAnalytical Queries]
+        C3[JSON Handling\nSemi-structured Data]
+        C4[Stored Procedures\nBusiness Logic]
+        C5[Query Optimization\nEXPLAIN Plans]
     end
     
     subgraph "Expert Skills"
-        D1[Database Design<br/>Normalization]
-        D2[High Availability<br/>Replication, Clustering]
-        D3[Security<br/>RBAC, Encryption]
-        D4[Monitoring<br/>Metrics, Alerting]
-        D5[ETL Pipelines<br/>Data Integration]
-        D6[Performance Tuning<br/>Advanced Optimization]
+        D1[Database Design\nNormalization]
+        D2[High Availability\nReplication, Clustering]
+        D3[Security\nRBAC, Encryption]
+        D4[Monitoring\nMetrics, Alerting]
+        D5[ETL Pipelines\nData Integration]
+        D6[Performance Tuning\nAdvanced Optimization]
     end
     
     A1 --> B1

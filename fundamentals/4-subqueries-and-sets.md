@@ -22,15 +22,15 @@ To find all employees who work in the 'HR' department, you could first look up t
 ```mermaid
 graph TD
     subgraph "Non-Correlated Subquery"
-        A[Outer Query] --> B[Execute Inner Query<br/>Once - Returns fixed result]
-        B --> C[Use inner result<br/>in outer WHERE/IN clause]
-        C --> D[Execute Outer Query<br/>with fixed values]
+        A[Outer Query] --> B[Execute Inner Query\nOnce - Returns fixed result]
+        B --> C[Use inner result\nin outer WHERE/IN clause]
+        C --> D[Execute Outer Query\nwith fixed values]
     end
     
     subgraph "Correlated Subquery"
-        E[Outer Query<br/>Process each row] --> F[Execute Inner Query<br/>For each outer row<br/>Using outer values]
-        F --> G[Return result for<br/>current outer row]
-        G --> H[Continue to next<br/>outer row]
+        E[Outer Query\nProcess each row] --> F[Execute Inner Query\nFor each outer row\nUsing outer values]
+        F --> G[Return result for\ncurrent outer row]
+        G --> H[Continue to next\nouter row]
     end
     
     I[Performance] -.-> J[Non-correlated: Usually faster<br/>Inner executes once]
@@ -101,18 +101,18 @@ graph TD
     A[Query 1 Result Set] --> D{Operation}
     B[Query 2 Result Set] --> D
     
-    D -->|UNION| E[Combine both sets<br/>Remove duplicates<br/>All unique rows]
-    D -->|UNION ALL| F[Combine both sets<br/>Keep all duplicates<br/>All rows including duplicates]
-    D -->|INTERSECT| G[Only rows that exist<br/>in BOTH sets<br/>Common rows only]
-    D -->|EXCEPT| H[Rows in first set<br/>but NOT in second set<br/>Difference of sets]
+    D -->|UNION| E[Combine both sets\nRemove duplicates\nAll unique rows]
+    D -->|UNION ALL| F[Combine both sets\nKeep all duplicates\nAll rows including duplicates]
+    D -->|INTERSECT| G[Only rows that exist\nin BOTH sets\nCommon rows only]
+    D -->|EXCEPT| H[Rows in first set\nbut NOT in second set\nDifference of sets]
     
     I[Requirements] -.-> J[Same number of columns]
     I -.-> K[Compatible data types]
     I -.-> L[Same column order]
     
-    M[Performance] -.-> N[UNION ALL: Fastest<br/>No duplicate checking]
-    M -.-> O[UNION: Slower<br/>Duplicate removal]
-    M -.-> P[INTERSECT/EXCEPT: Medium<br/>Set comparison]
+    M[Performance] -.-> N[UNION ALL: Fastest\nNo duplicate checking]
+    M -.-> O[UNION: Slower\nDuplicate removal]
+    M -.-> P[INTERSECT/EXCEPT: Medium\nSet comparison]
 ```
 
 **`UNION` vs `UNION ALL`**

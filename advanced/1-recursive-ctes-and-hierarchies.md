@@ -29,15 +29,14 @@ Managing employee hierarchies or product assemblies requires traversing parent-c
 **Visual Structure of Recursive CTE:**
 ```mermaid
 graph TD
-    A[WITH RECURSIVE cte AS (] --> B[Base Case Query]
+    A[WITH RECURSIVE cte AS] --> B[Base Case Query]
     B --> C[UNION ALL]
     C --> D[Recursive Case Query]
     D --> E[References CTE itself]
-    E --> F[)]
-    F --> G[SELECT * FROM cte]
+    E --> F[SELECT * FROM cte]
     
-    H[Termination] -.-> E
-    H -.-> I[No new rows returned]
+    G[Termination] -.-> E
+    G -.-> H[No new rows returned]
 ```
 
 ## Worked Examples

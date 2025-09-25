@@ -64,8 +64,8 @@ graph TD
     D --> E[LIMIT 1<br/>gets first tag]
     E --> F[Return top_tag<br/>per post]
     
-    G[Post 1: tags=["sql","db"]] -.-> H[top_tag="sql"]
-    I[Post 2: tags=["web","api"]] -.-> J[top_tag="web"]
+    G[Post 1: tags array] -.-> H[top_tag: sql]
+    I[Post 2: tags array] -.-> J[top_tag: web]
     
     F --> K[Cross join result]
     K --> L[Final output with<br/>post + top_tag]
