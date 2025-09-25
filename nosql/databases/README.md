@@ -86,6 +86,18 @@ Master Cassandra cluster management and operations for production deployments. C
 
 **Best For:** Production Cassandra administration, cluster operations, and maintenance
 
+#### [8-cassandra-performance-tuning.md](8-cassandra-performance-tuning.md)
+**Type:** Column-Family Database | **Level:** Advanced | **Time:** 35 minutes
+
+Advanced Cassandra performance optimization for high-throughput production systems. Covers:
+- JVM and garbage collection tuning for different workloads
+- Compaction strategy selection (STCS, LCS, TWCS) and configuration
+- Caching strategies (key cache, row cache, counter cache)
+- Query optimization and data model performance tuning
+- Storage, disk, and network optimization techniques
+
+**Best For:** Production performance optimization, capacity planning, and bottleneck resolution
+
 #### Graph Databases
 - **Neo4j**: Property graph database
 - **ArangoDB**: Multi-model database
