@@ -126,7 +126,7 @@ graph TD
     D --> F
     E --> F
     
-    F --> G[capture_changes() Function]
+    F --> G["capture_changes() Function"]
     G --> H[Insert into changes table]
     H --> I[JSONB data + timestamp]
     
