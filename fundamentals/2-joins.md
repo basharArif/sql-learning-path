@@ -17,6 +17,54 @@ An e-commerce database has an `orders` table and a `customers` table. To get a l
 
 ## Theory & Worked Examples
 
+**JOIN Types Overview:**
+```mermaid
+graph TD
+    A[Employees Table] -->|department_id| B[Departments Table]
+    
+    subgraph "INNER JOIN"
+        C[Only matching rows<br/>from both tables]
+    end
+    
+    subgraph "LEFT JOIN"
+        D[All rows from Employees<br/>+ matching from Departments<br/>NULLs for non-matches]
+    end
+    
+    subgraph "RIGHT JOIN"
+        E[All rows from Departments<br/>+ matching from Employees<br/>NULLs for non-matches]
+    end
+    
+    subgraph "FULL OUTER JOIN"
+        F[All rows from both tables<br/>NULLs where no match]
+    end
+    
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    
+    G[Self Join<br/>Table joins with itself] -.-> A
+```
+
+**JOIN Operations Flow:**
+```mermaid
+flowchart TD
+    A[Start Query] --> B{Join Type?}
+    
+    B -->|INNER JOIN| C[Match rows where<br/>condition = TRUE]
+    B -->|LEFT JOIN| D[Include ALL left table rows<br/>Match right table where condition = TRUE<br/>NULL for no matches]
+    B -->|RIGHT JOIN| E[Include ALL right table rows<br/>Match left table where condition = TRUE<br/>NULL for no matches]
+    B -->|FULL OUTER JOIN| F[Include ALL rows from both tables<br/>Match where condition = TRUE<br/>NULL for no matches]
+    
+    C --> G[Return result set]
+    D --> G
+    E --> G
+    F --> G
+    
+    H[Performance Note] -.-> I[Use EXPLAIN to check<br/>join strategy]
+    H -.-> J[Index foreign keys<br/>for better performance]
+```
+
 ### a. INNER JOIN
 Returns only the rows where the join condition is met in **both** tables.
 

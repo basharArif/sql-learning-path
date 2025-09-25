@@ -33,6 +33,29 @@ A production database crashes, losing recent data. Without backups, the business
 - Schema changes: Use version control and migration scripts.
 - Data migration: ETL tools or custom scripts.
 
+**Backup Types Comparison:**
+```
+Logical Backups (pg_dump):
+├── Format: SQL statements
+├── Portability: High (works across versions/DBs)
+├── Speed: Slower for large datasets
+├── Use Cases: Schema migration, small databases
+└── Recovery: Full or selective restore
+
+Physical Backups (pg_basebackup):
+├── Format: Database files + WAL
+├── Portability: Low (version/hardware specific)
+├── Speed: Fast for large datasets
+├── Use Cases: Disaster recovery, PITR
+└── Recovery: Complete database restore
+
+Migration Strategies:
+├── Schema Migration: DDL changes via scripts
+├── Data Migration: ETL pipelines or bulk operations
+├── Zero-downtime: Rolling updates with replication
+└── Rollback Plan: Always have reversal strategy
+```
+
 ## Worked Examples
 
 ### Logical Backup/Restore (Postgres)
@@ -42,6 +65,26 @@ pg_dump -h localhost -U sqluser -d sqldb -F c -f backup.dump
 
 # Restore
 pg_restore -h localhost -U sqluser -d newdb -v backup.dump
+```
+
+**Backup & Restore Workflow:**
+```mermaid
+graph TD
+    A[Production Database] --> B[pg_dump Command]
+    B --> C[Backup File<br/>backup.dump]
+    C --> D[Storage]
+    D --> E{Need Restore?}
+    E -->|Yes| F[pg_restore Command]
+    E -->|No| G[Archive/Retain]
+    F --> H[Target Database]
+    H --> I[Verification]
+    I --> J{Valid?}
+    J -->|Yes| K[Production Ready]
+    J -->|No| L[Retry Restore]
+    
+    M[Compression] -.-> C
+    N[Encryption] -.-> C
+    O[Offsite Storage] -.-> D
 ```
 
 ### Schema-Only Migration
@@ -68,6 +111,33 @@ archive_command = 'cp %p /archive/%f'
 2. Restore base backup.
 3. Replay WAL logs up to target time.
 4. Start Postgres.
+
+**PITR Recovery Timeline:**
+```
+Database Timeline:
+Time ──────────────────────────────────────────────────────►
+     │
+  9:00│  ┌─────────────────┐ Base Backup Taken
+     │  │                 │
+ 10:00│  │                 │ Normal Operations
+     │  │   WAL Logs:     │ ├── INSERT user 123
+ 11:00│  │   • 000001     │ ├── UPDATE inventory
+     │  │   • 000002     │ ├── DELETE old records
+ 12:00│  │   • 000003     │ └── More transactions...
+     │  │                 │
+12:30│  └─────────────────┘ Disaster Occurs (Data Loss)
+     │
+13:00│  ┌─────────────────┐ Recovery Process
+     │  │ 1. Stop DB      │
+     │  │ 2. Restore base │
+     │  │ 3. Replay WAL   │
+     │  │    until 12:15  │
+     │  │ 4. Start DB     │
+     │  └─────────────────┘
+     │
+13:30│  Database Restored to 12:15 state
+     │  (15 minutes of data recovered)
+```
 
 ## Quick Checklist / Cheatsheet
 - Schedule daily backups.

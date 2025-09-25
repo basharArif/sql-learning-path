@@ -50,6 +50,51 @@ Table: Users
 - **id**: Primary key, unique identifier.
 - **name/email**: Data fields.
 
+**CRUD Operations Overview:**
+```mermaid
+graph TD
+    A[Database Table] --> B[CREATE<br/>INSERT new data]
+    A --> C[READ<br/>SELECT existing data]
+    A --> D[UPDATE<br/>Modify existing data]
+    A --> E[DELETE<br/>Remove data]
+    
+    B --> F[Table grows<br/>New records added]
+    C --> G[Data retrieved<br/>No changes to table]
+    D --> H[Data modified<br/>Existing records updated]
+    E --> I[Table shrinks<br/>Records removed]
+    
+    J[SQL Commands] -.-> K[INSERT INTO table...]
+    J -.-> L[SELECT * FROM table...]
+    J -.-> M[UPDATE table SET...]
+    J -.-> N[DELETE FROM table...]
+    
+    O[Best Practices] -.-> P[Use WHERE clauses<br/>to target specific rows]
+    O -.-> Q[Validate data before<br/>INSERT/UPDATE]
+    O -.-> R[Backup before<br/>mass DELETE]
+```
+
+**SQL Query Execution Flow:**
+```mermaid
+graph TD
+    A[Write SQL Query] --> B[Parse Query<br/>Check syntax]
+    B --> C{Optimize Query<br/>Choose execution plan}
+    C --> D[Access Tables<br/>Apply WHERE filters]
+    D --> E[Sort Results<br/>if ORDER BY specified]
+    E --> F[Limit Results<br/>if LIMIT specified]
+    F --> G[Return Result Set<br/>to application]
+    
+    H[Query Components] -.-> I[SELECT: columns to return]
+    H -.-> J[FROM: tables to query]
+    H -.-> K[WHERE: row filters]
+    H -.-> L[ORDER BY: result sorting]
+    H -.-> M[LIMIT: result size]
+    
+    N[Performance Factors] -.-> O[Index usage]
+    N -.-> P[Table size]
+    N -.-> Q[WHERE selectivity]
+    N -.-> R[Available memory]
+```
+
 ## Worked Examples
 
 ### a. Create Table

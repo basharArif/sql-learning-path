@@ -18,6 +18,39 @@ To run a business, you need to answer questions like "How many orders did we get
 
 ## Theory & Worked Examples
 
+**Aggregation Process Flow:**
+```mermaid
+graph TD
+    A[Raw Data Rows] --> B[Apply WHERE filter<br/>if specified]
+    B --> C[Group rows by GROUP BY columns<br/>if specified]
+    C --> D[Apply aggregate functions<br/>COUNT, SUM, AVG, MIN, MAX]
+    D --> E[Apply HAVING filter<br/>to grouped results]
+    E --> F[Return final result set]
+    
+    G[Without GROUP BY] -.-> H[Single group: all rows]
+    G -.-> I[Aggregate functions apply to entire result]
+    
+    J[With GROUP BY] -.-> K[Multiple groups: one per unique value]
+    J -.-> L[Aggregate functions apply per group]
+    
+    M[Performance Tip] -.-> N[Index GROUP BY columns<br/>for better performance]
+```
+
+**WHERE vs HAVING:**
+```mermaid
+graph TD
+    A[Raw Data] --> B[WHERE Clause<br/>Filters individual rows<br/>Before grouping]
+    B --> C[GROUP BY<br/>Creates groups]
+    C --> D[Aggregate Functions<br/>Calculate per group]
+    D --> E[HAVING Clause<br/>Filters groups<br/>After aggregation]
+    E --> F[Final Result]
+    
+    G[WHERE Example] -.-> H[WHERE salary > 50000<br/>Filters employees before grouping]
+    I[HAVING Example] -.-> J[HAVING COUNT(*) > 5<br/>Filters departments after counting]
+    
+    K[Key Difference] -.-> L[WHERE: Row-level filtering<br/>HAVING: Group-level filtering]
+```
+
 ### a. Aggregate Functions
 These functions summarize data.
 

@@ -28,6 +28,27 @@ Dashboards load slowly with raw data queries. Pre-aggregated views speed up repo
 ### Export
 - CSV/JSON for external tools.
 
+**Data Flow: Database to BI Dashboard:**
+```mermaid
+graph TD
+    A[Raw Database Tables] --> B[ETL/Transformation]
+    B --> C[Summary Tables/Views]
+    C --> D[Materialized Views<br/>Cached Results]
+    D --> E[Export Layer<br/>CSV/JSON/API]
+    E --> F[BI Tools]
+    F --> G[Dashboards & Reports]
+    
+    H[Data Sources] -.-> A
+    I[Real-time] -.-> B
+    J[Batch Processing] -.-> B
+    K[Scheduled Refresh] -.-> D
+    
+    L[Tableau] -.-> F
+    M[Power BI] -.-> F
+    N[Metabase] -.-> F
+    O[Looker] -.-> F
+```
+
 ## Worked Examples
 
 ### Summary Table
@@ -51,6 +72,28 @@ LIMIT 10;
 REFRESH MATERIALIZED VIEW top_products;
 ```
 
+**Materialized View Refresh Cycle:**
+```mermaid
+graph TD
+    A[Base Tables Updated] --> B[Trigger Refresh<br/>Schedule/Cron]
+    B --> C[REFRESH MATERIALIZED VIEW]
+    C --> D[Re-execute Query]
+    D --> E[Update Cached Results]
+    E --> F[New Data Available]
+    
+    G[Refresh Strategies] -.-> H[Complete Refresh<br/>REFRESH MATERIALIZED VIEW]
+    G -.-> I[Incremental Refresh<br/>Custom Logic]
+    G -.-> J[Concurrent Refresh<br/>REFRESH CONCURRENTLY]
+    
+    K[Performance Impact] -.-> L[Blocking during refresh]
+    K -.-> M[Stale data between refreshes]
+    K -.-> N[Storage overhead]
+    
+    O[Best Practices] -.-> P[Schedule off-peak hours]
+    O -.-> Q[Monitor refresh duration]
+    O -.-> R[Use CONCURRENTLY for high availability]
+```
+
 ### Export to CSV
 ```sql
 COPY (SELECT * FROM monthly_sales) TO '/output/sales.csv' WITH CSV HEADER;
@@ -64,6 +107,95 @@ FROM sales
 WHERE date >= '2023-01-01'
 GROUP BY region
 ORDER BY revenue DESC;
+```
+
+## BI Tool Integration Patterns
+
+### Direct Database Connection
+```sql
+-- Tableau/Power BI connection string
+-- Host: your-server.com
+-- Port: 5432
+-- Database: analytics_db
+-- Schema: public
+```
+
+### API-Based Integration
+```sql
+-- Create API endpoint for BI tools
+CREATE OR REPLACE FUNCTION get_dashboard_data(
+    start_date DATE,
+    end_date DATE
+)
+RETURNS TABLE (
+    category TEXT,
+    revenue NUMERIC,
+    orders INTEGER
+)
+LANGUAGE SQL
+AS $$
+    SELECT 
+        category,
+        SUM(revenue) AS revenue,
+        COUNT(*) AS orders
+    FROM sales
+    WHERE order_date BETWEEN start_date AND end_date
+    GROUP BY category;
+$$;
+```
+
+**BI Integration Architecture:**
+```mermaid
+graph TB
+    subgraph "Data Sources"
+        A[(Operational DB)]
+        B[(Data Warehouse)]
+        C[(Data Lake)]
+    end
+    
+    subgraph "ETL Layer"
+        D[Extract] --> E[Transform]
+        E --> F[Load]
+    end
+    
+    subgraph "BI Tools"
+        G[Tableau]
+        H[Power BI]
+        I[Looker]
+        J[Metabase]
+    end
+    
+    subgraph "Consumption Layer"
+        K[Dashboards]
+        L[Reports]
+        M[Ad-hoc Analysis]
+    end
+    
+    A --> D
+    B --> D
+    C --> D
+    
+    F --> G
+    F --> H
+    F --> I
+    F --> J
+    
+    G --> K
+    H --> K
+    I --> K
+    J --> K
+    
+    K --> L
+    K --> M
+    
+    N[Security Layer] -.-> A
+    N -.-> B
+    N -.-> C
+    N -.-> F
+    
+    O[Caching Layer] -.-> F
+    O -.-> G
+    O -.-> H
 ```
 
 ## Quick Checklist / Cheatsheet

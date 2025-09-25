@@ -29,6 +29,25 @@ In a banking app, a transfer might fail due to insufficient funds. Without error
 - **Idempotency:** Operations that can be repeated safely.
 - **Rollback:** Undo transaction changes on error.
 
+**Error Handling Flow:**
+```mermaid
+graph TD
+    A[SQL Operation] --> B{Error Occurs?}
+    B -->|No| C[Success - Commit]
+    B -->|Yes| D[Exception Thrown]
+    D --> E[Exception Handler]
+    E --> F{Handler Type}
+    F -->|Specific| G[Handle Specific Error<br/>e.g., unique_violation]
+    F -->|Generic| H[Handle General Errors<br/>e.g., OTHERS]
+    G --> I[Recovery Action]
+    H --> I
+    I --> J{Recovery Success?}
+    J -->|Yes| K[Continue/Return]
+    J -->|No| L[ROLLBACK Transaction]
+    L --> M[Log Error]
+    M --> N[Return Error Message]
+```
+
 ## Worked Examples
 
 ### Postgres (PL/pgSQL)
@@ -56,6 +75,25 @@ EXCEPTION
     RETURN 'Transfer failed';
 END;
 $$ LANGUAGE plpgsql;
+```
+
+**Postgres Exception Handling Structure:**
+```mermaid
+graph TD
+    A[Function Start] --> B[DECLARE Variables]
+    B --> C[BEGIN Block]
+    C --> D[Business Logic]
+    D --> E{Error?}
+    E -->|No| F[RETURN Success]
+    E -->|Yes| G[EXCEPTION Block]
+    G --> H{Exception Type}
+    H -->|unique_violation| I[Handle Duplicate Key]
+    H -->|others| J[Handle General Errors]
+    I --> K[RETURN Error Message]
+    J --> L[RAISE NOTICE + RETURN]
+    K --> M[Function End]
+    L --> M
+    F --> M
 ```
 
 ### MySQL
@@ -91,6 +129,25 @@ Use unique constraints or keys to prevent duplicates:
 -- Idempotent insert
 INSERT INTO transfers (id, from_id, to_id, amt) VALUES (gen_random_uuid(), 1, 2, 100)
 ON CONFLICT (id) DO NOTHING;
+```
+
+**Idempotency vs Non-Idempotency:**
+```
+Non-Idempotent Operation:
+POST /transfer (debit $100)
+├── First call: Success - $100 debited
+└── Second call: Error - Insufficient funds (state changed)
+
+Idempotent Operation:
+POST /transfer?request_id=123 (debit $100)
+├── First call: Success - $100 debited, request_id recorded
+└── Second call: Success - No action (duplicate request_id detected)
+
+Idempotent Design Patterns:
+├── Use unique constraints on request IDs
+├── Check for existing records before insertion
+├── Use UPSERT operations (INSERT ... ON CONFLICT)
+├── Make operations naturally idempotent (e.g., set-based updates)
 ```
 
 ## Quick Checklist / Cheatsheet

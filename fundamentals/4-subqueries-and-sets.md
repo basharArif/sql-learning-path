@@ -18,6 +18,29 @@ To find all employees who work in the 'HR' department, you could first look up t
 
 ## Theory & Worked Examples
 
+**Subquery Types & Execution:**
+```mermaid
+graph TD
+    subgraph "Non-Correlated Subquery"
+        A[Outer Query] --> B[Execute Inner Query<br/>Once - Returns fixed result]
+        B --> C[Use inner result<br/>in outer WHERE/IN clause]
+        C --> D[Execute Outer Query<br/>with fixed values]
+    end
+    
+    subgraph "Correlated Subquery"
+        E[Outer Query<br/>Process each row] --> F[Execute Inner Query<br/>For each outer row<br/>Using outer values]
+        F --> G[Return result for<br/>current outer row]
+        G --> H[Continue to next<br/>outer row]
+    end
+    
+    I[Performance] -.-> J[Non-correlated: Usually faster<br/>Inner executes once]
+    I -.-> K[Correlated: Can be slower<br/>Inner executes per row]
+    
+    L[Common Uses] -.-> M[IN/NOT IN clauses]
+    L -.-> N[EXISTS/NOT EXISTS]
+    L -.-> O[Scalar subqueries<br/>in SELECT]
+```
+
 ### a. Subqueries
 A subquery is a `SELECT` statement nested inside another statement.
 
@@ -71,6 +94,26 @@ Example:
 ```
 
 ### b. Set Operations
+
+**Set Operations Visual Guide:**
+```mermaid
+graph TD
+    A[Query 1 Result Set] --> D{Operation}
+    B[Query 2 Result Set] --> D
+    
+    D -->|UNION| E[Combine both sets<br/>Remove duplicates<br/>All unique rows]
+    D -->|UNION ALL| F[Combine both sets<br/>Keep all duplicates<br/>All rows including duplicates]
+    D -->|INTERSECT| G[Only rows that exist<br/>in BOTH sets<br/>Common rows only]
+    D -->|EXCEPT| H[Rows in first set<br/>but NOT in second set<br/>Difference of sets]
+    
+    I[Requirements] -.-> J[Same number of columns]
+    I -.-> K[Compatible data types]
+    I -.-> L[Same column order]
+    
+    M[Performance] -.-> N[UNION ALL: Fastest<br/>No duplicate checking]
+    M -.-> O[UNION: Slower<br/>Duplicate removal]
+    M -.-> P[INTERSECT/EXCEPT: Medium<br/>Set comparison]
+```
 
 **`UNION` vs `UNION ALL`**
 - **`UNION`**: Combines the result sets of two queries and **removes duplicate records**.

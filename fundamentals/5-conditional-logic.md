@@ -17,6 +17,34 @@ You need to categorize your customers into different tiers (`'Bronze'`, `'Silver
 
 ## Theory & Worked Examples
 
+**CASE Statement Logic Flow:**
+```mermaid
+flowchart TD
+    A[Start CASE evaluation<br/>for each row] --> B{First WHEN<br/>condition true?}
+    
+    B -->|Yes| C[Return first WHEN value]
+    B -->|No| D{Second WHEN<br/>condition true?}
+    
+    D -->|Yes| E[Return second WHEN value]
+    D -->|No| F{More WHEN<br/>conditions?}
+    
+    F -->|Yes| G[Check next WHEN<br/>condition]
+    F -->|No| H{ELSE clause<br/>exists?}
+    
+    G --> B
+    
+    H -->|Yes| I[Return ELSE value]
+    H -->|No| J[Return NULL]
+    
+    C --> K[End CASE<br/>Continue query]
+    E --> K
+    I --> K
+    J --> K
+    
+    L[Performance Tip] -.-> M[Order WHEN conditions<br/>by most likely first]
+    L -.-> N[Use indexed columns<br/>in conditions when possible]
+```
+
 The `CASE` statement goes through conditions and returns a value when the first condition is met. If no condition is true, it returns the value in the `ELSE` clause. If there is no `ELSE` part and no conditions are true, it returns `NULL`.
 
 ### a. Basic `CASE` Statement
