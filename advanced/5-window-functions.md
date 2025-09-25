@@ -18,6 +18,19 @@ Window functions are distinguished by the `OVER()` clause. This clause determine
 - **`ORDER BY`**: Orders rows within each partition. This is crucial for functions that depend on order, like `RANK()` or `LAG()`.
 - **`ROWS` / `RANGE`**: Further specifies the window frame within a partition (e.g., `ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING`).
 
+**Visual Structure of Window Functions:**
+```mermaid
+graph TD
+    A[Window Function] --> B[OVER()]
+    B --> C[PARTITION BY<br/>column1, column2]
+    B --> D[ORDER BY<br/>column3]
+    B --> E[Frame Specification<br/>ROWS/RANGE BETWEEN...]
+    
+    C --> F[Divides data into groups]
+    D --> G[Orders rows within groups]
+    E --> H[Defines window boundaries]
+```
+
 ## Worked Examples
 
 ### a. Ranking Functions
@@ -49,6 +62,32 @@ SELECT
 FROM employees;
 ```
 
+**Visual Partitioning Example:**
+```
+Raw Data:
+┌────────────┬──────────────┬────────┐
+│ name       │ department_id│ salary │
+├────────────┼──────────────┼────────┤
+│ Alice      │ HR           │ 50000  │
+│ Bob        │ HR           │ 55000  │
+│ Charlie    │ IT           │ 60000  │
+│ David      │ IT           │ 58000  │
+│ Eve        │ HR           │ 52000  │
+└────────────┴──────────────┴────────┘
+
+After PARTITION BY department_id:
+┌────────────┬──────────────┬────────┬──────────┐
+│ Partition: │ HR           │        │ IT      │
+├────────────┼──────────────┼────────┼──────────┤
+│ Alice      │ 50000        │ → 3    │          │
+│ Bob        │ 55000        │ → 1    │          │
+│ Eve        │ 52000        │ → 2    │          │
+├────────────┼──────────────┼────────┼──────────┤
+│ Charlie    │              │        │ 60000 → 1│
+│ David      │              │        │ 58000 → 2│
+└────────────┴──────────────┴────────┴──────────┘
+```
+
 ### b. Offset Functions
 
 These functions access data from a different row relative to the current row.
@@ -77,6 +116,27 @@ SELECT
     amount,
     SUM(amount) OVER (ORDER BY sale_date) AS running_total
 FROM sales;
+```
+
+**Visual Window Frame Concepts:**
+```
+ROWS vs RANGE:
+
+Data: [1, 2, 3, 4, 5] ordered by value
+
+For current row = 3:
+
+ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING:
+  Window: [2, 3, 4]  (physical rows)
+
+RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING:  
+  Window: [2, 3, 4]  (same values ±1)
+
+For ties, RANGE includes all matching values:
+Data: [1, 2, 2, 2, 3] 
+For current row = 2 (second one):
+  ROWS: [2, 2, 2]    (3 physical rows)
+  RANGE: [1, 2, 2, 2, 3]  (all values 1-3)
 ```
 
 ## Quick Checklist / Cheatsheet

@@ -26,6 +26,20 @@ Managing employee hierarchies or product assemblies requires traversing parent-c
 - UNION ALL combines results.
 - Termination when no new rows.
 
+**Visual Structure of Recursive CTE:**
+```mermaid
+graph TD
+    A[WITH RECURSIVE cte AS (] --> B[Base Case Query]
+    B --> C[UNION ALL]
+    C --> D[Recursive Case Query]
+    D --> E[References CTE itself]
+    E --> F[)]
+    F --> G[SELECT * FROM cte]
+    
+    H[Termination] -.-> E
+    H -.-> I[No new rows returned]
+```
+
 ## Worked Examples
 
 ### Organizational Hierarchy
@@ -42,6 +56,20 @@ WITH RECURSIVE org AS (
 SELECT * FROM org ORDER BY depth, name;
 ```
 
+**Visual Hierarchy Traversal:**
+```mermaid
+graph TD
+    CEO[CEO<br/>depth:1] --> Mgr1[Manager 1<br/>depth:2]
+    CEO --> Mgr2[Manager 2<br/>depth:2]
+    Mgr1 --> Emp1[Employee A<br/>depth:3]
+    Mgr1 --> Emp2[Employee B<br/>depth:3]
+    Mgr2 --> Emp3[Employee C<br/>depth:3]
+    
+    style CEO fill:#e1f5fe
+    style Mgr1 fill:#f3e5f5
+    style Mgr2 fill:#f3e5f5
+```
+
 ### Bill-of-Materials (BOM)
 ```sql
 WITH RECURSIVE parts(item_id, child_id, qty, level) AS (
@@ -52,6 +80,23 @@ WITH RECURSIVE parts(item_id, child_id, qty, level) AS (
     JOIN bom b ON p.child_id = b.parent_item_id
 )
 SELECT child_id, SUM(qty) AS total_qty FROM parts GROUP BY child_id;
+```
+
+**Visual BOM Assembly Tree:**
+```mermaid
+graph TD
+    A[Final Product<br/>ID:100] --> B[Subassembly A<br/>Qty:2]
+    A --> C[Subassembly B<br/>Qty:1]
+    B --> D[Part X<br/>Qty:3]
+    B --> E[Part Y<br/>Qty:1]
+    C --> F[Part Z<br/>Qty:2]
+    C --> G[Subassembly C<br/>Qty:1]
+    G --> H[Part W<br/>Qty:4]
+    
+    style A fill:#e8f5e8
+    style B fill:#fff3e0
+    style C fill:#fff3e0
+    style G fill:#fff3e0
 ```
 
 ## Quick Checklist / Cheatsheet

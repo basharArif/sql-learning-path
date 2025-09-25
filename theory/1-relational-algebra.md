@@ -26,6 +26,18 @@ Understanding algebra helps optimize complex queries by breaking them into logic
 - **Difference (−)**: Subtract rows. `EXCEPT`
 - **Rename (ρ)**: Alias tables/columns.
 
+**Visual Overview of Key Operators:**
+```
+Projection (π):     Selection (σ):      Join (⋈):
+Table with cols     Table with rows      Two tables
+A B C D             A B C D              A B | C D
+--------            --------             --------
+1 2 3 4    π_A,C →  1 2 3 4             1 2 | 3 4
+5 6 7 8             5 6 7 8    σ_B>3 →  5 6 | 7 8
+9 0 1 2             9 0 1 2                    ↓
+                   (filtered)            Combined result
+```
+
 ### Join Operators
 - **Natural Join (⋈)**: Join on common columns.
 - **Theta Join**: Join with condition.
@@ -38,6 +50,13 @@ Find names of users over 18:
 
 Algebra: π_name (σ_age > 18 (users))
 
+**Visual Representation:**
+```mermaid
+graph TD
+    P[π_name] --> S
+    S[σ_age > 18] --> U[users]
+```
+
 SQL:
 ```sql
 SELECT name FROM users WHERE age > 18;
@@ -48,6 +67,14 @@ Users with orders:
 
 π_name (users ⋈ orders)
 
+**Visual Representation:**
+```mermaid
+graph TD
+    P[π_name] --> J
+    J[⋈] --> U[users]
+    J --> O[orders]
+```
+
 SQL:
 ```sql
 SELECT u.name FROM users u JOIN orders o ON u.id = o.user_id;
@@ -57,6 +84,18 @@ SELECT u.name FROM users u JOIN orders o ON u.id = o.user_id;
 All products from two categories:
 
 (products_cat1 ∪ products_cat2)
+
+**Visual Representation:**
+```
+products_cat1    products_cat2
+     |                |
+     +-------+--------+
+             |
+          ∪ (Union)
+             |
+         Result
+         (all products from both categories)
+```
 
 SQL:
 ```sql
@@ -82,6 +121,19 @@ SELECT * FROM products WHERE category = 'B';
 1. π_name (σ_city = 'NYC' (users))
 
 2. π_name (users − π_user_id (orders ⋈ users))
+
+   **Visual for Solution 2:**
+   ```
+   π_name
+     |
+     − (Difference)
+    / \
+   users  π_user_id
+           |
+           ⋈
+          / \
+       orders users
+   ```
 
 3. Break into selection, join, projection.
 

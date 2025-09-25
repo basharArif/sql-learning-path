@@ -32,6 +32,20 @@ When you submit SQL, the planner:
 
 Key input to the planner: table/column statistics (from `ANALYZE`), available indexes, and configuration (`work_mem`, etc.).
 
+**Visual Representation of Query Planning Process:**
+```mermaid
+graph LR
+    A[SQL Query] --> B[Parse & Rewrite]
+    B --> C[Generate Alternative Plans]
+    C --> D[Estimate Costs<br/>Statistics + Heuristics]
+    D --> E[Choose Lowest Cost Plan]
+    E --> F[Execute Plan]
+    
+    G[Table Statistics] -.-> D
+    H[Available Indexes] -.-> D
+    I[Configuration] -.-> D
+```
+
 ## Common Plan Nodes
 
 - **Seq Scan**: Full table scan; cheap for small tables, expensive for large ones.
@@ -40,6 +54,31 @@ Key input to the planner: table/column statistics (from `ANALYZE`), available in
 - **Hash Join**: Builds a hash table on the smaller input and probes it with the larger input — good for equality joins.
 - **Merge Join**: Merges two pre-sorted inputs — efficient for range joins.
 - **Nested Loop**: For each row in the outer input, scans the inner table. Fast when the outer result is small and the inner table is indexed on the join key.
+
+**Visual Examples of Plan Trees:**
+
+**Sequential Scan (no index):**
+```mermaid
+graph TD
+    A[Seq Scan on employees] --> B[Filter: name = 'Alice']
+    B --> C[Cost: 0.00..1000.00]
+```
+
+**Index Scan (with index):**
+```mermaid
+graph TD
+    A[Index Scan using idx_name] --> B[Index Cond: name = 'Alice']
+    B --> C[Cost: 0.42..8.44]
+```
+
+**Hash Join Example:**
+```mermaid
+graph TD
+    A[Hash Join] --> B[Hash Cond: a.id = b.user_id]
+    A --> C[Seq Scan on orders]
+    B --> D[Hash]
+    D --> E[Seq Scan on users]
+```
 
 ## EXPLAIN vs EXPLAIN ANALYZE
 
@@ -51,6 +90,25 @@ EXPLAIN ANALYZE SELECT * FROM employees WHERE name = 'Alice';
 ```
 
 Always compare the `rows` (estimated) vs `actual rows` values in the output. Big discrepancies point to outdated statistics.
+
+**Visual Comparison:**
+```
+EXPLAIN (Planning Only):
+┌─────────────────────────────────────┐
+│ Query Plan                         │
+│ ├── Estimated costs and row counts │
+│ └── No actual execution            │
+└─────────────────────────────────────┘
+
+EXPLAIN ANALYZE (Planning + Execution):
+┌─────────────────────────────────────┐
+│ Query Plan                         │
+│ ├── Estimated costs and row counts │
+│ ├── Actual execution time          │
+│ ├── Actual row counts              │
+│ └── Buffer usage statistics        │
+└─────────────────────────────────────┘
+```
 
 ## Common Causes of Bad Plans
 
