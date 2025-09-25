@@ -46,7 +46,7 @@ graph TD
     E --> F[Final Result]
     
     G[WHERE Example] -.-> H[WHERE salary > 50000\nFilters employees before grouping]
-    I[HAVING Example] -.-> J[HAVING COUNT(*) > 5\nFilters departments after counting]
+    I[HAVING Example] -.-> J["HAVING COUNT(*) > 5\nFilters departments after counting"]
     
     K[Key Difference] -.-> L[WHERE: Row-level filtering\nHAVING: Group-level filtering]
 ```
