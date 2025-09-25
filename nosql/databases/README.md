@@ -62,9 +62,17 @@ Real-world Redis implementations and integration patterns. Covers:
 - **etcd**: Configuration and service discovery
 
 #### Column-Family Stores
-- **Cassandra**: Wide-column store for big data
-- **HBase**: Hadoop ecosystem column database
-- **ScyllaDB**: High-performance Cassandra alternative
+#### [6-cassandra-column-family.md](6-cassandra-column-family.md)
+**Type:** Column-Family Database | **Level:** Intermediate | **Time:** 50 minutes
+
+Complete guide to Apache Cassandra, the distributed column-family database. Covers:
+- Distributed architecture with nodes, clusters, and datacenters
+- Column-family data model and CQL (Cassandra Query Language)
+- Primary key design and data distribution
+- Replication strategies and consistency levels
+- Data modeling patterns for different use cases
+
+**Best For:** Large-scale distributed systems, time series data, and high-write workloads
 
 #### Graph Databases
 - **Neo4j**: Property graph database
