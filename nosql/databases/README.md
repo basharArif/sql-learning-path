@@ -1,0 +1,119 @@
+# NoSQL Databases
+
+This folder contains hands-on tutorials for specific NoSQL database implementations. Each module teaches you how to work with a particular database, including installation, basic operations, and advanced features.
+
+## 📚 Available Databases
+
+### Document Databases
+#### [2-mongodb-document-database.md](2-mongodb-document-database.md)
+**Type:** Document Database | **Level:** Beginner to Intermediate | **Time:** 45 minutes
+
+Comprehensive guide to MongoDB, the most popular document database. Covers:
+- Document model and BSON format
+- CRUD operations with MongoDB shell
+- Query operators and logical expressions
+- Aggregation framework for data processing
+- Indexing strategies for performance
+- Schema design patterns (embedding vs referencing)
+
+**Best For:** Applications with flexible schemas, complex objects, and aggregation needs
+
+### Planned Databases
+
+#### Key-Value Stores
+- **Redis**: In-memory data structure store
+- **Riak**: Distributed key-value database
+- **etcd**: Configuration and service discovery
+
+#### Column-Family Stores
+- **Cassandra**: Wide-column store for big data
+- **HBase**: Hadoop ecosystem column database
+- **ScyllaDB**: High-performance Cassandra alternative
+
+#### Graph Databases
+- **Neo4j**: Property graph database
+- **ArangoDB**: Multi-model database
+- **Amazon Neptune**: Managed graph service
+
+#### Time Series Databases
+- **InfluxDB**: Time series data storage
+- **TimescaleDB**: PostgreSQL time series extension
+- **Prometheus**: Monitoring and metrics
+
+#### Search Engines
+- **Elasticsearch**: Distributed search and analytics
+- **Solr**: Enterprise search platform
+
+## 🎯 Learning Approach
+
+### For Each Database, Learn:
+1. **Installation & Setup**: Local development environment
+2. **Basic Operations**: CRUD operations in the database's native language
+3. **Query Patterns**: How to retrieve and manipulate data
+4. **Indexing**: Performance optimization techniques
+5. **Advanced Features**: Unique capabilities of each database
+6. **Best Practices**: Production-ready patterns and anti-patterns
+
+### Recommended Learning Order:
+1. **Start with MongoDB** (document databases - most approachable)
+2. **Redis** (key-value stores - simple but powerful)
+3. **Cassandra** (column-family - distributed systems concepts)
+4. **Neo4j** (graph databases - different data model)
+5. **Specialized databases** based on your needs
+
+## 📖 Prerequisites
+
+- Completion of [fundamentals](../fundamentals/) and [theory](../theory/) modules
+- Basic programming skills
+- Understanding of data structures and algorithms
+
+## 🛠️ Development Setup
+
+Most NoSQL databases can be run locally using:
+- **Docker**: Containerized installations
+- **Package Managers**: apt, brew, chocolatey
+- **Cloud Services**: AWS, GCP, Azure managed services
+- **Local Installers**: Official distribution packages
+
+## 🔗 Integration with Theory
+
+Each database implementation demonstrates:
+- **CAP Theorem**: How the database handles C/A/P trade-offs
+- **Consistency Models**: ACID vs BASE in practice
+- **Data Modeling**: Applying theoretical patterns to real databases
+- **Performance**: Scaling characteristics and optimization
+
+## 💡 Choosing Your First Database
+
+### Start with MongoDB if you need:
+- Flexible schemas that evolve over time
+- Complex queries and aggregations
+- JSON-like data structures
+- Full-text search capabilities
+
+### Start with Redis if you need:
+- High-performance caching
+- Simple key-value operations
+- Pub/Sub messaging
+- Data structure server
+
+### Start with Cassandra if you need:
+- Massive horizontal scaling
+- High write throughput
+- Multi-datacenter deployment
+- Time series or IoT data
+
+## 🚀 Hands-On Practice
+
+Each database module includes:
+- **Code Examples**: Working queries and operations
+- **Exercises**: Easy/Medium/Hard practice problems
+- **Best Practices**: Production-ready patterns
+- **Common Pitfalls**: What to avoid
+
+## 🔗 Next Steps
+
+After learning specific databases:
+- Explore [advanced topics](../advanced/) for scaling and performance
+- Study [practical applications](../practical/) for real-world use cases
+- Consider [hybrid architectures](../practical/) combining multiple databases

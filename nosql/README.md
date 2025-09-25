@@ -5,13 +5,13 @@ This section covers NoSQL and non-relational database systems, complementing the
 ## 📚 Module Overview
 
 ### Foundational Concepts
-- **[NoSQL vs SQL Comparison](0-nosql-vs-sql-comparison.md)**: When to choose each approach
-- **[CAP Theorem and Trade-offs](1-cap-theorem-and-tradeoffs.md)**: Distributed systems fundamentals
-- **[ACID vs BASE Consistency](1.5-acid-vs-base-consistency.md)**: Consistency models explained
-- **[NoSQL Data Modeling](1.7-nosql-data-modeling.md)**: Schema design patterns
+- **[NoSQL vs SQL Comparison](fundamentals/0-nosql-vs-sql-comparison.md)**: When to choose each approach
+- **[CAP Theorem and Trade-offs](fundamentals/1-cap-theorem-and-tradeoffs.md)**: Distributed systems fundamentals
+- **[ACID vs BASE Consistency](theory/1.5-acid-vs-base-consistency.md)**: Consistency models explained
+- **[NoSQL Data Modeling](theory/1.7-nosql-data-modeling.md)**: Schema design patterns
 
 ### Document Databases
-- **[MongoDB: Document Database](2-mongodb-document-database.md)**: JSON-like documents, flexible schemas
+- **[MongoDB: Document Database](databases/2-mongodb-document-database.md)**: JSON-like documents, flexible schemas
 - **CouchDB**: RESTful document storage
 - **DynamoDB**: AWS managed NoSQL database
 
@@ -50,10 +50,10 @@ This section covers NoSQL and non-relational database systems, complementing the
 
 ## 🚀 Getting Started
 
-1. Start with [NoSQL vs SQL Comparison](0-nosql-vs-sql-comparison.md) to understand when to choose each approach
-2. Review [CAP theorem concepts](1-cap-theorem-and-tradeoffs.md) for distributed systems fundamentals
-3. Learn about [consistency models](1.5-acid-vs-base-consistency.md) (ACID vs BASE)
-4. Study [data modeling patterns](1.7-nosql-data-modeling.md) for NoSQL schema design
+1. Start with [NoSQL vs SQL Comparison](fundamentals/0-nosql-vs-sql-comparison.md) to understand when to choose each approach
+2. Review [CAP theorem concepts](fundamentals/1-cap-theorem-and-tradeoffs.md) for distributed systems fundamentals
+3. Learn about [consistency models](theory/1.5-acid-vs-base-consistency.md) (ACID vs BASE)
+4. Study [data modeling patterns](theory/1.7-nosql-data-modeling.md) for NoSQL schema design
 5. Choose your first database based on use case
 6. Set up local development environment
 7. Practice basic CRUD operations
