@@ -31,6 +31,30 @@ Complete introduction to Redis, the in-memory data structure store. Covers:
 
 **Best For:** High-performance caching, real-time applications, and data structure operations
 
+#### [4-redis-advanced-concepts.md](4-redis-advanced-concepts.md)
+**Type:** Key-Value Store | **Level:** Intermediate to Advanced | **Time:** 40 minutes
+
+Master Redis advanced features for production deployments. Covers:
+- Publish/Subscribe messaging patterns
+- Redis Cluster for high availability and sharding
+- Persistence strategies (RDB vs AOF)
+- Performance optimization and monitoring
+- Security, authentication, and access control
+
+**Best For:** Production Redis deployments, high-availability systems, and performance-critical applications
+
+#### [5-redis-practical-applications.md](5-redis-practical-applications.md)
+**Type:** Key-Value Store | **Level:** Intermediate | **Time:** 30 minutes
+
+Real-world Redis implementations and integration patterns. Covers:
+- User session management and authentication
+- API rate limiting and abuse protection
+- Job queues for background processing
+- Real-time analytics and dashboards
+- E-commerce integration and caching strategies
+
+**Best For:** Building complete applications with Redis as a key component
+
 ### Planned Databases
 
 #### Key-Value Stores

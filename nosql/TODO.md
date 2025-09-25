@@ -9,8 +9,8 @@
 
 ### **Week 1-2: Redis Module**
 - [x] Create `databases/3-redis-key-value-store.md`
-- [ ] Create `databases/4-redis-advanced-concepts.md`
-- [ ] Create `databases/5-redis-practical-applications.md`
+- [x] Create `databases/4-redis-advanced-concepts.md`
+- [x] Create `databases/5-redis-practical-applications.md`
 - [ ] Add Redis exercises and examples
 
 ### **Week 3-4: Cassandra Module**
@@ -20,10 +20,10 @@
 - [ ] Add Cassandra data modeling examples
 
 ## 📈 **Progress Tracking**
-- **Total Modules:** 5/25 completed (20%)
+- **Total Modules:** 7/25 completed (28%)
 - **Database Coverage:** 2/6 major databases (MongoDB, Redis done)
-- **Time Invested:** ~25 hours
-- **Next Milestone:** Redis module complete (Week 2)
+- **Time Invested:** ~30 hours
+- **Next Milestone:** Cassandra module complete (Week 4)
 
 ## 🔗 **Quick Links**
 - **[Detailed Completion Plan](./COMPLETION-PLAN.md)** - 36-week comprehensive roadmap
