@@ -25,6 +25,23 @@ Imagine an e-commerce site where two users buy the last item simultaneously. Wit
 - **Isolation:** Concurrent transactions don't interfere with each other.
 - **Durability:** Committed changes survive failures.
 
+**Visual ACID Properties:**
+```mermaid
+graph TD
+    A[Transaction] --> B[Atomicity<br/>All or Nothing]
+    A --> C[Consistency<br/>Valid State Changes]
+    A --> D[Isolation<br/>No Interference]
+    A --> E[Durability<br/>Crash Survival]
+    
+    B --> F[Example: Bank Transfer]
+    F --> G[Debit $100 OR Credit $100]
+    F --> H[Both succeed OR both fail]
+    
+    C --> I[Business Rules Maintained]
+    D --> J[Concurrent Safety]
+    E --> K[Disk Persistence]
+```
+
 ### Transaction Commands
 - `BEGIN`: Start a transaction.
 - `COMMIT`: Save changes permanently.
@@ -38,6 +55,27 @@ UPDATE accounts SET balance = balance + 100 WHERE id = 2;
 COMMIT;  -- Or ROLLBACK if error
 ```
 
+**Transaction Lifecycle:**
+```mermaid
+graph TD
+    A[Application] --> B[BEGIN Transaction]
+    B --> C[Execute SQL Statements]
+    C --> D{Error?}
+    
+    D -->|No| E[COMMIT]
+    D -->|Yes| F[ROLLBACK]
+    
+    E --> G[Changes Permanent]
+    F --> H[Changes Undone]
+    
+    G --> I[Transaction Complete]
+    H --> I
+    
+    C --> J[Lock Resources]
+    J --> K[Prevent Conflicts]
+    K --> L[Isolation Maintained]
+```
+
 ### Isolation Levels
 Control how transactions interact:
 - **READ UNCOMMITTED:** Allows dirty reads (rarely used).
@@ -49,6 +87,23 @@ Anomalies:
 - **Dirty Read:** Reading uncommitted data.
 - **Non-Repeatable Read:** Same query returns different results in a transaction.
 - **Phantom Read:** New rows appear during a transaction.
+
+**Isolation Levels Comparison:**
+```
+Isolation Levels & Anomalies:
+┌─────────────────┬─────────────┬─────────────────┬─────────────┐
+│ Level           │ Dirty Read  │ Non-Repeatable │ Phantom Read │
+├─────────────────┼─────────────┼─────────────────┼─────────────┤
+│ READ UNCOMMITTED│ ✓ Allowed   │ ✓ Allowed      │ ✓ Allowed   │
+│ READ COMMITTED  │ ✗ Prevented │ ✓ Allowed      │ ✓ Allowed   │
+│ REPEATABLE READ │ ✗ Prevented │ ✗ Prevented    │ ✓ Allowed   │
+│ SERIALIZABLE    │ ✗ Prevented │ ✗ Prevented    │ ✗ Prevented │
+└─────────────────┴─────────────┴─────────────────┴─────────────┘
+
+Performance vs Safety Trade-off:
+SERIALIZABLE (Safest) ←───→ READ UNCOMMITTED (Fastest)
+    High locking        Balanced        Low isolation
+```
 
 ## Worked Examples
 

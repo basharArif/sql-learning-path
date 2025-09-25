@@ -31,6 +31,35 @@ A healthcare app must ensure patients see only their records. Without security, 
 ### Auditing
 - Log access and changes for compliance (e.g., HIPAA, GDPR).
 
+**Database Security Layers:**
+```mermaid
+graph TD
+    A[Database Security] --> B[Network Security]
+    A --> C[Access Control]
+    A --> D[Data Protection]
+    A --> E[Auditing]
+    
+    B --> B1[TLS/SSL Encryption]
+    B --> B2[Firewall Rules]
+    B --> B3[VPN Access]
+    
+    C --> C1[Authentication]
+    C --> C2[Authorization]
+    C --> C3[Row Level Security]
+    
+    D --> D1[Encryption at Rest]
+    D --> D2[Data Masking]
+    D --> D3[Backup Encryption]
+    
+    E --> E1[Access Logging]
+    E --> E2[Change Tracking]
+    E --> E3[Compliance Reports]
+    
+    C1 --> F[Users & Roles]
+    C2 --> G[Permissions & Policies]
+    C3 --> H[Data Filtering]
+```
+
 ## Worked Examples
 
 ### Role-Based Access (Postgres)
@@ -48,6 +77,24 @@ CREATE USER alice PASSWORD 'secret';
 GRANT analyst TO alice;
 ```
 
+**RBAC Hierarchy Example:**
+```mermaid
+graph TD
+    A[Database Admin] --> B[admin Role<br/>SUPERUSER]
+    A --> C[analyst Role<br/>SELECT only]
+    A --> D[readonly Role<br/>SELECT only]
+    
+    B --> E[User: bob<br/>admin privileges]
+    C --> F[User: alice<br/>analyst privileges]
+    D --> G[User: charlie<br/>readonly privileges]
+    
+    H[sales Table] -.-> I[admin: ALL]
+    H -.-> J[analyst: SELECT]
+    H -.-> K[readonly: SELECT]
+    
+    L[Permissions Flow] -.-> M[Users inherit<br/>role privileges]
+```
+
 ### Row Level Security (Postgres)
 ```sql
 CREATE TABLE patient_records (id serial, patient_id int, data text);
@@ -56,6 +103,24 @@ ALTER TABLE patient_records ENABLE ROW LEVEL SECURITY;
 -- Policy: users see only their records
 CREATE POLICY patient_data ON patient_records
   FOR ALL USING (patient_id = current_setting('app.current_user_id')::int);
+```
+
+**RLS Policy Flow:**
+```mermaid
+graph TD
+    A[User Query] --> B[RLS Enabled?]
+    B -->|Yes| C[Apply Policies]
+    B -->|No| D[Normal Access]
+    
+    C --> E[Check User Context]
+    E --> F[Filter Rows]
+    F --> G[Return Filtered Results]
+    
+    H[Policy: patient_data] -.-> I[patient_id = current_user_id]
+    H -.-> J[FOR ALL operations]
+    
+    K[Example] -.-> L[User 123 sees only<br/>patient_id = 123 rows]
+    K -.-> M[User 456 sees only<br/>patient_id = 456 rows]
 ```
 
 ### Encryption at Rest (Postgres with pgcrypto)

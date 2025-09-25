@@ -2,6 +2,37 @@
 
 Choosing correct data types is critical for correctness, storage efficiency, and performance. This guide focuses on commonly used types in PostgreSQL, with notes where other vendors differ.
 
+**Visual Data Type Classification:**
+```mermaid
+graph TD
+    A[SQL Data Types] --> B[Numeric]
+    A --> C[Character]
+    A --> D[Temporal]
+    A --> E[Boolean]
+    A --> F[Binary]
+    A --> G[UUID]
+    A --> H[Semi-structured]
+    A --> I[Arrays/Composite]
+    
+    B --> B1[SMALLINT<br/>2 bytes]
+    B --> B2[INTEGER<br/>4 bytes]
+    B --> B3[BIGINT<br/>8 bytes]
+    B --> B4[NUMERIC<br/>variable]
+    B --> B5[REAL/DOUBLE<br/>4/8 bytes]
+    
+    C --> C1[CHAR<br/>fixed]
+    C --> C2[VARCHAR<br/>variable]
+    C --> C3[TEXT<br/>unlimited]
+    
+    D --> D1[DATE]
+    D --> D2[TIME]
+    D --> D3[TIMESTAMP]
+    D --> D4[INTERVAL]
+    
+    H --> H1[JSON]
+    H --> H2[JSONB]
+```
+
 ## Numeric types
 
 - SMALLINT (2 bytes): -32768 to 32767. Good for small counters.
@@ -9,6 +40,25 @@ Choosing correct data types is critical for correctness, storage efficiency, and
 - BIGINT (8 bytes): large counters, timestamps in ms, high-volume ids.
 - NUMERIC / DECIMAL(precision, scale): exact arithmetic for money and financial calculations. Use when fractional precision matters.
 - REAL / DOUBLE PRECISION: floating point approximations — avoid for money.
+
+**Storage Size Comparison:**
+```
+Numeric Types Storage Requirements:
+┌─────────────┬─────────────┬─────────────────┬─────────────────┐
+│ Type        │ Size        │ Range           │ Use Case        │
+├─────────────┼─────────────┼─────────────────┼─────────────────┤
+│ SMALLINT    │ 2 bytes     │ -32K to 32K     │ Small counters  │
+│ INTEGER     │ 4 bytes     │ -2B to 2B       │ IDs, counts     │
+│ BIGINT      │ 8 bytes     │ -9Q to 9Q       │ Large counters  │
+│ NUMERIC     │ variable    │ unlimited       │ Money, precise  │
+│ REAL        │ 4 bytes     │ ~6 decimal      │ Approximations  │
+│ DOUBLE      │ 8 bytes     │ ~15 decimal     │ Approximations  │
+└─────────────┴─────────────┴─────────────────┴─────────────────┘
+
+Precision Loss Risk:
+NUMERIC(10,2) → $12345678.90 (exact)
+REAL/DOUBLE   → $12345678.90 (approximate)
+```
 
 Example:
 
@@ -70,6 +120,29 @@ Indexing JSONB:
 
 ```sql
 CREATE INDEX idx_events_data_gin ON events USING GIN (data);
+```
+
+**JSON vs JSONB Structure:**
+```
+JSON (Text Storage):
+{"user":{"name":"Alice","age":30},"tags":["admin","premium"]}
+
+JSONB (Binary Storage):
+┌─────────────────────────────────────────────────────────────┐
+│ JSONB Document                                             │
+├─────────────────────────────────────────────────────────────┤
+│ user → object: {"name":"Alice","age":30}                   │
+│   ├── name → "Alice"                                        │
+│   └── age → 30                                              │
+│ tags → array: ["admin","premium"]                           │
+│   ├── [0] → "admin"                                         │
+│   └── [1] → "premium"                                       │
+└─────────────────────────────────────────────────────────────┘
+
+Query Performance:
+JSON:  SELECT * FROM events WHERE data::text LIKE '%Alice%'
+JSONB: SELECT * FROM events WHERE data->>'user'->>'name' = 'Alice'
+       (faster with proper indexing)
 ```
 
 ## Arrays & Composite Types (Postgres)

@@ -27,6 +27,23 @@ Handling user preferences as JSON or finding top items per group requires advanc
 - `->>`: As text.
 - `@>`: Contains.
 
+**LATERAL vs Regular Joins:**
+```
+Regular JOIN:
+posts p ──── tags t
+  │           │
+  └── p.id ───┼─ t.post_id
+              │
+           Result
+
+LATERAL JOIN:
+posts p ──── LATERAL subquery
+  │              │
+  └── p.tags ───┼─ jsonb_array_elements(p.tags)
+                 │
+              Result (per-row computation)
+```
+
 ## Worked Examples
 
 ### LATERAL Example
@@ -38,11 +55,46 @@ CROSS JOIN LATERAL (
 ) s;
 ```
 
+**LATERAL Execution Flow:**
+```mermaid
+graph TD
+    A[posts Table] --> B[For each post row]
+    B --> C[Execute LATERAL subquery]
+    C --> D[jsonb_array_elements_text<br/>extracts tags array]
+    D --> E[LIMIT 1<br/>gets first tag]
+    E --> F[Return top_tag<br/>per post]
+    
+    G[Post 1: tags=["sql","db"]] -.-> H[top_tag="sql"]
+    I[Post 2: tags=["web","api"]] -.-> J[top_tag="web"]
+    
+    F --> K[Cross join result]
+    K --> L[Final output with<br/>post + top_tag]
+```
+
 ### JSON Querying
 ```sql
 SELECT data->>'user_id' AS user_id, data->>'type' AS event_type
 FROM events
 WHERE data @> '{"user_id": 123}';
+```
+
+**JSON Operators & Structure:**
+```
+JSON Document: {"user_id": 123, "type": "login", "details": {"ip": "192.168.1.1"}}
+
+Operators:
+├── data->'user_id'     → 123 (JSON)
+├── data->>'user_id'    → "123" (text)
+├── data->'details'     → {"ip": "192.168.1.1"} (JSON)
+├── data->'details'->>'ip' → "192.168.1.1" (text)
+├── data @> '{"user_id": 123}' → true (contains)
+└── data ? 'type'       → true (key exists)
+
+Query Flow:
+1. Parse JSON column
+2. Apply operators
+3. Filter rows
+4. Extract values
 ```
 
 ### Indexing JSON
