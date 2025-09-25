@@ -99,9 +99,17 @@ Advanced Cassandra performance optimization for high-throughput production syste
 **Best For:** Production performance optimization, capacity planning, and bottleneck resolution
 
 #### Graph Databases
-- **Neo4j**: Property graph database
-- **ArangoDB**: Multi-model database
-- **Amazon Neptune**: Managed graph service
+#### [9-neo4j-graph-database.md](9-neo4j-graph-database.md)
+**Type:** Graph Database | **Level:** Intermediate | **Time:** 45 minutes
+
+Complete introduction to Neo4j, the leading graph database using the property graph model. Covers:
+- Property graph model with nodes, relationships, properties, and labels
+- Cypher query language for pattern matching and graph traversals
+- Data modeling patterns for social networks, e-commerce, and knowledge graphs
+- Indexes, constraints, and basic graph algorithms
+- When to choose graph databases over relational or other NoSQL databases
+
+**Best For:** Connected data, relationship-heavy applications, and complex traversals
 
 #### Time Series Databases
 - **InfluxDB**: Time series data storage
