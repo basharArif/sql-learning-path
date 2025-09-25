@@ -74,6 +74,18 @@ Complete guide to Apache Cassandra, the distributed column-family database. Cove
 
 **Best For:** Large-scale distributed systems, time series data, and high-write workloads
 
+#### [7-cassandra-operations.md](7-cassandra-operations.md)
+**Type:** Column-Family Database | **Level:** Intermediate to Advanced | **Time:** 40 minutes
+
+Master Cassandra cluster management and operations for production deployments. Covers:
+- Cluster setup, configuration, and multi-node deployments
+- Nodetool commands for monitoring and maintenance
+- Replication, consistency, and repair operations
+- Failure handling, scaling, and node management
+- Backup, recovery, and troubleshooting techniques
+
+**Best For:** Production Cassandra administration, cluster operations, and maintenance
+
 #### Graph Databases
 - **Neo4j**: Property graph database
 - **ArangoDB**: Multi-model database

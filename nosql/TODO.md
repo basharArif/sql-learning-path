@@ -15,14 +15,14 @@
 
 ### **Week 3-4: Cassandra Module**
 - [x] Create `databases/6-cassandra-column-family.md`
-- [ ] Create `databases/7-cassandra-operations.md`
+- [x] Create `databases/7-cassandra-operations.md`
 - [ ] Create `databases/8-cassandra-performance-tuning.md`
 - [ ] Add Cassandra exercises and examples
 
 ## 📈 **Progress Tracking**
-- **Total Modules:** 8/25 completed (32%)
-- **Database Coverage:** 2/6 major databases (MongoDB, Redis done) + Cassandra started
-- **Time Invested:** ~35 hours
+- **Total Modules:** 9/25 completed (36%)
+- **Database Coverage:** 2/6 major databases (MongoDB, Redis done) + Cassandra (2/3 complete)
+- **Time Invested:** ~40 hours
 - **Next Milestone:** Cassandra module complete (Week 4)
 
 ## 🔗 **Quick Links**
