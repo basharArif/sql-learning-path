@@ -38,12 +38,18 @@ A comprehensive, visual SQL learning platform with interactive diagrams and prac
 - [Partitioning and Sharding](ops/2-partitioning-and-sharding.md)
 - [Monitoring and Observability](ops/3-monitoring-and-observability.md)
 
+### Non-Relational Databases (Future Scope)
+- [CAP Theorem and Trade-offs](nosql/1-cap-theorem-and-tradeoffs.md)
+- [MongoDB: Document Database](nosql/2-mongodb-document-database.md)
+- *More NoSQL databases coming soon...*
+
 ## 🎯 Features
 
 - **Visual Learning**: 25+ interactive Mermaid diagrams
 - **Progressive Difficulty**: From basics to expert-level topics
 - **Practical Focus**: Real-world scenarios and examples
 - **Comprehensive Coverage**: Fundamentals through advanced operations
+- **Future Expansion**: Non-relational databases (NoSQL) learning path
 - **GitHub Native**: All diagrams render directly on GitHub
 
 ## 🚀 Getting Started
