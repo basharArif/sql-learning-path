@@ -21,14 +21,14 @@ Window functions are distinguished by the `OVER()` clause. This clause determine
 **Visual Structure of Window Functions:**
 ```mermaid
 graph TD
-    A[Window Func] --> B[OVER()]
-    B --> C[PARTITION BY\ncolumn1, column2]
-    B --> D[ORDER BY\ncolumn3]
-    B --> E[Frame Specification\nROWS/RANGE BETWEEN...]
+    A[Window Function] --> B[OVER Clause]
+    B --> C[PARTITION BY\nGroups rows]
+    B --> D[ORDER BY\nSorts within groups]
+    B --> E[Frame\nROWS/RANGE]
     
-    C --> F[Divides data into groups]
-    D --> G[Orders rows within groups]
-    E --> H[Defines window boundaries]
+    C --> F[Independent calculation\nper group]
+    D --> G[Required for ranking\nand offset functions]
+    E --> H[Defines window size]
 ```
 
 ## Worked Examples
