@@ -22,52 +22,37 @@ This folder contains real-world applications, case studies, and hands-on project
 - **Gaming**: Player profiles, leaderboards, real-time multiplayer
 - **Logistics**: Route optimization, inventory tracking, supply chain
 
-### Development Workflows
-- **API Design**: RESTful and GraphQL APIs with NoSQL backends
-- **Testing Strategies**: Unit tests, integration tests, performance testing
-- **CI/CD Pipelines**: Automated deployment and testing
-- **Monitoring Solutions**: Application and infrastructure monitoring
-
 ## 🎯 Learning Approach
 
-### Project-Based Learning
+### Database-Centric Applications
 Each module includes:
 - **Problem Statement**: Real business requirements
 - **Architecture Design**: Database selection and schema design
-- **Implementation**: Step-by-step coding tutorials
+- **Query Implementation**: Database-specific operations and queries
 - **Performance Optimization**: Scaling and tuning
 - **Production Deployment**: Best practices for live systems
-
-### Technology Stack Examples
-- **MERN Stack**: MongoDB, Express, React, Node.js
-- **MEAN Stack**: MongoDB, Express, Angular, Node.js
-- **Spring Boot + MongoDB**: Java microservices
-- **FastAPI + Redis**: Python high-performance APIs
-- **Cassandra + Spark**: Big data analytics
 
 ## 📖 Prerequisites
 
 - Completion of [fundamentals](../fundamentals/) and [theory](../theory/) modules
 - Hands-on experience with multiple [databases](../databases/)
-- Basic programming skills in at least one language
-- Understanding of web development concepts
 
-## 🚀 Hands-On Projects
+## 🚀 Database Design Projects
 
 ### Beginner Projects
-- **Personal Blog**: MongoDB for content, Redis for caching
-- **URL Shortener**: Key-value store with analytics
-- **Task Manager**: Document database with real-time updates
+- **Content Management Schema**: Document database design patterns
+- **User Profile System**: Key-value store data modeling
+- **Product Catalog**: Column-family database schema design
 
 ### Intermediate Projects
-- **E-commerce API**: Product catalog with search and recommendations
-- **Social Feed**: Timeline generation with Cassandra
-- **Analytics Dashboard**: Time series data visualization
+- **Social Network Data Model**: Graph database relationships and queries
+- **Time Series Analytics**: Specialized database for temporal data
+- **Distributed Data Architecture**: Multi-database system design
 
 ### Advanced Projects
-- **Multi-tenant SaaS**: Complex data isolation and scaling
-- **Real-time Collaboration**: Operational transforms with multiple databases
-- **IoT Monitoring System**: Distributed data collection and processing
+- **High-Volume Data Pipeline**: Big data storage and processing
+- **Global Data Distribution**: Worldwide data replication strategies
+- **Real-Time Data Processing**: Stream processing architectures
 
 ## 💡 Practical Skills Developed
 
@@ -83,21 +68,16 @@ The [advanced topics](../advanced/) provide the deep technical knowledge needed 
 
 ## 🛠️ Tools & Technologies
 
-### Development Tools
-- **Docker**: Containerized development environments
-- **Postman/Insomnia**: API testing and development
-- **MongoDB Compass**: GUI for MongoDB development
-- **Redis Commander**: Redis management interface
+### Database Tools
+- **Docker**: Containerized database environments
+- **Database GUIs**: MongoDB Compass, Redis Commander, Cassandra drivers
+- **Command Line Tools**: Database-specific CLI tools
+- **Import/Export Utilities**: Data migration and backup tools
 
-### Monitoring & Observability
-- **Prometheus + Grafana**: Metrics and visualization
-- **ELK Stack**: Log aggregation and analysis
-- **APM Tools**: Application performance monitoring
-
-### Cloud Platforms
-- **AWS**: DocumentDB, DynamoDB, ElastiCache, Neptune
-- **Google Cloud**: Firestore, Bigtable, Spanner
-- **Azure**: Cosmos DB, Cache for Redis
+### Database Platforms
+- **Self-hosted**: Local development and testing
+- **Cloud-managed**: AWS, Google Cloud, Azure database services
+- **Hybrid**: On-premises with cloud integration
 
 ---
 

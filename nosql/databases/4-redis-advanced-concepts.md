@@ -49,33 +49,33 @@ PUNSUBSCRIBE user:*
 - **Event-driven architectures**: Microservice communication
 - **Live dashboards**: Real-time data updates
 
-### **Pub/Sub Best Practices**
-```python
-import redis
-import threading
+### **Pub/Sub with Redis CLI**
+```bash
+# Terminal 1: Subscribe to channel
+127.0.0.1:6379> SUBSCRIBE user:123:notifications
+Reading messages... (press Ctrl-C to quit)
+1) "subscribe"
+2) "user:123:notifications"
+3) (integer) 1
 
-class NotificationService:
-    def __init__(self):
-        self.redis = redis.Redis()
+# Terminal 2: Publish message
+127.0.0.1:6379> PUBLISH user:123:notifications "You have a new message!"
+(integer) 1
 
-    def publish_notification(self, user_id, message):
-        """Publish notification to specific user"""
-        channel = f"user:{user_id}:notifications"
-        self.redis.publish(channel, message)
+# Terminal 1 will receive:
+1) "message"
+2) "user:123:notifications"
+3) "You have a new message!"
 
-    def subscribe_to_notifications(self, user_id, callback):
-        """Subscribe to user notifications"""
-        pubsub = self.redis.pubsub()
-        pubsub.subscribe(f"user:{user_id}:notifications")
+# Pattern subscription
+127.0.0.1:6379> PSUBSCRIBE user:*:notifications
+1) "psubscribe"
+2) "user:*:notifications"
+3) (integer) 1
 
-        def listener():
-            for message in pubsub.listen():
-                if message['type'] == 'message':
-                    callback(message['data'].decode('utf-8'))
-
-        thread = threading.Thread(target=listener, daemon=True)
-        thread.start()
-        return pubsub
+# Publish to pattern-matched channels
+127.0.0.1:6379> PUBLISH user:456:notifications "Alert for user 456"
+(integer) 1
 ```
 
 ## 🏗️ **Redis Cluster Architecture**
@@ -204,32 +204,53 @@ CONFIG SET maxmemory-policy allkeys-lru
 INFO keyspace
 ```
 
-### **Connection Pooling**
-```python
-import redis
-from redis.connection import ConnectionPool
+### **Connection Pooling with Redis CLI**
+```bash
+# Redis CLI handles connection pooling automatically
+# Multiple clients can connect simultaneously
+127.0.0.1:6379> CLIENT LIST
+# Shows all connected clients
 
-# Create connection pool
-pool = ConnectionPool(host='localhost', port=6379, db=0, max_connections=20)
-redis_client = redis.Redis(connection_pool=pool)
+# Set connection timeout
+127.0.0.1:6379> CONFIG SET timeout 300
+OK
 
-# Reuse connections efficiently
-def get_user_data(user_id):
-    with redis_client.pipeline() as pipe:
-        pipe.get(f"user:{user_id}")
-        pipe.get(f"user:{user_id}:profile")
-        return pipe.execute()
+# Monitor connection stats
+127.0.0.1:6379> INFO clients
+# connected_clients:5
+# client_recent_max_input_buffer:0
+# client_recent_max_output_buffer:0
 ```
 
-### **Pipeline Operations**
-```python
-# Batch multiple commands
-def update_user_stats(user_id, stats):
-    with redis.pipeline() as pipe:
-        pipe.hset(f"user:{user_id}:stats", mapping=stats)
-        pipe.expire(f"user:{user_id}:stats", 86400)  # 24 hours
-        pipe.publish(f"user:{user_id}:updates", "stats_updated")
-        pipe.execute()
+### **Pipeline Operations with Redis CLI**
+```bash
+# Start pipeline mode
+127.0.0.1:6379> MULTI
+OK
+
+# Queue multiple commands
+127.0.0.1:6379> HSET user:123:stats login_count 5
+QUEUED
+127.0.0.1:6379> HSET user:123:stats last_login "2024-01-15"
+QUEUED
+127.0.0.1:6379> EXPIRE user:123:stats 86400
+QUEUED
+127.0.0.1:6379> PUBLISH user:123:updates "stats_updated"
+QUEUED
+
+# Execute all commands atomically
+127.0.0.1:6379> EXEC
+1) (integer) 0
+2) (integer) 0
+3) (integer) 1
+4) (integer) 0
+
+# Check results
+127.0.0.1:6379> HGETALL user:123:stats
+1) "login_count"
+2) "5"
+3) "last_login"
+4) "2024-01-15"
 ```
 
 ## 🔐 **Security & Access Control**
@@ -304,64 +325,72 @@ redis-cli INFO clients | grep connected_clients
 
 ## 🏃‍♂️ **Advanced Caching Patterns**
 
-### **Cache-Aside Pattern**
-```python
-class CacheManager:
-    def __init__(self):
-        self.redis = redis.Redis()
-        self.db = DatabaseConnection()
+### **Cache-Aside Pattern with Redis CLI**
+```bash
+# Check cache first
+127.0.0.1:6379> GET user:profile:123
+(nil)
 
-    def get_data(self, key, ttl=3600):
-        # Try cache first
-        cached = self.redis.get(key)
-        if cached:
-            return json.loads(cached)
+# Cache miss - would fetch from database
+# Store in cache with TTL
+127.0.0.1:6379> SET user:profile:123 "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}" EX 3600
+OK
 
-        # Cache miss - fetch from DB
-        data = self.db.fetch(key)
-        if data:
-            self.redis.setex(key, ttl, json.dumps(data))
-        return data
+# Next request hits cache
+127.0.0.1:6379> GET user:profile:123
+"{\"name\":\"Alice\",\"email\":\"alice@example.com\"}"
 
-    def invalidate_cache(self, key):
-        self.redis.delete(key)
+# Invalidate cache when data changes
+127.0.0.1:6379> DEL user:profile:123
+(integer) 1
+
+# Cache warm-up after invalidation
+127.0.0.1:6379> SET user:profile:123 "{\"name\":\"Alice\",\"email\":\"alice@example.com\",\"updated\":true}" EX 3600
+OK
 ```
 
-### **Write-Through Cache**
-```python
-def update_user(self, user_id, data):
-    # Update database first
-    self.db.update_user(user_id, data)
+### **Write-Through Cache with Redis CLI**
+```bash
+# Update database first (simulated)
+# Then update cache immediately
+127.0.0.1:6379> SET user:123 "{\"name\":\"Alice\",\"email\":\"alice_updated@example.com\"}" EX 3600
+OK
 
-    # Then update cache
-    cache_key = f"user:{user_id}"
-    self.redis.setex(cache_key, 3600, json.dumps(data))
+# Publish update event
+127.0.0.1:6379> PUBLISH user:123:updates "profile_updated"
+(integer) 0
 
-    # Publish update event
-    self.redis.publish(f"user:{user_id}:updates", "profile_updated")
+# Verify cache is updated
+127.0.0.1:6379> GET user:123
+"{\"name\":\"Alice\",\"email\":\"alice_updated@example.com\"}"
 ```
 
-### **Cache Invalidation Strategies**
-```python
-class SmartCache:
-    def __init__(self):
-        self.redis = redis.Redis()
+### **Cache Invalidation Strategies with Redis CLI**
+```bash
+# Set cache with tags (using sets to track related keys)
+127.0.0.1:6379> SET user:profile:123 "profile_data" EX 3600
+OK
+127.0.0.1:6379> SADD tag:user_profiles user:profile:123
+(integer) 1
+127.0.0.1:6379> EXPIRE tag:user_profiles 3600
+(integer) 1
 
-    def set_with_tags(self, key, value, tags, ttl=3600):
-        """Set cache with tags for selective invalidation"""
-        self.redis.setex(key, ttl, json.dumps(value))
+# Add more keys to the same tag
+127.0.0.1:6379> SET user:profile:456 "profile_data_2" EX 3600
+OK
+127.0.0.1:6379> SADD tag:user_profiles user:profile:456
+(integer) 1
 
-        # Store key in tag sets
-        for tag in tags:
-            self.redis.sadd(f"tag:{tag}", key)
-            self.redis.expire(f"tag:{tag}", ttl)
+# Invalidate by tag (delete all keys with this tag)
+127.0.0.1:6379> SMEMBERS tag:user_profiles
+1) "user:profile:123"
+2) "user:profile:456"
+127.0.0.1:6379> DEL user:profile:123 user:profile:456 tag:user_profiles
+(integer) 3
 
-    def invalidate_by_tag(self, tag):
-        """Invalidate all keys with a specific tag"""
-        keys = self.redis.smembers(f"tag:{tag}")
-        if keys:
-            self.redis.delete(*keys)
-        self.redis.delete(f"tag:{tag}")
+# Verify invalidation
+127.0.0.1:6379> EXISTS user:profile:123
+(integer) 0
 ```
 
 ## 🧪 **Exercises**

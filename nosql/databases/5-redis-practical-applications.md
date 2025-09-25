@@ -27,62 +27,62 @@ graph LR
     style C fill:#e1f5fe
 ```
 
-### **Session Store Implementation**
-```python
-import redis
-import json
-import uuid
-from datetime import datetime, timedelta
+### **Redis CLI Session Management**
+```bash
+# Start Redis server
+redis-server
 
-class RedisSessionStore:
-    def __init__(self, redis_client, ttl_minutes=30):
-        self.redis = redis_client
-        self.ttl = ttl_minutes * 60  # Convert to seconds
+# In another terminal, connect to Redis
+redis-cli
 
-    def create_session(self, user_data):
-        """Create new session for user"""
-        session_id = str(uuid.uuid4())
-        session_key = f"session:{session_id}"
+# Create a session with user data
+127.0.0.1:6379> SET session:user123:userid "123"
+OK
+127.0.0.1:6379> SET session:user123:username "alice"
+OK
+127.0.0.1:6379> SET session:user123:created_at "2024-01-15T10:30:00Z"
+OK
+127.0.0.1:6379> SET session:user123:last_access "2024-01-15T10:30:00Z"
+OK
 
-        session_data = {
-            'user_id': user_data['id'],
-            'username': user_data['username'],
-            'created_at': datetime.now().isoformat(),
-            'last_access': datetime.now().isoformat()
-        }
+# Set expiration for session (30 minutes = 1800 seconds)
+127.0.0.1:6379> EXPIRE session:user123:userid 1800
+(integer) 1
+127.0.0.1:6379> EXPIRE session:user123:username 1800
+(integer) 1
+127.0.0.1:6379> EXPIRE session:user123:created_at 1800
+(integer) 1
+127.0.0.1:6379> EXPIRE session:user123:last_access 1800
+(integer) 1
 
-        self.redis.setex(session_key, self.ttl, json.dumps(session_data))
-        return session_id
+# Retrieve session data
+127.0.0.1:6379> MGET session:user123:userid session:user123:username session:user123:last_access
+1) "123"
+2) "alice"
+3) "2024-01-15T10:30:00Z"
 
-    def get_session(self, session_id):
-        """Retrieve session data"""
-        session_key = f"session:{session_id}"
-        session_data = self.redis.get(session_key)
+# Update last access time
+127.0.0.1:6379> SET session:user123:last_access "2024-01-15T10:45:00Z"
+OK
 
-        if session_data:
-            # Update last access time
-            data = json.loads(session_data)
-            data['last_access'] = datetime.now().isoformat()
-            self.redis.setex(session_key, self.ttl, json.dumps(data))
-            return data
+# Extend session by 15 minutes
+127.0.0.1:6379> EXPIRE session:user123:userid 2700
+(integer) 1
+127.0.0.1:6379> EXPIRE session:user123:username 2700
+(integer) 1
 
-        return None
+# Check if session exists
+127.0.0.1:6379> EXISTS session:user123:userid
+(integer) 1
 
-    def destroy_session(self, session_id):
-        """Remove session"""
-        session_key = f"session:{session_id}"
-        self.redis.delete(session_key)
+# Destroy session (logout)
+127.0.0.1:6379> DEL session:user123:userid session:user123:username session:user123:created_at session:user123:last_access
+(integer) 4
 
-    def extend_session(self, session_id, additional_minutes=15):
-        """Extend session TTL"""
-        session_key = f"session:{session_id}"
-        if self.redis.exists(session_key):
-            self.redis.expire(session_key, additional_minutes * 60)
-            return True
-        return False
+# Verify session is destroyed
+127.0.0.1:6379> EXISTS session:user123:userid
+(integer) 0
 ```
-
-### **Redis CLI Integration**
 ```bash
 # Start Redis server
 redis-server
@@ -132,59 +132,6 @@ graph TD
     style F fill:#e1f5fe
 ```
 
-### **Sliding Window Rate Limiter**
-```python
-import time
-import redis
-
-class RateLimiter:
-    def __init__(self, redis_client, max_requests=100, window_seconds=60):
-        self.redis = redis_client
-        self.max_requests = max_requests
-        self.window = window_seconds
-
-    def is_allowed(self, user_id, action="api_call"):
-        """Check if request is within rate limit"""
-        key = f"rate_limit:{user_id}:{action}"
-        now = time.time()
-
-        # Remove old requests outside the window
-        self.redis.zremrangebyscore(key, 0, now - self.window)
-
-        # Count current requests in window
-        current_count = self.redis.zcard(key)
-
-        if current_count >= self.max_requests:
-            return False
-
-        # Add current request
-        self.redis.zadd(key, {now: now})
-        self.redis.expire(key, self.window)
-
-        return True
-
-    def get_remaining_requests(self, user_id, action="api_call"):
-        """Get remaining requests in current window"""
-        key = f"rate_limit:{user_id}:{action}"
-        now = time.time()
-
-        # Clean old entries
-        self.redis.zremrangebyscore(key, 0, now - self.window)
-
-        current_count = self.redis.zcard(key)
-        return max(0, self.max_requests - current_count)
-
-    def get_reset_time(self, user_id, action="api_call"):
-        """Get time when rate limit resets"""
-        key = f"rate_limit:{user_id}:{action}"
-        oldest_request = self.redis.zrange(key, 0, 0, withscores=True)
-
-        if oldest_request:
-            return oldest_request[0][1] + self.window
-
-        return time.time() + self.window
-```
-
 ### **Rate Limiting with Redis CLI**
 ```bash
 # Simulate API rate limiting
@@ -232,114 +179,55 @@ graph LR
     style C fill:#fff3e0
 ```
 
-### **Simple Job Queue with Lists**
-```python
-class JobQueue:
-    def __init__(self, redis_client, queue_name="jobs"):
-        self.redis = redis_client
-        self.queue_name = queue_name
-        self.processing_queue = f"{queue_name}:processing"
+### **Job Queue with Redis CLI**
+```bash
+# Add jobs to queue (using Redis lists)
+127.0.0.1:6379> LPUSH jobs '{"id":"job1","type":"email","email":"user@example.com","subject":"Welcome","priority":0}'
+(integer) 1
+127.0.0.1:6379> LPUSH jobs '{"id":"job2","type":"email","email":"admin@example.com","subject":"Alert","priority":1}'
+(integer) 2
 
-    def enqueue_job(self, job_data, priority=0):
-        """Add job to queue"""
-        job_id = str(uuid.uuid4())
-        job = {
-            'id': job_id,
-            'data': job_data,
-            'created_at': datetime.now().isoformat(),
-            'priority': priority
-        }
+# Add high priority jobs to sorted set
+127.0.0.1:6379> ZADD jobs:priority 1 '{"id":"job2","type":"email","email":"admin@example.com","subject":"Alert"}'
+(integer) 1
 
-        if priority > 0:
-            # Use sorted set for priority
-            self.redis.zadd(f"{self.queue_name}:priority",
-                          {json.dumps(job): priority})
-        else:
-            self.redis.lpush(self.queue_name, json.dumps(job))
+# Process jobs (worker picks from priority queue first)
+127.0.0.1:6379> ZREVRANGE jobs:priority 0 0
+1) "{\"id\":\"job2\",\"type\":\"email\",\"email\":\"admin@example.com\",\"subject\":\"Alert\"}"
 
-        return job_id
+# Remove from priority queue and mark as processing
+127.0.0.1:6379> ZREMRANGEBYRANK jobs:priority -1 -1
+(integer) 1
+127.0.0.1:6379> SET job:job2:status processing EX 3600
+OK
 
-    def dequeue_job(self, timeout=30):
-        """Get next job from queue"""
-        # Try priority queue first
-        priority_jobs = self.redis.zrevrange(
-            f"{self.queue_name}:priority", 0, 0
-        )
+# Mark job as completed
+127.0.0.1:6379> SET job:job2:result '{"status":"sent","timestamp":"2024-01-15T11:00:00Z"}' EX 86400
+OK
+127.0.0.1:6379> SET job:job2:status completed EX 3600
+OK
 
-        if priority_jobs:
-            job_data = self.redis.zremrangebyrank(
-                f"{self.queue_name}:priority", -1, -1
-            )[0]
-            job = json.loads(job_data)
-            self.redis.setex(f"job:{job['id']}:status", 3600, "processing")
-            return job
+# Process regular jobs from list
+127.0.0.1:6379> BRPOPLPUSH jobs jobs:processing 30
+"{\"id\":\"job1\",\"type\":\"email\",\"email\":\"user@example.com\",\"subject\":\"Welcome\",\"priority\":0}"
+127.0.0.1:6379> SET job:job1:status processing EX 3600
+OK
 
-        # Fall back to regular queue
-        job_data = self.redis.brpoplpush(
-            self.queue_name, self.processing_queue, timeout
-        )
+# Check processing queue
+127.0.0.1:6379> LRANGE jobs:processing 0 -1
+1) "{\"id\":\"job1\",\"type\":\"email\",\"email\":\"user@example.com\",\"subject\":\"Welcome\",\"priority\":0}"
 
-        if job_data:
-            job = json.loads(job_data)
-            self.redis.setex(f"job:{job['id']}:status", 3600, "processing")
-            return job
+# Complete job and remove from processing queue
+127.0.0.1:6379> LREM jobs:processing 0 "{\"id\":\"job1\",\"type\":\"email\",\"email\":\"user@example.com\",\"subject\":\"Welcome\",\"priority\":0}"
+(integer) 1
+127.0.0.1:6379> SET job:job1:status completed EX 3600
+OK
 
-        return None
-
-    def complete_job(self, job_id, result=None):
-        """Mark job as completed"""
-        self.redis.lrem(self.processing_queue, 0, f'{{"id":"{job_id}"')
-        self.redis.setex(f"job:{job_id}:result", 86400, json.dumps(result))
-        self.redis.setex(f"job:{job_id}:status", 3600, "completed")
-```
-
-### **Worker Process**
-```python
-import signal
-import sys
-
-class JobWorker:
-    def __init__(self, queue):
-        self.queue = queue
-        self.running = True
-
-        signal.signal(signal.SIGTERM, self.stop)
-        signal.signal(signal.SIGINT, self.stop)
-
-    def stop(self, signum, frame):
-        print("Shutting down worker...")
-        self.running = False
-
-    def process_email_job(self, job_data):
-        """Example job processor"""
-        # Simulate email sending
-        time.sleep(2)
-        print(f"Sent email to {job_data['email']} with subject {job_data['subject']}")
-        return {'status': 'sent', 'timestamp': datetime.now().isoformat()}
-
-    def run(self):
-        print("Worker started, waiting for jobs...")
-
-        while self.running:
-            job = self.queue.dequeue_job(timeout=5)
-
-            if job:
-                try:
-                    if job['data']['type'] == 'email':
-                        result = self.process_email_job(job['data'])
-                        self.queue.complete_job(job['id'], result)
-                        print(f"Completed job {job['id']}")
-                except Exception as e:
-                    print(f"Job {job['id']} failed: {e}")
-                    # Could implement retry logic here
-            else:
-                print("No jobs available, waiting...")
-
-if __name__ == "__main__":
-    redis_client = redis.Redis()
-    queue = JobQueue(redis_client, "email_jobs")
-    worker = JobWorker(queue)
-    worker.run()
+# Check job status
+127.0.0.1:6379> GET job:job1:status
+"completed"
+127.0.0.1:6379> GET job:job2:status
+"completed"
 ```
 
 ## 📊 **Real-Time Analytics**
@@ -358,173 +246,116 @@ graph TD
     style D fill:#fff3e0
 ```
 
-### **Analytics Tracker**
-```python
-class AnalyticsTracker:
-    def __init__(self, redis_client):
-        self.redis = redis_client
+## 🏪 **E-commerce Integration**
+### **Real-Time Analytics with Redis CLI**
+```bash
+# Track page views
+127.0.0.1:6379> INCR page:home:views
+(integer) 1
+127.0.0.1:6379> INCR total:page_views
+(integer) 1
 
-    def track_page_view(self, user_id, page, referrer=None):
-        """Track page views with metadata"""
-        timestamp = int(time.time())
+# Add to unique visitors (HyperLogLog)
+127.0.0.1:6379> PFADD page:home:unique_visitors user123
+(integer) 1
+127.0.0.1:6379> PFADD page:home:unique_visitors user456
+(integer) 1
 
-        # Increment global counters
-        self.redis.incr(f"page:{page}:views")
-        self.redis.incr("total:page_views")
+# Get unique visitor count
+127.0.0.1:6379> PFCOUNT page:home:unique_visitors
+(integer) 2
 
-        # Track unique visitors (hyperloglog)
-        self.redis.pfadd(f"page:{page}:unique_visitors", user_id)
+# Track user journey (list)
+127.0.0.1:6379> LPUSH user:123:journey "checkout<-cart<-home@1705315800"
+(integer) 1
 
-        # Add to time series
-        self.redis.zadd(f"page:{page}:timeline",
-                       {f"{user_id}:{timestamp}": timestamp})
+# Publish analytics event
+127.0.0.1:6379> PUBLISH analytics:events "{\"type\":\"page_view\",\"user_id\":\"123\",\"page\":\"home\",\"timestamp\":1705315800}"
+(integer) 0
 
-        # Track user journey
-        if referrer:
-            self.redis.lpush(f"user:{user_id}:journey",
-                           f"{page}<-{referrer}@{timestamp}")
+# Track conversions
+127.0.0.1:6379> INCR conversion:purchase
+(integer) 1
+127.0.0.1:6379> INCR total:conversions
+(integer) 1
 
-        # Publish real-time event
-        event = {
-            'type': 'page_view',
-            'user_id': user_id,
-            'page': page,
-            'timestamp': timestamp
-        }
-        self.redis.publish('analytics:events', json.dumps(event))
+# Add revenue
+127.0.0.1:6379> INCRBYFLOAT revenue:purchase 99.99
+"99.99"
+127.0.0.1:6379> INCRBYFLOAT total:revenue 99.99
+"99.99"
 
-    def track_conversion(self, user_id, conversion_type, value=0):
-        """Track conversions and revenue"""
-        self.redis.incr(f"conversion:{conversion_type}")
-        self.redis.incr("total:conversions")
+# Get real-time stats
+127.0.0.1:6379> MGET total:page_views total:conversions total:revenue
+1) "1"
+2) "1"
+3) "99.99"
 
-        if value > 0:
-            self.redis.incrbyfloat(f"revenue:{conversion_type}", value)
-            self.redis.incrbyfloat("total:revenue", value)
-
-        # Add to user conversion history
-        self.redis.sadd(f"user:{user_id}:conversions", conversion_type)
-
-    def get_realtime_stats(self):
-        """Get current statistics"""
-        stats = {}
-
-        # Page views
-        stats['total_views'] = self.redis.get('total:page_views') or 0
-        stats['total_conversions'] = self.redis.get('total:conversions') or 0
-        stats['total_revenue'] = self.redis.get('total:revenue') or 0
-
-        # Top pages
-        top_pages = self.redis.zrevrangebyscore(
-            'page:views:ranking', '+inf', '-inf', 0, 10, withscores=True
-        )
-        stats['top_pages'] = [{'page': p.decode(), 'views': int(s)}
-                            for p, s in top_pages]
-
-        return stats
-```
-
-### **Real-Time Dashboard**
-```javascript
-const express = require('express');
-const app = express();
-const redis = require('redis');
-const redisClient = redis.createClient();
-
-// Subscribe to analytics events
-const subscriber = redis.createClient();
-subscriber.subscribe('analytics:events');
-
-subscriber.on('message', (channel, message) => {
-  const event = JSON.parse(message);
-  // Broadcast to connected WebSocket clients
-  io.emit('analytics_event', event);
-});
-
-// Analytics API
-app.get('/api/analytics/stats', async (req, res) => {
-  const tracker = new AnalyticsTracker(redisClient);
-  const stats = await tracker.getRealtimeStats();
-  res.json(stats);
-});
-
-app.get('/api/analytics/page/:page', async (req, res) => {
-  const page = req.params.page;
-  const views = await redisClient.get(`page:${page}:views`) || 0;
-  const uniqueVisitors = await redisClient.pfcount(`page:${page}:unique_visitors`);
-
-  res.json({
-    page,
-    views: parseInt(views),
-    uniqueVisitors
-  });
-});
+# Get page-specific stats
+127.0.0.1:6379> GET page:home:views
+"1"
+127.0.0.1:6379> PFCOUNT page:home:unique_visitors
+(integer) 2
 ```
 
 ## 🏪 **E-commerce Integration**
 
 Complete e-commerce caching and session management with Redis.
 
-```python
-class EcommerceRedis:
-    def __init__(self, redis_client):
-        self.redis = redis_client
-        self.session_store = RedisSessionStore(redis_client)
-        self.rate_limiter = RateLimiter(redis_client, 1000, 3600)  # 1000/hour
+### **E-commerce with Redis CLI**
+```bash
+# Set up product inventory
+127.0.0.1:6379> HMSET product:123 name "Wireless Headphones" price "99.99" stock "50"
+OK
+127.0.0.1:6379> HMSET product:456 name "Bluetooth Speaker" price "49.99" stock "25"
+OK
 
-    def add_to_cart(self, session_id, product_id, quantity=1):
-        """Add item to shopping cart"""
-        cart_key = f"cart:{session_id}"
+# Add items to shopping cart (using hashes)
+127.0.0.1:6379> HINCRBY cart:session123 123 2
+(integer) 2
+127.0.0.1:6379> HINCRBY cart:session123 456 1
+(integer) 1
 
-        # Check product availability (simplified)
-        available = self.redis.get(f"product:{product_id}:stock")
-        if not available or int(available) < quantity:
-            raise ValueError("Insufficient stock")
+# Set cart expiration (24 hours)
+127.0.0.1:6379> EXPIRE cart:session123 86400
+(integer) 1
 
-        # Add to cart hash
-        self.redis.hincrby(cart_key, product_id, quantity)
-        self.redis.expire(cart_key, 86400)  # 24 hours
+# Check product availability before adding more
+127.0.0.1:6379> HGET product:123 stock
+"50"
+127.0.0.1:6379> HGETALL cart:session123
+1) "123"
+2) "2"
+3) "456"
+4) "1"
 
-        # Update cart total
-        self._update_cart_total(session_id)
+# Calculate cart total
+127.0.0.1:6379> HGET product:123 price
+"99.99"
+127.0.0.1:6379> HGET product:456 price
+"49.99"
+# Total = (2 * 99.99) + (1 * 49.99) = 249.97
+127.0.0.1:6379> SET cart:session123:total 249.97
+OK
 
-    def get_cart(self, session_id):
-        """Get cart contents with product details"""
-        cart_key = f"cart:{session_id}"
-        cart_items = self.redis.hgetall(cart_key)
+# Get cart contents
+127.0.0.1:6379> HGETALL cart:session123
+1) "123"
+2) "2"
+3) "456"
+4) "1"
+127.0.0.1:6379> GET cart:session123:total
+"249.97"
 
-        if not cart_items:
-            return {'items': [], 'total': 0}
+# Update inventory after purchase
+127.0.0.1:6379> HINCRBY product:123 stock -2
+(integer) 48
+127.0.0.1:6379> HINCRBY product:456 stock -1
+(integer) 24
 
-        cart = {'items': [], 'total': 0}
-
-        for product_id, quantity in cart_items.items():
-            product_key = f"product:{product_id}"
-            product_data = self.redis.hgetall(product_key)
-
-            if product_data:
-                cart['items'].append({
-                    'id': product_id.decode(),
-                    'name': product_data[b'name'].decode(),
-                    'price': float(product_data[b'price'].decode()),
-                    'quantity': int(quantity)
-                })
-
-        cart['total'] = float(self.redis.get(f"cart:{session_id}:total") or 0)
-        return cart
-
-    def _update_cart_total(self, session_id):
-        """Recalculate cart total"""
-        cart_key = f"cart:{session_id}"
-        cart_items = self.redis.hgetall(cart_key)
-        total = 0
-
-        for product_id, quantity in cart_items.items():
-            price = self.redis.hget(f"product:{product_id}", "price")
-            if price:
-                total += float(price) * int(quantity)
-
-        self.redis.set(f"cart:{session_id}:total", total)
+# Clear cart after checkout
+127.0.0.1:6379> DEL cart:session123 cart:session123:total
+(integer) 2
 ```
 
 ## 🧪 **Exercises**

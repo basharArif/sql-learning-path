@@ -247,39 +247,45 @@ rename-command FLUSHALL ""
 
 ## 💡 **Common Patterns**
 
-### **Cache-Aside Pattern**
-```python
-import redis
-import json
+### **Cache-Aside Pattern with Redis CLI**
+```bash
+# Check cache first
+127.0.0.1:6379> GET user:123
+(nil)
 
-class UserCache:
-    def __init__(self):
-        self.redis = redis.Redis(host='localhost', port=6379, db=0)
+# Cache miss - would fetch from database here
+# Simulate storing user data in cache for 1 hour
+127.0.0.1:6379> SET user:123 "{\"name\":\"Alice\",\"email\":\"alice@example.com\",\"age\":30}" EX 3600
+OK
 
-    def get_user(self, user_id):
-        # Try cache first
-        cached_user = self.redis.get(f"user:{user_id}")
-        if cached_user:
-            return json.loads(cached_user)
+# Next request hits cache
+127.0.0.1:6379> GET user:123
+"{\"name\":\"Alice\",\"email\":\"alice@example.com\",\"age\":30}"
 
-        # Cache miss - fetch from database
-        user = self._fetch_from_db(user_id)
-        if user:
-            # Cache for 1 hour
-            self.redis.setex(f"user:{user_id}", 3600, json.dumps(user))
-        return user
+# Cache expiration
+127.0.0.1:6379> TTL user:123
+(integer) 3595
 ```
 
-### **Rate Limiting**
-```python
-def is_rate_limited(user_id, limit=10, window=60):
-    key = f"rate_limit:{user_id}"
-    current = redis.incr(key)
+### **Rate Limiting with Redis CLI**
+```bash
+# Check rate limit for user
+127.0.0.1:6379> INCR rate_limit:user123
+(integer) 1
+127.0.0.1:6379> EXPIRE rate_limit:user123 60
+(integer) 1
 
-    if current == 1:
-        redis.expire(key, window)
+# Check current count
+127.0.0.1:6379> GET rate_limit:user123
+"1"
 
-    return current > limit
+# Another request
+127.0.0.1:6379> INCR rate_limit:user123
+(integer) 2
+
+# If count exceeds limit (e.g., 10), block request
+127.0.0.1:6379> GET rate_limit:user123
+"2"
 ```
 
 ## 🧪 **Exercises**

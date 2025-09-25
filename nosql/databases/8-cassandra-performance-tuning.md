@@ -342,19 +342,26 @@ internode_recv_buff_size_in_bytes: 4194304
 internode_send_buff_size_in_bytes: 4194304
 ```
 
-### **Client Connection Pooling**
-```java
-// Java driver configuration
-Cluster cluster = Cluster.builder()
-  .addContactPoint("127.0.0.1")
-  .withPoolingOptions(new PoolingOptions()
-    .setCoreConnectionsPerHost(HostDistance.LOCAL, 2)
-    .setMaxConnectionsPerHost(HostDistance.LOCAL, 8)
-    .setCoreConnectionsPerHost(HostDistance.REMOTE, 1)
-    .setMaxConnectionsPerHost(HostDistance.REMOTE, 2)
-    .setMaxRequestsPerConnection(HostDistance.LOCAL, 1024)
-    .setMaxRequestsPerConnection(HostDistance.REMOTE, 256))
-  .build();
+### **Client Connection Pooling Configuration**
+```yaml
+# cassandra.yaml - Connection pooling settings
+native_transport_max_threads: 128
+native_transport_max_frame_size_in_mb: 256
+native_transport_max_concurrent_connections: -1
+native_transport_max_concurrent_connections_per_ip: -1
+
+# Connection timeout settings
+read_request_timeout_in_ms: 5000
+write_request_timeout_in_ms: 2000
+request_timeout_in_ms: 10000
+
+# Pooling options (for drivers)
+pooling:
+  core_connections_per_host_local: 2
+  max_connections_per_host_local: 8
+  core_connections_per_host_remote: 1
+  max_connections_per_host_remote: 2
+  max_requests_per_connection: 1024
 ```
 
 ## 📊 **Monitoring Performance**
