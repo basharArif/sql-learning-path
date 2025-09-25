@@ -21,7 +21,7 @@ Window functions are distinguished by the `OVER()` clause. This clause determine
 **Visual Structure of Window Functions:**
 ```mermaid
 graph TD
-    A["Window Function"] --> B[OVER()]
+    A[Window Func] --> B[OVER()]
     B --> C[PARTITION BY\ncolumn1, column2]
     B --> D[ORDER BY\ncolumn3]
     B --> E[Frame Specification\nROWS/RANGE BETWEEN...]
