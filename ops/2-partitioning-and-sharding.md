@@ -27,6 +27,28 @@ A table with billions of rows slows queries. Partitioning splits data logically,
 - Distribute across multiple servers.
 - Requires application logic or middleware.
 
+**Visual Comparison:**
+```
+Partitioning (Same Server):
+┌─────────────────────────────────────┐
+│ Server                              │
+├─────────────────────────────────────┤
+│ Table: sales                        │
+├─────────────────────────────────────┤
+│ Partition 2023 │ Partition 2024 │ ... │
+│ Jan-Mar        │ Apr-Jun       │     │
+└─────────────────────────────────────┘
+
+Sharding (Multiple Servers):
+┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+│ Server 1    │  │ Server 2    │  │ Server 3    │
+├─────────────┤  ├─────────────┤  ├─────────────┤
+│ Shard A     │  │ Shard B     │  │ Shard C     │
+│ user_id % 3 │  │ user_id % 3 │  │ user_id % 3 │
+│ = 0         │  │ = 1         │  │ = 2         │
+└─────────────┘  └─────────────┘  └─────────────┘
+```
+
 ## Worked Examples
 
 ### Range Partitioning (Postgres)
@@ -45,6 +67,24 @@ CREATE TABLE sales_2024 PARTITION OF sales FOR VALUES FROM ('2024-01-01') TO ('2
 CREATE INDEX idx_sales_2024_date ON sales_2024 (sale_date);
 ```
 
+**Visual Range Partitioning:**
+```
+Sales Table (Range Partitioned by sale_date)
+├── sales_2023: 2023-01-01 to 2023-12-31
+│   ├── Q1: Jan-Mar
+│   ├── Q2: Apr-Jun  
+│   ├── Q3: Jul-Sep
+│   └── Q4: Oct-Dec
+├── sales_2024: 2024-01-01 to 2024-12-31
+│   ├── Q1: Jan-Mar
+│   ├── Q2: Apr-Jun
+│   └── Q3: Jul-Sep
+└── sales_2025: 2025-01-01 to 2025-12-31 (future)
+
+Query: WHERE sale_date >= '2024-01-01'
+Result: Only scans sales_2024+ partitions (partition pruning)
+```
+
 ### List Partitioning
 ```sql
 CREATE TABLE orders PARTITION BY LIST (region);
@@ -53,8 +93,48 @@ CREATE TABLE orders_us PARTITION OF orders FOR VALUES IN ('US');
 CREATE TABLE orders_eu PARTITION OF orders FOR VALUES IN ('EU');
 ```
 
+**Visual List Partitioning:**
+```
+Orders Table (List Partitioned by region)
+├── orders_us: region IN ('US')
+│   ├── Northeast
+│   ├── Midwest  
+│   ├── South
+│   └── West
+├── orders_eu: region IN ('EU')
+│   ├── UK
+│   ├── Germany
+│   ├── France
+│   └── Others
+└── orders_asia: region IN ('ASIA')
+    ├── China
+    ├── Japan
+    └── India
+
+Query: WHERE region = 'US'
+Result: Only scans orders_us partition
+```
+
 ### Sharding Example (Conceptual)
 Use a shard key (e.g., user_id % num_shards) to route queries. Tools: Citus (Postgres extension), Vitess (MySQL).
+
+**Visual Sharding Architecture:**
+```mermaid
+graph TD
+    A[Application] --> B[Shard Router]
+    B --> C[Shard 1<br/>user_id % 3 = 0]
+    B --> D[Shard 2<br/>user_id % 3 = 1]  
+    B --> E[Shard 3<br/>user_id % 3 = 2]
+    
+    C --> F[(Database 1)]
+    D --> G[(Database 2)]
+    E --> H[(Database 3)]
+    
+    I[User ID: 1005] -.-> J[1005 % 3 = 2]
+    J -.-> E
+    
+    K[Cross-shard query] -.-> L[Application handles<br/>multiple shards]
+```
 
 ## Quick Checklist / Cheatsheet
 - Partition on query-heavy columns.

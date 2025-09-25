@@ -31,6 +31,25 @@ A company needs to load daily sales data from CSV files. Direct inserts are slow
 ### Staging
 - Temporary tables for processing before final load.
 
+**Visual ETL Pipeline Flow:**
+```mermaid
+graph LR
+    A[Extract] --> B[Staging Tables]
+    B --> C[Transform & Validate]
+    C --> D[Load to Target]
+    
+    E[Source Files] -.-> A
+    F[APIs] -.-> A
+    G[Databases] -.-> A
+    
+    H[Data Cleaning] -.-> C
+    I[Validation Rules] -.-> C
+    J[Business Logic] -.-> C
+    
+    K[Error Handling] -.-> C
+    L[Logging] -.-> C
+```
+
 ## Worked Examples
 
 ### Basic COPY Import (Postgres)
@@ -48,6 +67,24 @@ FROM staging_sales
 WHERE amount > 0;  -- Validation
 ```
 
+**Visual Staging Table Workflow:**
+```
+Raw CSV File
+     ↓
+   COPY Command
+     ↓
+Staging Table (staging_sales)
+     ↓
+Validation & Transformation
+- Convert product names to IDs
+- Filter invalid amounts
+- Apply business rules
+     ↓
+Target Table (sales)
+     ↓
+Production Database
+```
+
 ### Handling Errors
 ```sql
 -- With error logging
@@ -61,6 +98,17 @@ SELECT name, price FROM staging_products
 ON CONFLICT (name) DO UPDATE SET price = EXCLUDED.price;
 ```
 
+**Visual Upsert Logic:**
+```
+New Row?
+├── Yes → INSERT
+└── No → Conflict on (name)?
+    ├── Yes → UPDATE existing row
+    └── No → INSERT (no conflict)
+    
+Result: Table always has latest data
+```
+
 ### ETL Script Example
 ```bash
 #!/bin/bash
@@ -72,6 +120,22 @@ psql -c "COPY staging FROM 'data.csv' CSV HEADER;"
 
 # Transform and load
 psql -f transform.sql
+```
+
+**Visual ETL Script Flow:**
+```mermaid
+graph TD
+    A[ETL Script Start] --> B[Extract: curl API data]
+    B --> C[Save to data.csv]
+    C --> D[Load: COPY to staging]
+    D --> E[Transform: Run transform.sql]
+    E --> F[Validate data quality]
+    F --> G[Load to production]
+    G --> H[Cleanup staging]
+    H --> I[Log completion]
+    
+    J[Error?] -.-> K[Log error & exit]
+    F -.-> J
 ```
 
 ## Quick Checklist / Cheatsheet

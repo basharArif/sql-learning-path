@@ -26,6 +26,39 @@ Auditing salary changes or tracking inventory requires seeing data as it was at 
 - Capture inserts/updates/deletes.
 - Use for ETL or real-time sync.
 
+**Visual Overview:**
+```
+Temporal Tables: Time Travel for Data
+┌─────────────────────────────────────┐
+│ Current Table                       │
+│ +─────────────┬─────────────┬───────┤
+│ │ Employee    │ Salary      │ Valid │
+│ │             │             │ Range │
+│ +─────────────┼─────────────┼───────┤
+│ │ John        │ $50,000     │ ──────┼──► Now
+│ └─────────────┴─────────────┴───────┘
+│ 
+│ History Table (Automatic)
+│ +─────────────┬─────────────┬─────────────┐
+│ │ Employee    │ Salary      │ Valid Range │
+│ +─────────────┼─────────────┼─────────────┤
+│ │ John        │ $45,000     │ Jan-Mar     │
+│ │ John        │ $40,000     │ Oct-Dec     │
+│ └─────────────┴─────────────┴─────────────┘
+└─────────────────────────────────────┘
+
+CDC: Change Capture for Replication
+┌─────────┐    ┌─────────┐    ┌─────────┐
+│ Source  │───▶│ Capture │───▶│ Target  │
+│ DB      │    │ Changes │    │ DB      │
+└─────────┘    └─────────┘    └─────────┘
+     │              │              │
+     ▼              ▼              ▼
+  INSERT         Log Event     Replicate
+  UPDATE         to Queue      to Target
+  DELETE
+```
+
 ## Worked Examples
 
 ### Temporal Table (SQL Server)
@@ -40,6 +73,33 @@ CREATE TABLE employees (
 ) WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.employees_history));
 ```
 
+**Visual Timeline of Changes:**
+```
+Employee: John Doe
+Salary History:
+
+Time ──────────────────────────────────────────────►
+     │
+2023 │  ┌─────────────────────────────────────────┐
+     │  │ Salary: $40,000                         │
+     │  │ Valid: 2023-01-01 to 2023-06-30         │
+     │  └─────────────────────────────────────────┘
+     │
+2024 │           ┌─────────────────────────────────┐
+     │           │ Salary: $45,000                 │
+     │           │ Valid: 2023-07-01 to 2024-03-31 │
+     │           └─────────────────────────────────┘
+     │
+2025 │                        ┌───────────────────┐
+     │                        │ Salary: $50,000   │
+     │                        │ Valid: 2024-04-01 │
+     │                        │ to current        │
+     │                        └───────────────────┘
+
+Query: FOR SYSTEM_TIME AS OF '2023-12-01'
+Result: Returns $45,000 (active salary at that time)
+```
+
 ### CDC (Postgres with Triggers)
 ```sql
 CREATE TABLE changes (id SERIAL, table_name TEXT, operation TEXT, data JSONB, changed_at TIMESTAMP);
@@ -52,6 +112,29 @@ END;
 $$ LANGUAGE plpgsql;
 CREATE TRIGGER cdc_trigger AFTER INSERT OR UPDATE OR DELETE ON employees
 FOR EACH ROW EXECUTE FUNCTION capture_changes();
+```
+
+**Visual CDC Trigger Flow:**
+```mermaid
+graph TD
+    A[SQL Operation] --> B{Operation Type}
+    B -->|INSERT| C[NEW row available]
+    B -->|UPDATE| D[OLD + NEW rows]
+    B -->|DELETE| E[OLD row available]
+    
+    C --> F[Trigger Fires]
+    D --> F
+    E --> F
+    
+    F --> G[capture_changes() Function]
+    G --> H[Insert into changes table]
+    H --> I[JSONB data + timestamp]
+    
+    I --> J[CDC Log]
+    J --> K[Available for]
+    K --> L[ETL Processes]
+    K --> M[Analytics]
+    K --> N[Replication]
 ```
 
 ## Quick Checklist / Cheatsheet
