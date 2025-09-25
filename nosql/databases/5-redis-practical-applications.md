@@ -82,40 +82,37 @@ class RedisSessionStore:
         return False
 ```
 
-### **Express.js Integration**
-```javascript
-const express = require('express');
-const session = require('express-session');
-const RedisStore = require('connect-redis')(session);
-const redis = require('redis');
+### **Redis CLI Integration**
+```bash
+# Start Redis server
+redis-server
 
-const app = express();
-const redisClient = redis.createClient();
+# In another terminal, connect to Redis
+redis-cli
 
-// Configure session store
-app.use(session({
-  store: new RedisStore({ client: redisClient }),
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, // Set to true in production with HTTPS
-    maxAge: 30 * 60 * 1000 // 30 minutes
-  }
-}));
+# Set up session data
+127.0.0.1:6379> SET session:user123:userid "123"
+OK
+127.0.0.1:6379> SET session:user123:username "alice"
+OK
+127.0.0.1:6379> SET session:user123:lastaccess "2024-01-15T10:30:00Z"
+OK
+127.0.0.1:6379> EXPIRE session:user123:* 1800
+(integer) 3
 
-// Protected route
-app.get('/dashboard', (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
+# Check session exists
+127.0.0.1:6379> EXISTS session:user123:userid
+(integer) 1
 
-  res.json({
-    userId: req.session.userId,
-    username: req.session.username,
-    lastAccess: req.session.lastAccess
-  });
-});
+# Get session data
+127.0.0.1:6379> MGET session:user123:userid session:user123:username session:user123:lastaccess
+1) "123"
+2) "alice"
+3) "2024-01-15T10:30:00Z"
+
+# Clean up expired sessions (would be done by application)
+127.0.0.1:6379> DEL session:user123:userid session:user123:username session:user123:lastaccess
+(integer) 3
 ```
 
 ## 🛡️ **Rate Limiting**
@@ -188,33 +185,35 @@ class RateLimiter:
         return time.time() + self.window
 ```
 
-### **API Middleware**
-```javascript
-const rateLimiter = new RateLimiter(redisClient, 100, 60); // 100 requests per minute
+### **Rate Limiting with Redis CLI**
+```bash
+# Simulate API rate limiting
+127.0.0.1:6379> ZADD rate_limit:user123:api_call 1705315800 "req1"
+(integer) 1
+127.0.0.1:6379> ZADD rate_limit:user123:api_call 1705315810 "req2"
+(integer) 1
+127.0.0.1:6379> ZADD rate_limit:user123:api_call 1705315820 "req3"
+(integer) 1
 
-app.use('/api/', async (req, res, next) => {
-  const userId = req.user?.id || req.ip;
-  const action = req.path.split('/')[2] || 'general';
+# Check current request count in last 60 seconds
+127.0.0.1:6379> ZCOUNT rate_limit:user123:api_call 1705315260 1705315320
+(integer) 3
 
-  if (!rateLimiter.isAllowed(userId, action)) {
-    const resetTime = rateLimiter.getResetTime(userId, action);
-    const remaining = rateLimiter.getRemainingRequests(userId, action);
+# Remove old requests (outside 60-second window)
+127.0.0.1:6379> ZREMRANGEBYSCORE rate_limit:user123:api_call -inf 1705315260
+(integer) 0
 
-    res.set({
-      'X-RateLimit-Limit': 100,
-      'X-RateLimit-Remaining': remaining,
-      'X-RateLimit-Reset': Math.ceil(resetTime),
-      'Retry-After': Math.ceil((resetTime - Date.now() / 1000))
-    });
+# Check if under limit (assuming 5 requests per minute limit)
+127.0.0.1:6379> ZCARD rate_limit:user123:api_call
+(integer) 3
 
-    return res.status(429).json({
-      error: 'Too many requests',
-      retryAfter: Math.ceil((resetTime - Date.now() / 1000))
-    });
-  }
+# Add new request if under limit
+127.0.0.1:6379> ZADD rate_limit:user123:api_call 1705315830 "req4"
+(integer) 1
 
-  next();
-});
+# Set expiration on the rate limit key
+127.0.0.1:6379> EXPIRE rate_limit:user123:api_call 3600
+(integer) 1
 ```
 
 ## ⚙️ **Job Queues & Background Processing**

@@ -111,6 +111,18 @@ Complete introduction to Neo4j, the leading graph database using the property gr
 
 **Best For:** Connected data, relationship-heavy applications, and complex traversals
 
+#### [10-neo4j-algorithms.md](10-neo4j-algorithms.md)
+**Type:** Graph Database | **Level:** Intermediate to Advanced | **Time:** 40 minutes
+
+Master graph algorithms in Neo4j for analyzing connected data and extracting insights. Covers:
+- Path finding algorithms (Dijkstra, A*, k-shortest paths)
+- Centrality measures (PageRank, betweenness, closeness, eigenvector)
+- Community detection (Louvain, label propagation, connected components)
+- Link prediction and similarity algorithms
+- Real-world applications in social networks, recommendations, and fraud detection
+
+**Best For:** Graph analytics, network analysis, and relationship-based insights
+
 #### Time Series Databases
 - **InfluxDB**: Time series data storage
 - **TimescaleDB**: PostgreSQL time series extension
