@@ -53,35 +53,35 @@ Table: Users
 **CRUD Operations Overview:**
 ```mermaid
 graph TD
-    A[Database Table] --> B[CREATE<br/>INSERT new data]
-    A --> C[READ<br/>SELECT existing data]
-    A --> D[UPDATE<br/>Modify existing data]
-    A --> E[DELETE<br/>Remove data]
+    A[Database Table] --> B[CREATE\nINSERT new data]
+    A --> C[READ\nSELECT existing data]
+    A --> D[UPDATE\nModify existing data]
+    A --> E[DELETE\nRemove data]
     
-    B --> F[Table grows<br/>New records added]
-    C --> G[Data retrieved<br/>No changes to table]
-    D --> H[Data modified<br/>Existing records updated]
-    E --> I[Table shrinks<br/>Records removed]
+    B --> F[Table grows\nNew records added]
+    C --> G[Data retrieved\nNo changes to table]
+    D --> H[Data modified\nExisting records updated]
+    E --> I[Table shrinks\nRecords removed]
     
     J[SQL Commands] -.-> K[INSERT INTO table...]
     J -.-> L[SELECT * FROM table...]
     J -.-> M[UPDATE table SET...]
     J -.-> N[DELETE FROM table...]
     
-    O[Best Practices] -.-> P[Use WHERE clauses<br/>to target specific rows]
-    O -.-> Q[Validate data before<br/>INSERT/UPDATE]
-    O -.-> R[Backup before<br/>mass DELETE]
+    O[Best Practices] -.-> P[Use WHERE clauses\nto target specific rows]
+    O -.-> Q[Validate data before\nINSERT/UPDATE]
+    O -.-> R[Backup before\nmass DELETE]
 ```
 
 **SQL Query Execution Flow:**
 ```mermaid
 graph TD
-    A[Write SQL Query] --> B[Parse Query<br/>Check syntax]
-    B --> C{Optimize Query<br/>Choose execution plan}
-    C --> D[Access Tables<br/>Apply WHERE filters]
-    D --> E[Sort Results<br/>if ORDER BY specified]
-    E --> F[Limit Results<br/>if LIMIT specified]
-    F --> G[Return Result Set<br/>to application]
+    A[Write SQL Query] --> B[Parse Query\nCheck syntax]
+    B --> C{Optimize Query\nChoose execution plan}
+    C --> D[Access Tables\nApply WHERE filters]
+    D --> E[Sort Results\nif ORDER BY specified]
+    E --> F[Limit Results\nif LIMIT specified]
+    F --> G[Return Result Set\nto application]
     
     H[Query Components] -.-> I[SELECT: columns to return]
     H -.-> J[FROM: tables to query]

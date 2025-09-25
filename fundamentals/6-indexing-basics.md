@@ -33,9 +33,9 @@ CREATE INDEX idx_employees_name ON employees(name);
 **Visual Representation of a B-Tree Index:**
 ```mermaid
 graph TD
-    R[Root Node<br/>(contains pointers to child nodes)] --> A[A-M<br/>(subtree for names starting with A-M)]
-    R --> N[N-Z<br/>(subtree for names starting with N-Z)]
-    A --> AD[A-D<br/>(leaf nodes point to actual data rows)]
+    R[Root Node\n(contains pointers to child nodes)] --> A[A-M\n(subtree for names starting with A-M)]
+    R --> N[N-Z\n(subtree for names starting with N-Z)]
+    A --> AD[A-D\n(leaf nodes point to actual data rows)]
     A --> EM[E-M]
     N --> NS[N-S]
     N --> TZ[T-Z]

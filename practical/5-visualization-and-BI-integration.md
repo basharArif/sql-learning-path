@@ -33,8 +33,8 @@ Dashboards load slowly with raw data queries. Pre-aggregated views speed up repo
 graph TD
     A[Raw Database Tables] --> B[ETL/Transformation]
     B --> C[Summary Tables/Views]
-    C --> D[Materialized Views<br/>Cached Results]
-    D --> E[Export Layer<br/>CSV/JSON/API]
+    C --> D[Materialized Views\nCached Results]
+    D --> E[Export Layer\nCSV/JSON/API]
     E --> F[BI Tools]
     F --> G[Dashboards & Reports]
     

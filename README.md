@@ -8,24 +8,24 @@ This repository contains a structured, multi-part learning path for mastering SQ
 ```mermaid
 graph TB
     subgraph "📚 Learning Materials"
-        A[learning-path.md<br/>Master Index & Roadmap]
-        B[GLOSSARY.md<br/>Key Terms & Definitions]
+        A[learning-path.md\nMaster Index & Roadmap]
+        B[GLOSSARY.md\nKey Terms & Definitions]
     end
     
     subgraph "🏗️ Core Content"
-        C[fundamentals/<br/>6 Files<br/>Basic SQL Skills]
-        D[theory/<br/>4 Files<br/>Database Concepts]
-        E[advanced/<br/>6 Files<br/>Complex Techniques]
+        C[fundamentals/\n6 Files\nBasic SQL Skills]
+        D[theory/\n4 Files\nDatabase Concepts]
+        E[advanced/\n6 Files\nComplex Techniques]
     end
     
     subgraph "🔧 Practical Applications"
-        F[practical/<br/>5 Files<br/>Real-world Tasks]
-        G[ops/<br/>3 Files<br/>Operations & Security]
+        F[practical/\n5 Files\nReal-world Tasks]
+        G[ops/\n3 Files\nOperations & Security]
     end
     
     subgraph "🎯 Practice & Testing"
-        H[exercises/<br/>Practice Problems]
-        I[devtools/<br/>Testing Framework]
+        H[exercises/\nPractice Problems]
+        I[devtools/\nTesting Framework]
     end
     
     A --> C
@@ -102,30 +102,30 @@ gantt
 ```mermaid
 graph TB
     subgraph "🗄️ Databases"
-        A[(PostgreSQL<br/>Primary)]
-        B[(MySQL<br/>Examples)]
-        C[(SQL Server<br/>References)]
-        D[(SQLite<br/>Testing)]
+        A[(PostgreSQL\nPrimary)]
+        B[(MySQL\nExamples)]
+        C[(SQL Server\nReferences)]
+        D[(SQLite\nTesting)]
     end
     
     subgraph "🛠️ Tools"
-        E[Docker<br/>Environment]
-        F[pgTAP<br/>Testing]
-        G[PostgreSQL<br/>Client]
-        H[Mermaid<br/>Diagrams]
+        E[Docker\nEnvironment]
+        F[pgTAP\nTesting]
+        G[PostgreSQL\nClient]
+        H[Mermaid\nDiagrams]
     end
     
     subgraph "📊 Content"
-        I[Markdown<br/>Documentation]
-        J[SQL Examples<br/>All Dialects]
-        K[Visual Diagrams<br/>70+ Charts]
-        L[Interactive<br/>Exercises]
+        I[Markdown\nDocumentation]
+        J[SQL Examples\nAll Dialects]
+        K[Visual Diagrams\n70+ Charts]
+        L[Interactive\nExercises]
     end
     
     subgraph "🚀 Deployment"
-        M[GitHub<br/>Hosting]
-        N[GitHub Actions<br/>CI/CD]
-        O[Docker Hub<br/>Images]
+        M[GitHub\nHosting]
+        N[GitHub Actions\nCI/CD]
+        O[Docker Hub\nImages]
     end
     
     A --> E

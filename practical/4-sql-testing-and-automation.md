@@ -31,9 +31,9 @@ A stored procedure changes, breaking reports. Without tests, bugs go unnoticed. 
 **Testing Pyramid for SQL:**
 ```mermaid
 graph TD
-    A[SQL Testing Pyramid] --> B[Unit Tests<br/>Fast, Isolated<br/>80% of tests]
-    A --> C[Integration Tests<br/>Medium Speed<br/>15% of tests]
-    A --> D[E2E Tests<br/>Slow, Full Stack<br/>5% of tests]
+    A[SQL Testing Pyramid] --> B[Unit Tests\nFast, Isolated\n80% of tests]
+    A --> C[Integration Tests\nMedium Speed\n15% of tests]
+    A --> D[E2E Tests\nSlow, Full Stack\n5% of tests]
     
     B --> B1[Test Functions/Procedures]
     B --> B2[Test Views/Materialized Views]
@@ -89,21 +89,21 @@ In CI:
 graph LR
     A[Code Commit] --> B[CI Pipeline Trigger]
     B --> C[Build Environment]
-    C --> D[Start Database<br/>Docker Compose]
-    D --> E[Run Migrations<br/>Schema Setup]
-    E --> F[Load Test Data<br/>Fixtures]
+    C --> D[Start Database\nDocker Compose]
+    D --> E[Run Migrations\nSchema Setup]
+    E --> F[Load Test Data\nFixtures]
     F --> G[Execute Tests]
     G --> H{Tests Pass?}
     H -->|Yes| I[Deploy to Staging]
-    H -->|No| J[Fail Build<br/>Report Issues]
+    H -->|No| J[Fail Build\nReport Issues]
     I --> K[Integration Tests]
     K --> L{All Pass?}
     L -->|Yes| M[Deploy to Production]
-    L -->|No| N[Rollback<br/>Fix Issues]
+    L -->|No| N[Rollback\nFix Issues]
     
-    O[Test Types] -.-> P[Unit Tests<br/>pgTAP]
-    O -.-> Q[Integration Tests<br/>Docker]
-    O -.-> R[Performance Tests<br/>Benchmarks]
+    O[Test Types] -.-> P[Unit Tests\npgTAP]
+    O -.-> Q[Integration Tests\nDocker]
+    O -.-> R[Performance Tests\nBenchmarks]
 ```
 
 ### Test Data Factory
