@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: sqluser
+      POSTGRES_PASSWORD: sqlpass
+      POSTGRES_DB: sqldb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/seed:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  db-data:

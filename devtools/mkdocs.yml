@@ -1,0 +1,35 @@
+docs_dir: ..
+site_dir: ../docs
+
+site_name: SQL Learning Path
+nav:
+  - Home: index.md
+  - Learning Path: learning-path.md
+  - Fundamentals: 1-Fundamentals.md
+  - Intermediate: 2-Intermediate.md
+  - Advanced: 3-Advanced.md
+  - Real World: 4-Real-World-Queries.md
+  - Pro Skills: 5-Pro-SQL-Skills.md
+  - Expert: 6-Expert-Topics.md
+  - Theory:
+    - Relational Algebra: theory/1-relational-algebra.md
+    - Data Types: theory/2-data-types.md
+    - Query Plans: theory/3-query-plans.md
+    - Transactions: theory/4-transactions.md
+  - Practical:
+    - Error Handling: practical/1-error-handling.md
+    - Backup & Restore: practical/2-backup-restore.md
+    - ETL: practical/3-etl.md
+    - Testing: practical/4-testing.md
+    - Visualization: practical/5-visualization.md
+  - Advanced:
+    - Recursive CTEs: advanced/1-recursive-ctes.md
+    - Lateral Joins: advanced/2-lateral-joins.md
+    - Temporal Tables: advanced/3-temporal-tables.md
+    - Vendor Notes: advanced/4-vendor-notes.md
+  - Ops:
+    - Security: ops/1-security.md
+    - Partitioning: ops/2-partitioning-and-sharding.md
+    - Monitoring: ops/3-monitoring-and-observability.md
+  - Exercises: exercises/README.md
+  - Glossary: GLOSSARY.md
