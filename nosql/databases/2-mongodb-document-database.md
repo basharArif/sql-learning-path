@@ -41,6 +41,29 @@ Building a content management system where articles have varying structures (som
 }
 ```
 
+**Document Structure Visualization:**
+```mermaid
+graph TD
+    A[MongoDB Document] --> B[Document ID<br/>_id: ObjectId]
+    A --> C[Scalar Fields<br/>name, email, age]
+    A --> D[Nested Object<br/>address: {...}]
+    A --> E[Array Field<br/>tags: [...]]
+    A --> F[Date Field<br/>created_at: ISODate]
+    A --> G[Boolean Field<br/>is_active: true]
+    
+    D --> D1[street: String]
+    D --> D2[city: String]
+    D --> D3[zip: String]
+    
+    E --> E1[developer]
+    E --> E2[mongodb]
+    
+    style A fill:#e1f5fe
+    style B fill:#c8e6c9
+    style D fill:#fff3e0
+    style E fill:#f3e5f5
+```
+
 **Key Characteristics:**
 - **Flexible Schema**: Fields can vary between documents
 - **Nested Objects**: Store complex data hierarchies
@@ -68,6 +91,23 @@ db.users.insertMany([
     ]
   }
 ])
+```
+
+**Collection Structure Visualization:**
+```mermaid
+graph TD
+    A[MongoDB Collection: users] --> B[Document 1<br/>Standard User]
+    A --> C[Document 2<br/>User with Company]
+    A --> D[Document 3<br/>User with Projects]
+    
+    B --> B1[name: Alice<br/>email: alice@email.com<br/>profile: {...}]
+    C --> C1[name: Bob<br/>email: bob@email.com<br/>company: TechCorp<br/>projects: [...]]
+    D --> D1[name: Charlie<br/>email: charlie@email.com<br/>projects: [...]<br/>skills: [...]]
+    
+    style A fill:#e1f5fe
+    style B fill:#c8e6c9
+    style C fill:#fff3e0
+    style D fill:#f3e5f5
 ```
 
 **Characteristics:**

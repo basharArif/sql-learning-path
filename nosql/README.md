@@ -2,6 +2,9 @@
 
 This section covers NoSQL and non-relational database systems, complementing the relational SQL learning path.
 
+## 🎯 **Learning Focus**
+**Concepts & Query Models Only** - This section teaches data models, query patterns, indexing, and trade-offs. We focus on **learning** not operations, administration, or deployment.
+
 ## 📚 Module Overview
 
 ### Foundational Concepts
@@ -12,23 +15,17 @@ This section covers NoSQL and non-relational database systems, complementing the
 
 ### Document Databases
 - **[MongoDB: Document Database](databases/2-mongodb-document-database.md)**: JSON-like documents, flexible schemas
-- **CouchDB**: RESTful document storage
-- **DynamoDB**: AWS managed NoSQL database
 
 ### Key-Value Stores
-- **Redis**: In-memory data structure store
-- **Riak**: Distributed key-value store
-- **etcd**: Distributed key-value store for configuration
+- **[Redis Fundamentals](databases/3-redis-key-value-store.md)**: In-memory data structures
+- **[Redis Advanced](databases/4-redis-advanced-concepts.md)**: Pub/Sub, clustering concepts
+- **[Redis Applications](databases/5-redis-practical-applications.md)**: Real-world patterns
 
 ### Column-Family Stores
-- **Cassandra**: Wide-column store for big data
-- **HBase**: Hadoop ecosystem column store
-- **ScyllaDB**: High-performance Cassandra-compatible
+- **[Cassandra: Column-Family](databases/6-cassandra-column-family.md)**: Wide-column store concepts
 
 ### Graph Databases
-- **Neo4j**: Property graph database
-- **ArangoDB**: Multi-model database
-- **Amazon Neptune**: Managed graph database
+- **[Neo4j: Graph Database](databases/9-neo4j-graph-database.md)**: Property graph model
 
 ### Time Series Databases
 - **InfluxDB**: Time series data storage

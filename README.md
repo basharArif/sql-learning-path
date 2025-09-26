@@ -22,9 +22,9 @@ A comprehensive, visual SQL learning platform with interactive diagrams and prac
 - [Recursive CTEs and Hierarchies](advanced/1-recursive-ctes-and-hierarchies.md)
 - [LATERAL Joins and JSON Functions](advanced/2-lateral-joins-and-json-functions.md)
 - [Temporal Tables and Change Data Capture](advanced/3-temporal-tables-and-change-data-capture.md)
-- [Advanced Window Functions](advanced/4-advanced-window-functions.md)
+- [Vendor Notes & Differences](advanced/4-vendor-notes.md)
 - [Window Functions](advanced/5-window-functions.md)
-- [Advanced Query Optimization](advanced/6-advanced-query-optimization.md)
+- [Views, Procedures & Triggers](advanced/6-views-procedures-triggers.md)
 
 ### Practical Applications (5 modules)
 - [Error Handling and Exceptions](practical/1-error-handling-and-exceptions.md)
@@ -39,8 +39,8 @@ A comprehensive, visual SQL learning platform with interactive diagrams and prac
 - [Monitoring and Observability](ops/3-monitoring-and-observability.md)
 
 ### Non-Relational Databases (Future Scope)
-- [CAP Theorem and Trade-offs](nosql/1-cap-theorem-and-tradeoffs.md)
-- [MongoDB: Document Database](nosql/2-mongodb-document-database.md)
+- [CAP Theorem and Trade-offs](nosql/fundamentals/1-cap-theorem-and-tradeoffs.md)
+- [MongoDB: Document Database](nosql/databases/2-mongodb-document-database.md)
 - *More NoSQL databases coming soon...*
 
 ## 🎯 Features
