@@ -8,7 +8,7 @@ This document provides a structured path through the SQL learning content. The c
 ```mermaid
 graph TD
     subgraph "🎯 START HERE"
-        A["Introduction & Basics\nCREATE, INSERT, SELECT\nUPDATE, DELETE"]
+        A["Introduction & Basics CREATE, INSERT, SELECT  UPDATE, DELETE"]
     end
     
     subgraph "📊 Fundamentals"
