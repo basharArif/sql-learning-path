@@ -23,19 +23,19 @@ graph TD
     A[Employees Table] -->|department_id| B[Departments Table]
     
     subgraph "INNER JOIN"
-        C[Only matching rows\nfrom both tables"
+        C[Only matching rows from both tables"
     end
     
     subgraph "LEFT JOIN"
-        D[All rows from Employees\n+ matching from Departments\nNULLs for non-matches"
+        D[All rows from Employees + matching from Departments NULLs for non-matches"
     end
     
     subgraph "RIGHT JOIN"
-        E[All rows from Departments\n+ matching from Employees\nNULLs for non-matches"
+        E[All rows from Departments + matching from Employees NULLs for non-matches"
     end
     
     subgraph "FULL OUTER JOIN"
-        F[All rows from both tables\nNULLs where no match"
+        F[All rows from both tables NULLs where no match"
     end
     
     A --> C
@@ -43,7 +43,7 @@ graph TD
     A --> E
     A --> F
     
-    G[Self Join\nTable joins with itself" -.-> A
+    G[Self Join Table joins with itself" -.-> A
 ```
 
 **JOIN Operations Flow:**
@@ -51,18 +51,18 @@ graph TD
 flowchart TD
     A[Start Query] --> B{Join Type?}
     
-    B -->|INNER JOIN| C[Match rows where\ncondition = TRUE"
-    B -->|LEFT JOIN| D[Include ALL left table rows\nMatch right table where condition = TRUE\nNULL for no matches"
-    B -->|RIGHT JOIN| E[Include ALL right table rows\nMatch left table where condition = TRUE\nNULL for no matches"
-    B -->|FULL OUTER JOIN| F[Include ALL rows from both tables\nMatch where condition = TRUE\nNULL for no matches"
+    B -->|INNER JOIN| C[Match rows where condition = TRUE"
+    B -->|LEFT JOIN| D[Include ALL left table rows Match right table where condition = TRUE NULL for no matches"
+    B -->|RIGHT JOIN| E[Include ALL right table rows Match left table where condition = TRUE NULL for no matches"
+    B -->|FULL OUTER JOIN| F[Include ALL rows from both tables Match where condition = TRUE NULL for no matches"
     
     C --> G[Return result set]
     D --> G
     E --> G
     F --> G
     
-    H[Performance Note] -.-> I[Use EXPLAIN to check\njoin strategy"
-    H -.-> J[Index foreign keys\nfor better performance"
+    H[Performance Note] -.-> I[Use EXPLAIN to check join strategy"
+    H -.-> J[Index foreign keys for better performance"
 ```
 
 ### a. INNER JOIN

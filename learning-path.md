@@ -12,50 +12,50 @@ graph TD
     end
     
     subgraph "📊 Fundamentals"
-        B["JOINS\\nINNER, LEFT, RIGHT, FULL"]
-        C["Aggregations\nGROUP BY, COUNT, SUM\nHAVING, DISTINCT"]
-        D["Subqueries & Sets\nUNION, INTERSECT\nEXISTS, IN"]
-        E["Conditional Logic\nCASE WHEN, COALESCE"]
-        F["Indexing Basics\nB-Tree, Performance"]
-        G["Normalization\n1NF, 2NF, 3NF"]
-        H["Database Design\nSchema & Modeling"]
+        B["JOINS\ INNER, LEFT, RIGHT, FULL"]
+        C["Aggregations GROUP BY, COUNT, SUM HAVING, DISTINCT"]
+        D["Subqueries & Sets UNION, INTERSECT EXISTS, IN"]
+        E["Conditional Logic CASE WHEN, COALESCE"]
+        F["Indexing Basics B-Tree, Performance"]
+        G["Normalization 1NF, 2NF, 3NF"]
+        H["Database Design Schema & Modeling"]
     end
     
     subgraph "🧠 Theory"
-        I["Relational Algebra\nSelection, Projection\nJoin, Union"]
-        J["Data Types\nNumeric, Text, Date\nJSON, Arrays"]
-        K["Query Plans\nEXPLAIN, Cost Models\nOptimization"]
-        L["Transactions\nACID, Isolation Levels\nConcurrency Control"]
-        M["Data Modeling\nERD, Schema Design"]
-        N["Performance Tuning\nIndexes, Query Optimization"]
+        I["Relational Algebra Selection, Projection Join, Union"]
+        J["Data Types Numeric, Text, Date JSON, Arrays"]
+        K["Query Plans EXPLAIN, Cost Models Optimization"]
+        L["Transactions ACID, Isolation Levels Concurrency Control"]
+        M["Data Modeling ERD, Schema Design"]
+        N["Performance Tuning Indexes, Query Optimization"]
     end
     
     subgraph "⚡ Advanced"
-        O["Recursive CTEs\nHierarchies, Trees\nGraphs"]
-        P["Lateral Joins\nJSON Functions\nAdvanced Queries"]
-        Q["Temporal Tables\nChange Data Capture\nAudit Trails"]
-        R["Window Functions\nRANK, LAG, LEAD\nRunning Totals"]
-        S["Views, Procedures, & Triggers\nFunctions, Stored Code"]
-        T["Vendor Notes & Differences\nPostgreSQL vs MySQL\nSQL Server vs Oracle"]
+        O["Recursive CTEs Hierarchies, Trees Graphs"]
+        P["Lateral Joins JSON Functions Advanced Queries"]
+        Q["Temporal Tables Change Data Capture Audit Trails"]
+        R["Window Functions RANK, LAG, LEAD Running Totals"]
+        S["Views, Procedures, & Triggers Functions, Stored Code"]
+        T["Vendor Notes & Differences PostgreSQL vs MySQL SQL Server vs Oracle"]
     end
     
     subgraph "🔧 Practical"
-        U["Error Handling\nExceptions, Rollback\nRecovery Patterns"]
-        V["Data Migration\nBackup/Restore\nPITR, WAL"]
-        W["ETL Processes\nData Import\nTransformation"]
-        X["Testing & Automation\nUnit Tests, CI/CD\npgTAP, SQLTest"]
-        Y["BI Integration\nMaterialized Views\nDashboards"]
+        U["Error Handling Exceptions, Rollback Recovery Patterns"]
+        V["Data Migration Backup/Restore PITR, WAL"]
+        W["ETL Processes Data Import Transformation"]
+        X["Testing & Automation Unit Tests, CI/CD pgTAP, SQLTest"]
+        Y["BI Integration Materialized Views Dashboards"]
     end
     
     subgraph "🏗️ Operations"
-        Z["Security\nRBAC, Encryption\nAudit Logging"]
-        AA["Partitioning\nSharding, Scaling\nPerformance"]
-        BB["Monitoring\nMetrics, Alerts\nObservability"]
+        Z["Security RBAC, Encryption Audit Logging"]
+        AA["Partitioning Sharding, Scaling Performance"]
+        BB["Monitoring Metrics, Alerts Observability"]
     end
     
     subgraph "🎓 Mastery"
-        CC["Exercises\nPractice Problems\nReal Scenarios"]
-        DD["Solutions\nCode Reviews\nBest Practices"]
+        CC["Exercises Practice Problems Real Scenarios"]
+        DD["Solutions Code Reviews Best Practices"]
     end
     
     A --> B
@@ -95,53 +95,53 @@ graph TD
     BB --> CC
     CC --> DD
     
-    EE["Prerequisites\nNone"] -.-> A
-    FF["Time: 3-4 weeks\nPractice Required"] -.-> H
-    GG["Time: 2-3 weeks\nDeep Understanding"] -.-> L
-    HH["Time: 1-2 weeks\nAdvanced Concepts"] -.-> N
-    II["Time: 2-4 weeks\nComplex Problems"] -.-> T
-    JJ["Time: 1-2 weeks\nReal Projects"] -.-> Y
-    KK["Time: 1 week\nProduction Ready"] -.-> BB
-    LL["Time: Ongoing\nMastery"] -.-> DD
+    EE["Prerequisites None"] -.-> A
+    FF["Time: 3-4 weeks Practice Required"] -.-> H
+    GG["Time: 2-3 weeks Deep Understanding"] -.-> L
+    HH["Time: 1-2 weeks Advanced Concepts"] -.-> N
+    II["Time: 2-4 weeks Complex Problems"] -.-> T
+    JJ["Time: 1-2 weeks Real Projects"] -.-> Y
+    KK["Time: 1 week Production Ready"] -.-> BB
+    LL["Time: Ongoing Mastery"] -.-> DD
 ```
 
 **Skill Development Matrix:**
 ```mermaid
 graph LR
     subgraph "Beginner Skills"
-        A1["Basic CRUD\nOperations"]
-        A2["Simple Queries\nWHERE, ORDER BY"]
-        A3["Table Design\nCREATE TABLE"]
-        A4["Data Types\nBasic Types"]
+        A1["Basic CRUD Operations"]
+        A2["Simple Queries WHERE, ORDER BY"]
+        A3["Table Design CREATE TABLE"]
+        A4["Data Types Basic Types"]
     end
     
     subgraph "Intermediate Skills"
-        B1["Complex JOINs\nMultiple Tables"]
-        B2["Aggregations\nGROUP BY, HAVING"]
-        B3["Subqueries\nNested Queries"]
-        B4["Performance\nBasic Indexing"]
-        B5["Transactions\nACID Properties"]
-        B6["Normalization\n1NF, 2NF, 3NF"]
-        B7["Database Design\nSchema Principles"]
+        B1["Complex JOINs Multiple Tables"]
+        B2["Aggregations GROUP BY, HAVING"]
+        B3["Subqueries Nested Queries"]
+        B4["Performance Basic Indexing"]
+        B5["Transactions ACID Properties"]
+        B6["Normalization 1NF, 2NF, 3NF"]
+        B7["Database Design Schema Principles"]
     end
     
     subgraph "Advanced Skills"
-        C1["Recursive Queries\nHierarchical Data"]
-        C2["Window Functions\nAnalytical Queries"]
-        C3["JSON Handling\nSemi-structured Data"]
-        C4["Stored Procedures\nBusiness Logic"]
-        C5["Query Optimization\nEXPLAIN Plans"]
-        C6["Data Modeling\nERD, Relationships"]
-        C7["Performance Tuning\nAdvanced Optimization"]
+        C1["Recursive Queries Hierarchical Data"]
+        C2["Window Functions Analytical Queries"]
+        C3["JSON Handling Semi-structured Data"]
+        C4["Stored Procedures Business Logic"]
+        C5["Query Optimization EXPLAIN Plans"]
+        C6["Data Modeling ERD, Relationships"]
+        C7["Performance Tuning Advanced Optimization"]
     end
     
     subgraph "Expert Skills"
-        D1["Database Design\nNormalization"]
-        D2["High Availability\nReplication, Clustering"]
-        D3["Security\nRBAC, Encryption"]
-        D4["Monitoring\nMetrics, Alerting"]
-        D5["ETL Pipelines\nData Integration"]
-        D6["Performance Tuning\nAdvanced Optimization"]
+        D1["Database Design Normalization"]
+        D2["High Availability Replication, Clustering"]
+        D3["Security RBAC, Encryption"]
+        D4["Monitoring Metrics, Alerting"]
+        D5["ETL Pipelines Data Integration"]
+        D6["Performance Tuning Advanced Optimization"]
     end
     
     A1 --> B1

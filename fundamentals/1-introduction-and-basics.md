@@ -53,24 +53,24 @@ Table: Users
 **CRUD Operations Overview:**
 ```mermaid
 graph TD
-    A[Database Table] --> B["CREATE\nINSERT new data"]
-    A --> C["READ\nSELECT existing data"]
-    A --> D["UPDATE\nModify existing data"]
-    A --> E["DELETE\nRemove data"]
+    A[Database Table] --> B["CREATE INSERT new data"]
+    A --> C["READ SELECT existing data"]
+    A --> D["UPDATE Modify existing data"]
+    A --> E["DELETE Remove data"]
     
-    B --> F["Table grows\nNew records added"]
-    C --> G["Data retrieved\nNo changes to table"]
-    D --> H["Data modified\nExisting records updated"]
-    E --> I["Table shrinks\nRecords removed"]
+    B --> F["Table grows New records added"]
+    C --> G["Data retrieved No changes to table"]
+    D --> H["Data modified Existing records updated"]
+    E --> I["Table shrinks Records removed"]
     
     J[SQL Commands] -.-> K[INSERT INTO table...]
     J -.-> L[SELECT * FROM table...]
     J -.-> M[UPDATE table SET...]
     J -.-> N[DELETE FROM table...]
     
-    O[Best Practices] -.-> P["Use WHERE clauses\nto target specific rows"]
-    O -.-> Q["Validate data before\nINSERT/UPDATE"]
-    O -.-> R["Backup before\nmass DELETE"]
+    O[Best Practices] -.-> P["Use WHERE clauses to target specific rows"]
+    O -.-> Q["Validate data before INSERT/UPDATE"]
+    O -.-> R["Backup before mass DELETE"]
 ```
 
 **SQL Query Execution Flow:**
