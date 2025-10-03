@@ -1,10 +1,6 @@
-# Redis - Key-Value Store Fundamentals
+# 3. Redis - Key-Value Store Fundamentals
 
-**Level:** Beginner to Intermediate  
-**Time Estimate:** 45 minutes  
-**Prerequisites:** Basic programming concepts, understanding of caching.
-
-## TL;DR
+## 🎯 **TL;DR**
 Redis is an open-source, in-memory data structure store used as a database, cache, and message broker. It supports various data types and provides high performance through memory-based storage with optional persistence.
 
 ## 📋 **Learning Objectives**

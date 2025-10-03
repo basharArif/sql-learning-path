@@ -53,35 +53,41 @@ Table: Users
 **CRUD Operations Overview:**
 ```mermaid
 graph TD
-    A[Database Table] --> B[CREATE\nINSERT new data]
-    A --> C[READ\nSELECT existing data]
-    A --> D[UPDATE\nModify existing data]
-    A --> E[DELETE\nRemove data]
+    A[Database Table] --> B["CREATE\nINSERT new data"]
+    A --> C["READ\nSELECT existing data"]
+    A --> D["UPDATE\nModify existing data"]
+    A --> E["DELETE\nRemove data"]
     
-    B --> F[Table grows\nNew records added]
-    C --> G[Data retrieved\nNo changes to table]
-    D --> H[Data modified\nExisting records updated]
-    E --> I[Table shrinks\nRecords removed]
+    B --> F["Table grows\nNew records added"]
+    C --> G["Data retrieved\nNo changes to table"]
+    D --> H["Data modified\nExisting records updated"]
+    E --> I["Table shrinks\nRecords removed"]
     
     J[SQL Commands] -.-> K[INSERT INTO table...]
     J -.-> L[SELECT * FROM table...]
     J -.-> M[UPDATE table SET...]
     J -.-> N[DELETE FROM table...]
     
-    O[Best Practices] -.-> P[Use WHERE clauses\nto target specific rows]
-    O -.-> Q[Validate data before\nINSERT/UPDATE]
-    O -.-> R[Backup before\nmass DELETE]
+    O[Best Practices] -.-> P["Use WHERE clauses\nto target specific rows"]
+    O -.-> Q["Validate data before\nINSERT/UPDATE"]
+    O -.-> R["Backup before\nmass DELETE"]
 ```
 
 **SQL Query Execution Flow:**
 ```mermaid
 graph TD
-    A[Write SQL Query] --> B[Parse Query\nCheck syntax]
-    B --> C{Optimize Query\nChoose execution plan}
-    C --> D[Access Tables\nApply WHERE filters]
-    D --> E[Sort Results\nif ORDER BY specified]
-    E --> F[Limit Results\nif LIMIT specified]
-    F --> G[Return Result Set\nto application]
+    A[Write SQL Query] --> B["Parse Query
+Check syntax"]
+    B --> C{Optimize Query
+Choose execution plan}
+    C --> D["Access Tables
+Apply WHERE filters"]
+    D --> E["Sort Results
+if ORDER BY specified"]
+    E --> F["Limit Results
+if LIMIT specified"]
+    F --> G["Return Result Set
+to application"]
     
     H[Query Components] -.-> I[SELECT: columns to return]
     H -.-> J[FROM: tables to query]
@@ -94,6 +100,7 @@ graph TD
     N -.-> Q[WHERE selectivity]
     N -.-> R[Available memory]
 ```
+
 
 ## Worked Examples
 

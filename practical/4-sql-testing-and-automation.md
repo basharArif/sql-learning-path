@@ -78,10 +78,10 @@ In CI:
 ```yaml
 - name: Run SQL tests
   run: |
-    docker-compose -f devtools/docker/docker-compose.yml up -d
+    docker-compose up -d
     sleep 10
     psql -h localhost -U sqluser -d sqldb -f devtools/tests/sql-smoke/test_sample.sql
-    docker-compose -f devtools/docker/docker-compose.yml down
+    docker-compose down
 ```
 
 **CI/CD Pipeline for SQL Testing:**

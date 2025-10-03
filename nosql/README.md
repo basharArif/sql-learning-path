@@ -1,66 +1,54 @@
 # Non-Relational Databases Learning Path
 
-This section covers NoSQL and non-relational database systems, complementing the relational SQL learning path.
-
-## 🎯 **Learning Focus**
-**Concepts & Query Models Only** - This section teaches data models, query patterns, indexing, and trade-offs. We focus on **learning** not operations, administration, or deployment.
+This section covers NoSQL and non-relational database systems, complementing the relational SQL learning path. Unlike the RDBMS section that focuses on SQL concepts rather than specific implementations, this section covers the core concepts of different NoSQL database types.
 
 ## 📚 Module Overview
 
 ### Foundational Concepts
 - **[NoSQL vs SQL Comparison](fundamentals/0-nosql-vs-sql-comparison.md)**: When to choose each approach
 - **[CAP Theorem and Trade-offs](fundamentals/1-cap-theorem-and-tradeoffs.md)**: Distributed systems fundamentals
+- **[Document Databases](fundamentals/2-document-databases.md)**: Flexible schema, JSON-like documents
+- **[Key-Value Stores](fundamentals/3-key-value-stores.md)**: Fast key-based access, caching
+- **[Column-Family Stores](fundamentals/4-column-family-stores.md)**: Wide-column storage, analytics
+- **[Graph Databases](fundamentals/5-graph-databases.md)**: Relationship-focused data models
+
+### Theory
 - **[ACID vs BASE Consistency](theory/1.5-acid-vs-base-consistency.md)**: Consistency models explained
 - **[NoSQL Data Modeling](theory/1.7-nosql-data-modeling.md)**: Schema design patterns
+- **[NoSQL Data Modeling Patterns](theory/2-nosql-data-modeling-patterns.md)**: Advanced modeling approaches
 
-### Document Databases
-- **[MongoDB: Document Database](databases/2-mongodb-document-database.md)**: JSON-like documents, flexible schemas
+### Practical Applications
+- **[NoSQL Performance and Optimization](practical/1-nosql-performance-optimization.md)**: Performance tuning strategies
+- **[NoSQL Operations Best Practices](practical/2-nosql-operations-best-practices.md)**: Production operations
 
-### Key-Value Stores
-- **[Redis Fundamentals](databases/3-redis-key-value-store.md)**: In-memory data structures
-- **[Redis Advanced](databases/4-redis-advanced-concepts.md)**: Pub/Sub, clustering concepts
-- **[Redis Applications](databases/5-redis-practical-applications.md)**: Real-world patterns
-
-### Column-Family Stores
-- **[Cassandra: Column-Family](databases/6-cassandra-column-family.md)**: Wide-column store concepts
-
-### Graph Databases
-- **[Neo4j: Graph Database](databases/9-neo4j-graph-database.md)**: Property graph model
-
-### Time Series Databases
-- **InfluxDB**: Time series data storage
-- **TimescaleDB**: PostgreSQL extension for time series
-- **Prometheus**: Monitoring and time series
-
-### Search Engines
-- **Elasticsearch**: Distributed search and analytics
-- **Solr**: Enterprise search platform
+### Operations
+- **Data Security**: NoSQL security best practices
+- **Monitoring and Observability**: Tracking NoSQL database health
+- **Backup and Recovery**: Data protection strategies
 
 ## 🎯 Learning Objectives
 
 - Understand CAP theorem and database trade-offs
 - Learn different data models (document, key-value, graph, etc.)
-- Master query languages for each database type
 - Design schemas for non-relational systems
-- Implement data migration strategies
-- Optimize performance and scaling
+- Implement data modeling patterns for different use cases
+- Optimize performance for specific database types
+- Apply operational best practices in production environments
 
 ## 🚀 Getting Started
 
 1. Start with [NoSQL vs SQL Comparison](fundamentals/0-nosql-vs-sql-comparison.md) to understand when to choose each approach
 2. Review [CAP theorem concepts](fundamentals/1-cap-theorem-and-tradeoffs.md) for distributed systems fundamentals
-3. Learn about [consistency models](theory/1.5-acid-vs-base-consistency.md) (ACID vs BASE)
-4. Study [data modeling patterns](theory/1.7-nosql-data-modeling.md) for NoSQL schema design
-5. Choose your first database based on use case
-6. Set up local development environment
-7. Practice basic CRUD operations
-8. Learn indexing and query optimization
+3. Study different [NoSQL data models](fundamentals/2-document-databases.md) starting with document databases
+4. Learn about [consistency models](theory/1.5-acid-vs-base-consistency.md) (ACID vs BASE)
+5. Study [data modeling patterns](theory/2-nosql-data-modeling-patterns.md) for NoSQL schema design
+6. Practice with performance optimization techniques
+7. Learn about operational considerations for production systems
 
 ## 📖 Prerequisites
 
-- Basic programming concepts
-- Understanding of data structures
-- Familiarity with JSON
+- Understanding of basic database concepts
+- Familiarity with distributed systems concepts
 - Basic command line usage
 
 ## 🔄 Integration with SQL Learning
