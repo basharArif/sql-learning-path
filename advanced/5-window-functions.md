@@ -22,12 +22,12 @@ Window functions are distinguished by the `OVER()` clause. This clause determine
 ```mermaid
 graph TD
     A[Window Function] --> B[OVER Clause]
-    B --> C[PARTITION BY\nGroups rows]
-    B --> D[ORDER BY\nSorts within groups]
-    B --> E[Frame\nROWS/RANGE]
+    B --> C[PARTITION BY Groups rows]
+    B --> D[ORDER BY Sorts within groups]
+    B --> E[Frame ROWS/RANGE]
     
-    C --> F[Independent calculation\nper group]
-    D --> G[Required for ranking\nand offset functions]
+    C --> F[Independent calculation per group]
+    D --> G[Required for ranking and offset functions]
     E --> H[Defines window size]
 ```
 

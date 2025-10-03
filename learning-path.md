@@ -12,7 +12,7 @@ graph TD
     end
     
     subgraph "📊 Fundamentals"
-        B["JOINS\ INNER, LEFT, RIGHT, FULL"]
+        B["JOINS INNER, LEFT, RIGHT, FULL"]
         C["Aggregations GROUP BY, COUNT, SUM HAVING, DISTINCT"]
         D["Subqueries & Sets UNION, INTERSECT EXISTS, IN"]
         E["Conditional Logic CASE WHEN, COALESCE"]

@@ -28,10 +28,10 @@ Imagine an e-commerce site where two users buy the last item simultaneously. Wit
 **Visual ACID Properties:**
 ```mermaid
 graph TD
-    A[Transaction] --> B[Atomicity\nAll or Nothing]
-    A --> C[Consistency\nValid State Changes]
-    A --> D[Isolation\nNo Interference]
-    A --> E[Durability\nCrash Survival]
+    A[Transaction] --> B[Atomicity All or Nothing]
+    A --> C[Consistency Valid State Changes]
+    A --> D[Isolation No Interference]
+    A --> E[Durability Crash Survival]
     
     B --> F[Example: Bank Transfer]
     F --> G[Debit $100 OR Credit $100]

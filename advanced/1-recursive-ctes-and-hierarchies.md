@@ -58,11 +58,11 @@ SELECT * FROM org ORDER BY depth, name;
 **Visual Hierarchy Traversal:**
 ```mermaid
 graph TD
-    CEO[CEO\ndepth:1] --> Mgr1[Manager 1\ndepth:2]
-    CEO --> Mgr2[Manager 2\ndepth:2]
-    Mgr1 --> Emp1[Employee A\ndepth:3]
-    Mgr1 --> Emp2[Employee B\ndepth:3]
-    Mgr2 --> Emp3[Employee C\ndepth:3]
+    CEO[CEO depth:1] --> Mgr1[Manager 1 depth:2]
+    CEO --> Mgr2[Manager 2 depth:2]
+    Mgr1 --> Emp1[Employee A depth:3]
+    Mgr1 --> Emp2[Employee B depth:3]
+    Mgr2 --> Emp3[Employee C depth:3]
     
     style CEO fill:#e1f5fe
     style Mgr1 fill:#f3e5f5
@@ -84,13 +84,13 @@ SELECT child_id, SUM(qty) AS total_qty FROM parts GROUP BY child_id;
 **Visual BOM Assembly Tree:**
 ```mermaid
 graph TD
-    A[Final Product\nID:100] --> B[Subassembly A\nQty:2]
-    A --> C[Subassembly B\nQty:1]
-    B --> D[Part X\nQty:3]
-    B --> E[Part Y\nQty:1]
-    C --> F[Part Z\nQty:2]
-    C --> G[Subassembly C\nQty:1]
-    G --> H[Part W\nQty:4]
+    A[Final Product ID:100] --> B[Subassembly A Qty:2]
+    A --> C[Subassembly B Qty:1]
+    B --> D[Part X Qty:3]
+    B --> E[Part Y Qty:1]
+    C --> F[Part Z Qty:2]
+    C --> G[Subassembly C Qty:1]
+    G --> H[Part W Qty:4]
     
     style A fill:#e8f5e8
     style B fill:#fff3e0

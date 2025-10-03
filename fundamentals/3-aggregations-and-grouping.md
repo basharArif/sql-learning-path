@@ -21,10 +21,10 @@ To run a business, you need to answer questions like "How many orders did we get
 **Aggregation Process Flow:**
 ```mermaid
 graph TD
-    A[Raw Data Rows] --> B[Apply WHERE filter\nif specified]
-    B --> C[Group rows by GROUP BY columns\nif specified]
-    C --> D[Apply aggregate functions\nCOUNT, SUM, AVG, MIN, MAX]
-    D --> E[Apply HAVING filter\nto grouped results]
+    A[Raw Data Rows] --> B[Apply WHERE filter if specified]
+    B --> C[Group rows by GROUP BY columns if specified]
+    C --> D[Apply aggregate functions COUNT, SUM, AVG, MIN, MAX]
+    D --> E[Apply HAVING filter to grouped results]
     E --> F[Return final result set]
     
     G[Without GROUP BY] -.-> H[Single group: all rows]
@@ -33,22 +33,22 @@ graph TD
     J[With GROUP BY] -.-> K[Multiple groups: one per unique value]
     J -.-> L[Aggregate functions apply per group]
     
-    M[Performance Tip] -.-> N[Index GROUP BY columns\nfor better performance]
+    M[Performance Tip] -.-> N[Index GROUP BY columns for better performance]
 ```
 
 **WHERE vs HAVING:**
 ```mermaid
 graph TD
-    A[Raw Data] --> B[WHERE Clause\nFilters individual rows\nBefore grouping]
-    B --> C[GROUP BY\nCreates groups]
-    C --> D[Aggregate Functions\nCalculate per group]
-    D --> E[HAVING Clause\nFilters groups\nAfter aggregation]
+    A[Raw Data] --> B[WHERE Clause Filters individual rows Before grouping]
+    B --> C[GROUP BY Creates groups]
+    C --> D[Aggregate Functions Calculate per group]
+    D --> E[HAVING Clause Filters groups After aggregation]
     E --> F[Final Result]
     
-    G[WHERE Example] -.-> H[WHERE salary > 50000\nFilters employees before grouping]
-    I[HAVING Example] -.-> J["HAVING COUNT(*) > 5\nFilters departments after counting"]
+    G[WHERE Example] -.-> H[WHERE salary > 50000 Filters employees before grouping]
+    I[HAVING Example] -.-> J["HAVING COUNT(*) > 5 Filters departments after counting"]
     
-    K[Key Difference] -.-> L[WHERE: Row-level filtering\nHAVING: Group-level filtering]
+    K[Key Difference] -.-> L[WHERE: Row-level filtering HAVING: Group-level filtering]
 ```
 
 ### a. Aggregate Functions

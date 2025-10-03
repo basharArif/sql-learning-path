@@ -71,7 +71,7 @@ pg_restore -h localhost -U sqluser -d newdb -v backup.dump
 ```mermaid
 graph TD
     A[Production Database] --> B[pg_dump Command]
-    B --> C[Backup File\nbackup.dump]
+    B --> C[Backup File backup.dump]
     C --> D[Storage]
     D --> E{Need Restore?}
     E -->|Yes| F[pg_restore Command]
