@@ -204,6 +204,7 @@ graph LR
 4.  **[Transactions, Isolation & Concurrency](theory/4-transactions-isolation-and-concurrency.md)**: The principles of ACID and safe data handling.
 5.  **[Data Modeling Techniques](theory/5-data-modeling.md)**: Creating effective ERDs and schemas.
 6.  **[Performance Tuning](theory/6-performance-tuning.md)**: Optimizing queries and database configurations.
+7.  **[Choosing the Right Database](theory/7-choosing-the-right-database.md)**: A guide to selecting the best database for your needs.
 
 ---
 
